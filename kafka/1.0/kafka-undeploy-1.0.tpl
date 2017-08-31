@@ -1,8 +1,8 @@
 <@bash.HEADER />
 
-<@node.UNIQUE_VALUES 'dc' ; labelValue, index, isLast>
-  <@swarm.SERVICE_RM 'kafka-${labelValue}' />
-  <@swarm.SERVICE_RM 'zookeeper-${labelValue}' />
-</@node.UNIQUE_VALUES>
+<@node.DATACENTER ; dc, index, isLast>
+  <@swarm.SERVICE_RM 'kafka-${dc}' />
+  <@swarm.SERVICE_RM 'zookeeper-${dc}' />
+</@node.DATACENTER>
 
 <@swarm.NETWORK_RM 'kafka-net' />

@@ -10,7 +10,6 @@
       <@container.NETWORK 'percona-net' />
       <@container.ENV 'MYSQL_HOST' nodeName />
       <@container.ENTRY '/check_remote.sh' />
-      <@container.INTERACTIVELY />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
   </#macro>
@@ -28,27 +27,27 @@
   
   <@checkNode 'percona-init' />
   
-  <@node.UNIQUE_VALUES 'dc' ; labelValue, index, isLast>
-    <@node.LABEL '${labelValue}-1' 'db' 'percona' />
-    <@swarm.NETWORK 'percona-${labelValue}' />
+  <@node.DATACENTER ; dc, index, isLast>
+    <@node.LABEL '${dc}-1' 'db' 'percona' />
+    <@swarm.NETWORK 'percona-${dc}' />
     
     <#assign nodes = ["percona-init"] />
    
-    <@node.UNIQUE_VALUES 'dc' ; _labelValue, _index, _isLast>
-      <#if labelValue != _labelValue>
-        <#assign nodes += ["percona-master-${_labelValue}"] />
+    <@node.DATACENTER ; _dc, _index, _isLast>
+      <#if dc != _dc>
+        <#assign nodes += ["percona-master-${_dc}"] />
       </#if>
-    </@node.UNIQUE_VALUES>
+    </@node.DATACENTER>
     
-    <@swarm.SERVICE 'percona-master-${labelValue}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=2'>
+    <@swarm.SERVICE 'percona-master-${dc}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=2'>
       <@service.NETWORK 'monitoring' />
       <@service.NETWORK 'percona-net' />
-      <@service.NETWORK 'percona-${labelValue}' />
+      <@service.NETWORK 'percona-${dc}' />
       <@service.SECRET 'mysql_root_password' />
-      <@service.CONS 'dc' labelValue />
+      <@service.CONS 'dc' dc />
       <@service.CONS 'db' 'percona' />
-      <@service.VOLUME 'percona-master-data-volume-${labelValue}' '/var/lib/mysql' />
-      <@service.VOLUME 'percona-master-log-volume-${labelValue}' '/var/lib/log' />
+      <@service.VOLUME 'percona-master-data-volume' '/var/lib/mysql' />
+      <@service.VOLUME 'percona-master-log-volume' '/var/lib/log' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
       <@service.ENV 'TCP_PORTS' '3306' />
       <@service.ENV 'BALANCE' 'source' />
@@ -80,18 +79,18 @@
       <@service.ENV '15INTROSPECT_VARIABLE' 'server_id' />
     </@swarm.SERVICE>
     
-    <@checkNode 'percona-master-${labelValue}' />
+    <@checkNode 'percona-master-${dc}' />
   
-    <@swarm.SERVICE 'percona-proxy-${labelValue}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
+    <@swarm.SERVICE 'percona-proxy-${dc}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
       <@service.NETWORK 'haproxy-monitoring' />
-      <@service.NETWORK 'percona-${labelValue}' />
+      <@service.NETWORK 'percona-${dc}' />
       <@service.BIND '/var/run/docker.sock' '/var/run/docker.sock' />
-      <@service.CONS 'dc' labelValue />
+      <@service.CONS 'dc' dc />
       <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
       <@service.ENV 'INTROSPECT_PORT' '14567' />
       <@service.ENV 'INTROSPECT_PROTOCOL' 'haproxy' />
     </@swarm.SERVICE>
-  </@node.UNIQUE_VALUES>
+  </@node.DATACENTER>
   
   <@swarm.SERVICE_RM 'percona-init' />
 </@bash.PROFILE>
