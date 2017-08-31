@@ -29,7 +29,6 @@
   
   <@docker.CONTAINER 'zookeeper-checker' 'imagenarium/zookeeper-checker:1.0'>
     <@container.NETWORK 'kafka-net' />
-    <@container.INTERACTIVELY />
     <@container.EPHEMERAL />
     <@container.ENV 'ZOO_CONNECT' '${zoo_connect?join(",")}' />
   </@docker.CONTAINER>
