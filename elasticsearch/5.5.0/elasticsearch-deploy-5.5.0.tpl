@@ -7,6 +7,7 @@
       <@service.NETWORK 'monitoring' />
       <@service.VOLUME 'esdata' '/usr/share/elasticsearch/data' />
       <@service.CONS 'dc' dc />
+      <@service.DNSRR />
 
       <@service.ENV 'network.host' '0.0.0.0' />
       <@service.ENV 'ES_JAVA_OPTS' '-Xms1G -Xmx1G' />
@@ -23,7 +24,8 @@
   <@swarm.SERVICE 'es-router' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0'>
     <@service.HOSTNAME 'es-router' />
     <@service.NETWORK 'monitoring' />
-
+    <@service.DNSRR />
+  
     <@service.ENV 'network.host' '0.0.0.0' />
     <@service.ENV 'ES_JAVA_OPTS' '-Xms1G -Xmx1G' />
     <@service.ENV 'xpack.security.enabled' 'false' />
