@@ -1,5 +1,3 @@
-<@bash.HEADER />
-
 <@bash.PROFILE>
   <#assign ZOOKEEPER_VERSION='3.4.10' />
   <#assign KAFKA_VERSION='0.11.0.0' />

@@ -1,5 +1,3 @@
-<@bash.HEADER />
-
 <@swarm.SERVICE_RM 'percona-init' />
 
 <@node.DATACENTER ; dc, index, isLast>

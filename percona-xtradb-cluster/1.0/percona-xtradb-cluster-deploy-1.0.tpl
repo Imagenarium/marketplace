@@ -1,5 +1,3 @@
-<@bash.HEADER />
-
 <@bash.PROFILE>
   <#assign PERCONA_VERSION='5.7.16.28' />
   <#assign HAPROXY_VERSION='1.6.7' />
@@ -22,7 +20,6 @@
     <@service.NETWORK 'percona-net' />
     <@service.SECRET 'mysql_root_password' />
     <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
-    <@service.ENV 'logdog' 'true' />
   </@swarm.SERVICE>
   
   <@checkNode 'percona-init' />
@@ -54,7 +51,6 @@
       <@service.ENV 'HEALTH_CHECK' 'check port 9200 inter 5000 rise 1 fall 2' />
       <@service.ENV 'OPTION' 'httpchk OPTIONS * HTTP/1.1\\r\\nHost:\\ www' />
       <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
-      <@service.ENV 'logdog' 'true' />
       <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
       <@service.ENV 'GMCAST_SEGMENT' index />
@@ -84,7 +80,7 @@
     <@swarm.SERVICE 'percona-proxy-${dc}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
       <@service.NETWORK 'haproxy-monitoring' />
       <@service.NETWORK 'percona-${dc}' />
-      <@service.BIND '/var/run/docker.sock' '/var/run/docker.sock' />
+      <@service.DOCKER_SOCKET />
       <@service.CONS 'dc' dc />
       <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
       <@service.ENV 'INTROSPECT_PORT' '14567' />
