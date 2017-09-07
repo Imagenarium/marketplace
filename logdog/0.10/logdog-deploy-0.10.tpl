@@ -1,7 +1,7 @@
 <@swarm.NETWORK 'monitoring' />
 
 <@node.DATACENTER ; dc, index, isLast>
-  <@swarm.SERVICE 'logdog-${dc}' 'imagenarium/logdog:0.10'>
+  <@swarm.SERVICE 'logdog-${dc}' 'imagenarium/logdog:0.10' 'global'>
     <@service.DOCKER_SOCKET />
     <@service.CONS 'dc' dc />
     <@swarm.NETWORK 'monitoring' />
