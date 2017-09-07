@@ -24,7 +24,7 @@
       <@service.HOSTNAME 'es-master-${dc}' />
       <@service.NETWORK 'monitoring' />
       <@service.VOLUME 'es-master-data' '/usr/share/elasticsearch/data' />
-      <@service.CONS 'dc' dc />
+      <@service.DC dc />
       <@service.DNSRR />
 
       <@service.ENV 'network.host' '0.0.0.0' />
@@ -43,7 +43,7 @@
     <@swarm.SERVICE 'es-worker-${dc}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0'>
       <@service.NETWORK 'monitoring' />
       <@service.VOLUME 'es-worker-data' '/usr/share/elasticsearch/data' />
-      <@service.CONS 'dc' dc />
+      <@service.DC dc />
       <@service.DNSRR />
       <@service.REPLICAS 0 />
 

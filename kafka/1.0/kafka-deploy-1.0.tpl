@@ -16,7 +16,7 @@
     <@swarm.SERVICE 'zookeeper-${dc}' 'zookeeper:${ZOOKEEPER_VERSION}'>
       <@service.NETWORK 'kafka-net' />
       <@service.DNSRR />
-      <@service.CONS 'dc' dc />
+      <@service.DC dc />
       <@service.VOLUME 'zookeeper-data-volume' '/data' />
       <@service.VOLUME 'zookeeper-datalog-volume' '/datalog' />
       <@service.ENV 'ZOO_MY_ID' index />
@@ -35,7 +35,7 @@
     <@swarm.SERVICE 'kafka-${dc}' 'wurstmeister/kafka:${KAFKA_VERSION}'>
       <@service.NETWORK 'kafka-net' />
       <@service.DNSRR />
-      <@service.CONS 'dc' dc />
+      <@service.DC dc />
       <@service.VOLUME 'kafka-volume' '/kafka' />
       <@service.ENV 'KAFKA_LISTENERS' 'PLAINTEXT://0.0.0.0:9092' />
       <@service.ENV 'KAFKA_LEADER_IMBALANCE_CHECK_INTERVAL_SECONDS' '10' />

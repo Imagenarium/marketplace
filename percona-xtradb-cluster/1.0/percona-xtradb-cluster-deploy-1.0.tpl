@@ -25,7 +25,6 @@
   <@checkNode 'percona-init' />
   
   <@node.DATACENTER ; dc, index, isLast>
-    <@node.LABEL '${dc}-1' 'db' 'percona' />
     <@swarm.NETWORK 'percona-${dc}' />
     
     <#assign nodes = ["percona-init"] />
@@ -36,13 +35,12 @@
       </#if>
     </@node.DATACENTER>
     
-    <@swarm.SERVICE 'percona-master-${dc}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=2'>
+    <@swarm.SERVICE 'percona-master-${dc}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=2'>
       <@service.NETWORK 'monitoring' />
       <@service.NETWORK 'percona-net' />
       <@service.NETWORK 'percona-${dc}' />
       <@service.SECRET 'mysql_root_password' />
-      <@service.CONS 'dc' dc />
-      <@service.CONS 'db' 'percona' />
+      <@service.DC dc />
       <@service.VOLUME 'percona-master-data-volume' '/var/lib/mysql' />
       <@service.VOLUME 'percona-master-log-volume' '/var/lib/log' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
@@ -81,7 +79,7 @@
       <@service.NETWORK 'haproxy-monitoring' />
       <@service.NETWORK 'percona-${dc}' />
       <@service.DOCKER_SOCKET />
-      <@service.CONS 'dc' dc />
+      <@service.DC dc />
       <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
       <@service.ENV 'INTROSPECT_PORT' '14567' />
       <@service.ENV 'INTROSPECT_PROTOCOL' 'haproxy' />
