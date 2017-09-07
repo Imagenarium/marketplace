@@ -13,7 +13,7 @@
     <@service.ENV 'LOGGING_QUIET' 'true' />
   </@swarm.SERVICE>
 
-  <@swarm.SERVICE 'nginx-kibana' 'imagenarium/nginx-basic-auth:1.13.1.4'>
+  <@swarm.SERVICE 'nginx-kibana' 'imagenarium/nginx-basic-auth:1.13.5.1'>
     <@service.NETWORK 'monitoring' />
     <@service.PORT '5601' '8080' />
     <@service.ENV 'WEB_USER' 'man4j' />
