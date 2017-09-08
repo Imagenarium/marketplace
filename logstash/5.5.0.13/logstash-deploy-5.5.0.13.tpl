@@ -5,7 +5,7 @@
     <@service.HOSTNAME 'logstash-${dc}' />
     <@service.DC dc />
     <@service.NETWORK 'monitoring' />
-    <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${dc}:9200' />
+    <@service.ENV 'ELASTICSEARCH_URL' 'http://es-master-${dc}:9200' />
   </@swarm.SERVICE>
 </@node.DATACENTER>
 
