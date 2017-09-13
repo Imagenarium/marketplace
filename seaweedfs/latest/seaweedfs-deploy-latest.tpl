@@ -6,7 +6,7 @@
     <#assign waitInitialMaster = true />
   </#if>
 
-  <@swarm.SERVICE 'weed-master-${dc}' 'chrislusf/seaweedfs' 'replicated' 'master -defaultReplication=100 -peers=http://${initialMaster}:9333'>
+  <@swarm.SERVICE 'weed-master-${dc}' 'chrislusf/seaweedfs' 'replicated' 'master -defaultReplication=100 -peers=${initialMaster}:9333'>
     <@service.DC dc />
     <@service.NETWORK 'weed-network' />
     <@service.VOLUME 'weed-master-data' '/data' />
