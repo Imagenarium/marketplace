@@ -34,6 +34,7 @@
   <@node.DATACENTER ; dc, index, isLast>
     <@swarm.SERVICE 'kafka-${dc}' 'wurstmeister/kafka:${KAFKA_VERSION}'>
       <@service.NETWORK 'kafka-net' />
+      <@service.HOSTNAME 'kafka-${dc}' />
       <@service.DNSRR />
       <@service.DC dc />
       <@service.VOLUME 'kafka-volume' '/kafka' />
@@ -46,7 +47,7 @@
     </@swarm.SERVICE>
   </@node.DATACENTER>
 
-  <@swarm.SERVICE 'kafka-manager' 'sheepkiller/kafka-manager:stable'>
+  <@swarm.SERVICE 'kafka-manager' 'imagenarium/kafka-manager'>
     <@service.PORT '9000' '9000' />
     <@service.NETWORK 'kafka-net' />
     <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
