@@ -4,5 +4,6 @@
 </@node.DATACENTER>
 
 <@swarm.SERVICE_RM 'kafka-manager' />
+<@swarm.SERVICE_RM 'nginx-kafka-manager' />
 
 <@swarm.NETWORK_RM 'kafka-net' />
