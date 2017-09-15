@@ -47,11 +47,18 @@
     </@swarm.SERVICE>
   </@node.DATACENTER>
 
-  <@swarm.SERVICE 'kafka-manager' 'imagenarium/kafka-manager'>
-    <@service.PORT '9000' '9000' />
+  <@swarm.SERVICE 'kafka-manager' 'sheepkiller/kafka-manager:stable'>
     <@service.NETWORK 'kafka-net' />
     <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
     <@service.ENV 'KM_USERNAME' 'admin' />
     <@service.ENV 'KM_PASSWORD' 'kafka-admin' />
+  </@swarm.SERVICE>
+
+  <@swarm.SERVICE 'nginx-kafka-manager' 'imagenarium/nginx-basic-auth:1.13.5.1'>
+    <@service.NETWORK 'kafka-net' />
+    <@service.PORT '9000' '8080' />
+    <@service.ENV 'WEB_USER' 'man4j' />
+    <@service.ENV 'WEB_PASSWORD' '$apr1$h9Xllpx6$bBVR6h5YDkCRJACM2wfgg/' />
+    <@service.ENV 'APP_URL' 'http://kafka-manager:9000' />
   </@swarm.SERVICE>
 </@bash.PROFILE>
