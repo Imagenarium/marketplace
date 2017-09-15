@@ -49,7 +49,7 @@
     </@swarm.SERVICE>
   </@node.DATACENTER>
 
-  <@swarm.SERVICE 'kafka-manager' 'sheepkiller/kafka-manager:stable'>
+  <@swarm.SERVICE 'kafka-manager' 'imagenarium/kafka-manager:1.3.3.13'>
     <@service.NETWORK 'kafka-net' />
     <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
   </@swarm.SERVICE>
