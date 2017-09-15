@@ -50,8 +50,6 @@
   <@swarm.SERVICE 'kafka-manager' 'sheepkiller/kafka-manager:stable'>
     <@service.NETWORK 'kafka-net' />
     <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
-    <@service.ENV 'KM_USERNAME' 'admin' />
-    <@service.ENV 'KM_PASSWORD' 'kafka-admin' />
   </@swarm.SERVICE>
 
   <@swarm.SERVICE 'nginx-kafka-manager' 'imagenarium/nginx-basic-auth:1.13.5.1'>
