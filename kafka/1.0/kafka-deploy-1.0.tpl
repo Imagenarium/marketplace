@@ -45,4 +45,12 @@
       <@service.ENV 'KAFKA_REPLICA_FETCH_MAX_BYTES' '10485760' />
     </@swarm.SERVICE>
   </@node.DATACENTER>
+
+  <@swarm.SERVICE 'kafka-manager' 'sheepkiller/kafka-manager:stable'>
+    <@service.PORT '9000' '9000' />
+    <@service.NETWORK 'kafka-net' />
+    <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
+    <@service.ENV 'KM_USERNAME' 'admin' />
+    <@service.ENV 'KM_PASSWORD' 'kafka-admin' />
+  </@swarm.SERVICE>
 </@bash.PROFILE>
