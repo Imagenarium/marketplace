@@ -44,6 +44,8 @@
       <@service.ENV 'KAFKA_ZOOKEEPER_CONNECT' zoo_connect?join(",") />
       <@service.ENV 'KAFKA_MESSAGE_MAX_BYTES' '10485760' />
       <@service.ENV 'KAFKA_REPLICA_FETCH_MAX_BYTES' '10485760' />
+      <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=0.0.0.0 -Dcom.sun.management.jmxremote.rmi.port=9999' />
+      <@service.ENV 'JMX_PORT' '9999' />
     </@swarm.SERVICE>
   </@node.DATACENTER>
 
