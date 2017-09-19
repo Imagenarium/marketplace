@@ -13,7 +13,7 @@
       <@service.DNSRR />
       <@service.DC dc />
       <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
-      <@service.ENV 'CASSANDRA_RACK' 'default' />
+      <@service.ENV 'CASSANDRA_RACK' dc />
       <@service.ENV 'CASSANDRA_ENDPOINT_SNITCH' 'GossipingPropertyFileSnitch' />
     </@swarm.SERVICE>
   </@node.DATACENTER>
