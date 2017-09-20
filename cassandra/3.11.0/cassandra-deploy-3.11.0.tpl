@@ -8,7 +8,7 @@
   </@node.DATACENTER>
   
   <@node.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE 'cassandra-${dc}' 'cassandra:3.11'>
+    <@swarm.SERVICE 'cassandra-${dc}' 'imagenarium/cassandra:3.11.0'>
       <@service.NETWORK 'cassandra-net' />
       <@service.DNSRR />
       <@service.DC dc />
