@@ -14,6 +14,7 @@
       <@service.DC dc />
       <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
       <@service.ENV 'SERVICE_NAME' 'cassandra-${dc}' />
+      <@service.ENV 'CASSANDRA_DC' dc />
       <@service.ENV 'CASSANDRA_RACK' dc />
       <@service.ENV 'CASSANDRA_ENDPOINT_SNITCH' 'GossipingPropertyFileSnitch' />
     </@swarm.SERVICE>
