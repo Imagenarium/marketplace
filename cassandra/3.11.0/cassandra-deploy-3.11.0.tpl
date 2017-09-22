@@ -18,4 +18,11 @@
       <@service.ENV 'CASSANDRA_ENDPOINT_SNITCH' 'GossipingPropertyFileSnitch' />
     </@swarm.SERVICE>
   </@node.DATACENTER>
+
+  <@swarm.SERVICE 'cassandraagent' 'imagenarium/cassandraagent:0.1'>
+    <@service.NETWORK 'cassandra-net' />
+    <@node.MANAGER />
+    <@service.DOCKER_SOCKET />
+    <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
+  </@swarm.SERVICE>
 </@bash.PROFILE>
