@@ -79,6 +79,7 @@
       <@service.NETWORK 'haproxy-monitoring' />
       <@service.NETWORK 'percona-${dc}' />
       <@service.DOCKER_SOCKET />
+      <@node.MANAGER />
       <@service.DC dc />
       <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
       <@service.ENV 'INTROSPECT_PORT' '14567' />
