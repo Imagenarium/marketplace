@@ -24,6 +24,6 @@
     <@service.NETWORK 'etcd-net' />
     <@service.DOCKER_SOCKET />
     <@node.MANAGER />
-    <@service.PORT '2379' '2379' />
+    <@service.PORT '2379' '80' />
   </@swarm.SERVICE>
 </@bash.PROFILE>
