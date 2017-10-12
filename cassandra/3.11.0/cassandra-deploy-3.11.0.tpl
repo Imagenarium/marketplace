@@ -13,7 +13,6 @@
       <@service.DNSRR />
       <@service.DC dc />
       <@service.CONS 'node.labels.db' 'cass-${index}' />
-      <@service.VOLUME 'cassandra-volume' '/var/lib/cassandra' />
       <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
       <@service.ENV 'SERVICE_NAME' 'cassandra-${dc}' />
       <@service.ENV 'CASSANDRA_DC' dc />
