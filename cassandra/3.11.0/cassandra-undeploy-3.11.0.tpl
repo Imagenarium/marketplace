@@ -1,7 +1,5 @@
 <@node.DATACENTER ; dc, index, isLast>
-  <@swarm.SERVICE_RM 'cassandra-${dc}' />
+  <@swarm.SERVICE_RM 'cassandra-seed-${dc}' />
 </@node.DATACENTER>
-
-<@swarm.SERVICE_RM 'cassandraagent' />
 
 <@swarm.NETWORK_RM 'cassandra-net' />
