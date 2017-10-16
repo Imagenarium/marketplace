@@ -6,6 +6,12 @@
   <@node.DATACENTER ; dc, index, isLast>
     <#assign seeds += ['cassandra-seed-${dc}'] />
   </@node.DATACENTER>
+
+  <@swarm.SERVICE 'swarmstorage' 'imagenarium/swarmstorage:0.1'>
+    <@service.NETWORK 'cassandra-net' />
+    <@node.MANAGER />
+    <@service.DOCKER_SOCKET />
+  </@swarm.SERVICE>
   
   <@node.DATACENTER ; dc, index, isLast>
     <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0'>
