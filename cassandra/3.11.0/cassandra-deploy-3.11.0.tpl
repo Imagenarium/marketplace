@@ -14,7 +14,7 @@
   </@swarm.SERVICE>
   
   <@node.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0'>
+    <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0' 'global'>
       <@service.NETWORK 'cassandra-net' />
       <@service.DNSRR />
       <@service.DC dc />
