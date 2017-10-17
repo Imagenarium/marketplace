@@ -17,7 +17,7 @@
     <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0'>
       <@service.NETWORK 'cassandra-net' />
       <@service.DNSRR />
-      <@service.DC dc />
+
       <@service.DOCKER_SOCKET />
 
       <@service.VOLUME 'cassandra-seed-volume-${dc}' '/var/lib/cassandra' />
