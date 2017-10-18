@@ -1,5 +1,5 @@
 <@requirement.HA />
-<@requirement.CONS 'node.labels.db' 'cassandra' />
+<@requirement.CONS 'db' 'cassandra' />
 
 <@requirement.CONFORMS>
   <@bash.PROFILE>
