@@ -16,7 +16,7 @@
     <@swarm.SERVICE 'cassandra-worker-${params.dc}-${params.workerId}' 'imagenarium/cassandra:3.11.0'>
       <@service.NETWORK 'cassandra-net' />
       <@service.DNSRR />
-      <@service.DC dc />
+      <@service.DC params.dc />
       <@service.DOCKER_SOCKET />
       <@service.CONS 'node.labels.db' 'cassandra-${params.workerId}' />
       <@service.VOLUME 'cassandra-worker-volume-${params.dc}-${params.workerId}' '/var/lib/cassandra' />
