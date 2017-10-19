@@ -1,5 +1,5 @@
 <@requirement.HA />
-<@requirement.CONS 'db' 'cassandra' />
+<@requirement.CONS 'cassandra' 'master' />
 
 <@requirement.CONFORMS>
   <@bash.PROFILE>
@@ -11,20 +11,21 @@
       <#assign seeds += ['cassandra-seed-${dc}'] />
     </@node.DATACENTER>
   
-    <@swarm.SERVICE 'swarmstorage' 'imagenarium/swarmstorage:0.1'>
+    <@swarm.SERVICE 'swarmstorage-cassandra' 'imagenarium/swarmstorage:0.1'>
       <@service.NETWORK 'cassandra-net' />
       <@node.MANAGER />
       <@service.DOCKER_SOCKET />
     </@swarm.SERVICE>
     
     <@node.DATACENTER ; dc, index, isLast>
-      <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0' 'global'>
+      <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0'>
         <@service.NETWORK 'cassandra-net' />
         <@service.DNSRR />
         <@service.DC dc />
         <@service.DOCKER_SOCKET />
-        <@service.CONS 'node.labels.db' 'cassandra' />
+        <@service.CONS 'node.labels.cassandra' 'master' />
         <@service.VOLUME 'cassandra-seed-volume-${dc}' '/var/lib/cassandra' />
+        <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cassandra' />
         <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
         <@service.ENV 'SERVICE_NAME' 'cassandra-seed-${dc}' />
         <@service.ENV 'CASSANDRA_DC' dc />

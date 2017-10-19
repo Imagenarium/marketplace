@@ -2,7 +2,7 @@
 <@requirement.PARAM 'workerId' />
 
 <#if params.dc?? && params.workerId??>
-  <@requirement.CONS 'cassandra-worker' params.workerId params.dc />
+  <@requirement.CONS 'cassandra' params.workerId params.dc />
 </#if>
 
 <@requirement.CONFORMS>
@@ -18,8 +18,9 @@
       <@service.DNSRR />
       <@service.DC params.dc />
       <@service.DOCKER_SOCKET />
-      <@service.CONS 'node.labels.cassandra-worker' '${params.workerId}' />
+      <@service.CONS 'node.labels.cassandra' params.workerId />
       <@service.VOLUME 'cassandra-worker-volume-${params.dc}-${params.workerId}' '/var/lib/cassandra' />
+      <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cassandra' />
       <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
       <@service.ENV 'SERVICE_NAME' 'cassandra-worker-${params.dc}-${params.workerId}' />
       <@service.ENV 'CASSANDRA_DC' params.dc />
