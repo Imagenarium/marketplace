@@ -2,7 +2,7 @@
 <@requirement.PARAM 'workerId' />
 
 <#if params.dc?? && params.workerId??>
-  <@requirement.CONS 'cassandra-worker' ${params.workerId} ${params.dc} />
+  <@requirement.CONS 'cassandra-worker' params.workerId params.dc />
 </#if>
 
 <@requirement.CONFORMS>
