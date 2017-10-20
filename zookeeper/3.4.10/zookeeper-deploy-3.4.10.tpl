@@ -26,7 +26,7 @@
         <@service.DC dc />
         <@service.VOLUME 'zookeeper-data-volume' '/data' />
         <@service.VOLUME 'zookeeper-datalog-volume' '/datalog' />
-        <@service.ENV 'SERVICE_NAME' zookeeper-${dc} />
+        <@service.ENV 'SERVICE_NAME' 'zookeeper-${dc}' />
         <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-zookeeper' />
         <@service.ENV 'ZOO_MY_ID' index />
         <@service.ENV 'JMXPORT' '9099' />
