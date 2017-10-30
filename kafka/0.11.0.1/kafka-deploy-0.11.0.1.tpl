@@ -8,10 +8,10 @@
     <#assign zoo_servers = [] />
     <#assign zoo_connect = [] />
   
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <#assign zoo_servers += ['server.${index}=zookeeper-${dc}:2888:3888'] />
       <#assign zoo_connect += ['zookeeper-${dc}:2181'] />
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
 
     <@swarm.SERVICE 'swarmstorage-kafka' 'imagenarium/swarmstorage:0.1'>
       <@service.NETWORK 'kafka-net' />
@@ -19,7 +19,7 @@
       <@service.DOCKER_SOCKET />
     </@swarm.SERVICE>
   
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <@swarm.SERVICE 'zookeeper-${dc}' 'imagenarium/zookeeper:3.4.10'>
         <@service.NETWORK 'kafka-net' />
         <@service.DOCKER_SOCKET />
@@ -34,7 +34,7 @@
         <@service.ENV 'JMXPORT' '9099' />
         <@service.ENV 'ZOO_SERVERS' zoo_servers?join(" ") />
       </@swarm.SERVICE>
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
   
     <@docker.CONTAINER 'zookeeper-checker' 'imagenarium/zookeeper-checker:1.0'>
       <@container.NETWORK 'kafka-net' />
@@ -42,7 +42,7 @@
       <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
     </@docker.CONTAINER>
   
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <@swarm.SERVICE 'kafka-${dc}' 'imagenarium/kafka:0.11.0.1'>
         <@service.NETWORK 'kafka-net' />
         <@service.DOCKER_SOCKET />
@@ -62,7 +62,7 @@
         <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${dc} -Dcom.sun.management.jmxremote.rmi.port=9999 -Djava.net.preferIPv4Stack=true' />
         <@service.ENV 'JMX_PORT' '9999' />
       </@swarm.SERVICE>
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
 
     <@swarm.SERVICE 'kafka-manager' 'imagenarium/kafka-manager:1.3.3.13'>
       <@service.NETWORK 'kafka-net' />

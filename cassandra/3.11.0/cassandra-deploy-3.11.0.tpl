@@ -7,9 +7,9 @@
     
     <#assign seeds = [] />
     
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <#assign seeds += ['cassandra-seed-${dc}'] />
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
   
     <@swarm.SERVICE 'swarmstorage-cassandra' 'imagenarium/swarmstorage:0.1'>
       <@service.NETWORK 'cassandra-net' />
@@ -17,7 +17,7 @@
       <@service.DOCKER_SOCKET />
     </@swarm.SERVICE>
     
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <@swarm.SERVICE 'cassandra-seed-${dc}' 'imagenarium/cassandra:3.11.0'>
         <@service.NETWORK 'cassandra-net' />
         <@service.DNSRR />
@@ -32,6 +32,6 @@
         <@service.ENV 'CASSANDRA_RACK' dc />
         <@service.ENV 'CASSANDRA_ENDPOINT_SNITCH' 'GossipingPropertyFileSnitch' />
       </@swarm.SERVICE>
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
   </@bash.PROFILE>
 </@requirement.CONFORMS>

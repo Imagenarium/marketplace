@@ -1,6 +1,6 @@
-<@node.DATACENTER ; dc, index, isLast>
+<@cloud.DATACENTER ; dc, index, isLast>
   <@swarm.SERVICE_RM 'cassandra-seed-${dc}' />
-</@node.DATACENTER>
+</@cloud.DATACENTER>
 
 <@swarm.SERVICE_RM 'swarmstorage-cassandra' />
 

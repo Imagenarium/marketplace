@@ -9,9 +9,9 @@
   <@bash.PROFILE>    
     <#assign seeds = [] />
     
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <#assign seeds += ['cassandra-seed-${dc}'] />
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
       
     <@swarm.SERVICE 'cassandra-worker-${params.dc}-${params.workerId}' 'imagenarium/cassandra:3.11.0'>
       <@service.NETWORK 'cassandra-net' />

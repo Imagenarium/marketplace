@@ -7,10 +7,10 @@
     <#assign zoo_servers = [] />
     <#assign zoo_connect = [] />
   
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <#assign zoo_servers += ['server.${index}=zookeeper-${dc}:2888:3888'] />
       <#assign zoo_connect += ['zookeeper-${dc}:2181'] />
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
 
     <@swarm.SERVICE 'swarmstorage-zookeeper' 'imagenarium/swarmstorage:0.1'>
       <@service.NETWORK 'zookeeper-net' />
@@ -18,7 +18,7 @@
       <@service.DOCKER_SOCKET />
     </@swarm.SERVICE>
   
-    <@node.DATACENTER ; dc, index, isLast>
+    <@cloud.DATACENTER ; dc, index, isLast>
       <@swarm.SERVICE 'zookeeper-${dc}' 'imagenarium/zookeeper:3.4.10'>
         <@service.NETWORK 'zookeeper-net' />
         <@service.DOCKER_SOCKET />
@@ -32,7 +32,7 @@
         <@service.ENV 'JMXPORT' '9099' />
         <@service.ENV 'ZOO_SERVERS' zoo_servers?join(" ") />
       </@swarm.SERVICE>
-    </@node.DATACENTER>
+    </@cloud.DATACENTER>
   
     <@docker.CONTAINER 'zookeeper-checker' 'imagenarium/zookeeper-checker:1.0'>
       <@container.NETWORK 'zookeeper-net' />
