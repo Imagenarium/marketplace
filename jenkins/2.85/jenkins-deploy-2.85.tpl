@@ -6,8 +6,8 @@
 <@requirement.SECRET 'jenkins-github-repos' />
 <@requirement.SECRET 'jenkins-github-token' />
 
-<#if params.dc??>
-  <@requirement.CONS 'jenkins' 'master' params.dc />
+<#if requirement.p.dc??>
+  <@requirement.CONS 'jenkins' 'master' requirement.p.dc />
 </#if>
 
 <@swarm.NETWORK 'jenkins-net' />
@@ -15,7 +15,7 @@
 <@swarm.SERVICE 'jenkins-master' 'imagenarium/jenkins:2.85'>
   <@service.NETWORK 'jenkins-net' />
   <@service.DOCKER_SOCKET />
-  <@service.DC params.dc />
+  <@service.DC requirement.p.dc />
   <@service.CONS 'node.labels.jenkins' 'master' />
   <@service.PORT '7070' '8080' />
   <@service.SECRET 'settings.xml' '/credentials/settings.xml' />

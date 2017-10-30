@@ -32,7 +32,7 @@
         <@service.DNSRR />
         <@service.CONS 'node.labels.es' 'master' />
         <@service.ENV 'network.host' '0.0.0.0' />
-        <@service.ENV 'ES_JAVA_OPTS' params.ES_JAVA_OPTS />
+        <@service.ENV 'ES_JAVA_OPTS' requirement.p.ES_JAVA_OPTS />
         <@service.ENV 'xpack.security.enabled' 'false' />
         <@service.ENV 'xpack.graph.enabled' 'false' />
         <@service.ENV 'xpack.ml.enabled' 'false' />
@@ -51,7 +51,7 @@
         <@service.DNSRR />
         <@service.CONS 'node.labels.es' 'worker' />
         <@service.ENV 'network.host' '0.0.0.0' />
-        <@service.ENV 'ES_JAVA_OPTS' params.ES_JAVA_OPTS />
+        <@service.ENV 'ES_JAVA_OPTS' requirement.p.ES_JAVA_OPTS />
         <@service.ENV 'xpack.security.enabled' 'false' />
         <@service.ENV 'xpack.graph.enabled' 'false' />
         <@service.ENV 'xpack.ml.enabled' 'false' />
