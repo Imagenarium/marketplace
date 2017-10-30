@@ -1,4 +1,10 @@
 <@requirement.PARAM 'dc' />
+<@requirement.SECRET 'settings.xml' />
+<@requirement.SECRET 'jenkins-user' />
+<@requirement.SECRET 'jenkins-pass' />
+<@requirement.SECRET 'jenkins-github-owner' />
+<@requirement.SECRET 'jenkins-github-repos' />
+<@requirement.SECRET 'jenkins-github-token' />
 
 <#if params.dc??>
   <@requirement.CONS 'jenkins' 'master' params.dc />
