@@ -1,0 +1,6 @@
+﻿<description>
+  <name>Apache Cassandra</name>
+  <version>3.11.0</version>
+  <summary>Apache Cassandra is a free and open-source distributed NoSQL database management system designed to handle large amounts of data across many commodity servers, providing high availability with no single point of failure. Cassandra offers robust support for clusters spanning multiple datacenters, with asynchronous masterless replication allowing low latency operations for all clients.</summary>
+  <logo></logo>
+</description>
