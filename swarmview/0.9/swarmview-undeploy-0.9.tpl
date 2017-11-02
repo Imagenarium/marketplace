@@ -1,1 +1,0 @@
-﻿<@swarm.SERVICE_RM 'swarmview' />

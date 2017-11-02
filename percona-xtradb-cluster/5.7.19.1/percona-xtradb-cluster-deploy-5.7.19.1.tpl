@@ -48,8 +48,9 @@
         <@service.SECRET 'mysql_root_password' />
         <@service.DC dc />
         <@service.CONS 'node.labels.percona' 'master' />
-        <@service.VOLUME 'percona-master-data-volume' '/var/lib/mysql' />
-        <@service.VOLUME 'percona-master-log-volume' '/var/lib/log' />
+        <#--Use randomUuid because replicas may see stale volumes from past life (in case when replicas > 1)-->
+        <@service.VOLUME 'percona-master-data-volume-${randomUuid}' '/var/lib/mysql' />
+        <@service.VOLUME 'percona-master-log-volume-${randomUuid}' '/var/lib/log' />
         <@service.ENV 'SERVICE_PORTS' '3306' />
         <@service.ENV 'TCP_PORTS' '3306' />
         <@service.ENV 'BALANCE' 'source' />

@@ -27,7 +27,7 @@
       <@swarm.SERVICE 'es-master-${dc}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0'>
         <@service.HOSTNAME 'es-master-${dc}' />
         <@service.NETWORK 'monitoring' />
-        <@service.VOLUME 'es-master-data' '/usr/share/elasticsearch/data' />
+        <@service.VOLUME 'es-master-data-${randomUuid}' '/usr/share/elasticsearch/data' />
         <@service.DC dc />
         <@service.DNSRR />
         <@service.CONS 'node.labels.es' 'master' />
@@ -46,7 +46,7 @@
     <@cloud.DATACENTER ; dc, index, isLast>
       <@swarm.SERVICE 'es-worker-${dc}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0' 'global'>
         <@service.NETWORK 'monitoring' />
-        <@service.VOLUME 'es-worker-data' '/usr/share/elasticsearch/data' />
+        <@service.VOLUME 'es-worker-data-${randomUuid}' '/usr/share/elasticsearch/data' />
         <@service.DC dc />
         <@service.DNSRR />
         <@service.CONS 'node.labels.es' 'worker' />
