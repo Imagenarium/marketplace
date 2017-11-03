@@ -1,4 +1,5 @@
 ﻿<description>
+  <id>kafka</id>
   <name>Apache Kafka</name>
   <version>0.11.0.1</version>
   <summary>Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds.</summary>

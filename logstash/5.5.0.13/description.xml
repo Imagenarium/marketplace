@@ -1,4 +1,5 @@
 ﻿<description>
+  <id>logstash</id>
   <name>Logstash</name>
   <version>5.5.0</version>
   <summary>Logstash is an open source, server-side data processing pipeline that ingests data from a multitude of sources simultaneously, transforms it, and then sends it to your favorite “stash.”</summary>

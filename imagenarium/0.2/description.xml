@@ -1,4 +1,5 @@
 ﻿<description>
+  <id>imagenarium</id>
   <name>Imagenarium Services</name>
   <version>0.2</version>
   <summary>Imagenarium infrastructure services: logdog, swarmview, dockergc, introspector, drainpool.</summary>

@@ -1,4 +1,5 @@
 ﻿<description>
+  <id>elasticsearch</id>
   <name>Elasticsearch</name>
   <version>5.5.0</version>
   <summary>Elasticsearch is a search engine based on Lucene. It provides a distributed, multitenant-capable full-text search engine with an HTTP web interface and schema-free JSON documents.</summary>

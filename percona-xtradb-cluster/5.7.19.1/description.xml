@@ -1,4 +1,5 @@
 ﻿<description>
+  <id>percona-xtradb-cluster</id>
   <name>Percona XtraDB Cluster</name>
   <version>5.7.19</version>
   <summary>Percona XtraDB Cluster is an active/active high availability and high scalability open source solution for MySQL clustering. It integrates Percona Server and Percona XtraBackup with the Codership Galera library of MySQL high availability solutions in a single package that enables you to create a cost-effective MySQL high availability cluster.</summary>

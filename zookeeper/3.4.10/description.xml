@@ -1,4 +1,5 @@
 ﻿<description>
+  <id>zookeeper</id>
   <name>Apache Zookeeper</name>
   <version>3.4.10</version>
   <summary>Apache ZooKeeper is an effort to develop and maintain an open-source server which enables highly reliable distributed coordination. ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.</summary>
