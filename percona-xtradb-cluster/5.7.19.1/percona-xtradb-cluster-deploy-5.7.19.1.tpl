@@ -2,14 +2,12 @@
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
-<@requirement.PARAM 'stackId' randomUuid />
 
 <@requirement.CONFORMS>
   <@bash.PROFILE>
     <#assign PERCONA_VERSION='5.7.19.1' />
     <#assign HAPROXY_VERSION='1.6.7' />
     <#assign NET_MASK=randomNetmask24 />
-    <#assign stackId=requirement.p.stackId />
   
     <#macro checkNode nodeName>
       <@docker.CONTAINER 'percona-node-checker-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
