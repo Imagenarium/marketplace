@@ -1,11 +1,15 @@
-<@swarm.SERVICE_RM 'percona-init' />
+<@requirement.PARAM 'stackId' />
 
-<@cloud.DATACENTER ; dc, index, isLast>
-  <@swarm.SERVICE_RM 'percona-master-${dc}' />
-  <@swarm.SERVICE_RM 'percona-proxy-${dc}' />
-  <@swarm.NETWORK_RM 'percona-${dc}' />
-</@cloud.DATACENTER>
+<@requirement.CONFORMS>
+  <#assign stackId=requirement.p.stackId />
 
-<@swarm.NETWORK_RM 'percona-net' />
-<@swarm.NETWORK_RM 'haproxy-monitoring' />
+  <@swarm.SERVICE_RM 'percona-init-${stackId}' />
 
+  <@cloud.DATACENTER ; dc, index, isLast>
+    <@swarm.SERVICE_RM 'percona-master-${dc}-${stackid}' />
+    <@swarm.SERVICE_RM 'percona-proxy-${dc}-${stackId}' />
+    <@swarm.NETWORK_RM 'percona-${dc}-${stackId}' />
+  </@cloud.DATACENTER>
+
+  <@swarm.NETWORK_RM 'percona-net-${stackId}' />
+</@requirement.CONFORMS>

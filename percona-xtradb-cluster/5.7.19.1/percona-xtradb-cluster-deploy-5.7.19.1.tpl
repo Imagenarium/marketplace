@@ -2,16 +2,18 @@
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
+<@requirement.PARAM 'stackId' randomUuid />
 
 <@requirement.CONFORMS>
   <@bash.PROFILE>
     <#assign PERCONA_VERSION='5.7.19.1' />
     <#assign HAPROXY_VERSION='1.6.7' />
-    <#assign NET_MASK='100.0.0' />
+    <#assign NET_MASK=randomNetmask24 />
+    <#assign stackId=requirement.p.stackId />
   
     <#macro checkNode nodeName>
-      <@docker.CONTAINER 'percona-node-checker' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-        <@container.NETWORK 'percona-net' />
+      <@docker.CONTAINER 'percona-node-checker-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+        <@container.NETWORK 'percona-net-${stackId}' />
         <@container.ENV 'MYSQL_HOST' nodeName />
         <@container.ENTRY '/check_remote.sh' />
         <@container.EPHEMERAL />
@@ -20,37 +22,36 @@
   
     <@swarm.NETWORK 'monitoring' />
     <@swarm.NETWORK 'haproxy-monitoring' />
-    <@swarm.NETWORK 'percona-net' '${NET_MASK}.0/24' />
+    <@swarm.NETWORK 'percona-net-${stackId}' '${NET_MASK}.0/24' />
   
-    <@swarm.SERVICE 'percona-init' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@service.NETWORK 'percona-net' />
+    <@swarm.SERVICE 'percona-init-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@service.NETWORK 'percona-net-${stackId}' />
       <@service.SECRET 'mysql_root_password' />
       <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
     </@swarm.SERVICE>
   
-    <@checkNode 'percona-init' />
+    <@checkNode 'percona-init-${stackId}' />
   
     <@cloud.DATACENTER ; dc, index, isLast>
-      <@swarm.NETWORK 'percona-${dc}' />
+      <@swarm.NETWORK 'percona-${dc}-${stackId}' />
     
-      <#assign nodes = ["percona-init"] />
+      <#assign nodes = ["percona-init-${stackId}"] />
    
       <@cloud.DATACENTER ; _dc, _index, _isLast>
         <#if dc != _dc>
-          <#assign nodes += ["percona-master-${_dc}"] />
+          <#assign nodes += ["percona-master-${_dc}-${stackId}"] />
         </#if>
       </@cloud.DATACENTER>
     
-      <@swarm.SERVICE 'percona-master-${dc}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${requirement.p.wsrepSlaveThreads}'>
+      <@swarm.SERVICE 'percona-master-${dc}-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${requirement.p.wsrepSlaveThreads}'>
         <@service.NETWORK 'monitoring' />
-        <@service.NETWORK 'percona-net' />
-        <@service.NETWORK 'percona-${dc}' />
+        <@service.NETWORK 'percona-net-${stackId}' />
+        <@service.NETWORK 'percona-${dc}-${stackId}' />
         <@service.SECRET 'mysql_root_password' />
         <@service.DC dc />
         <@service.CONS 'node.labels.percona' 'master' />
-        <#--Use randomUuid because replicas may see stale volumes from past life (in case when replicas > 1)-->
-        <@service.VOLUME 'percona-master-data-volume-${randomUuid}' '/var/lib/mysql' />
-        <@service.VOLUME 'percona-master-log-volume-${randomUuid}' '/var/lib/log' />
+        <@service.VOLUME 'percona-master-data-volume-${stackId}' '/var/lib/mysql' />
+        <@service.VOLUME 'percona-master-log-volume-${stackId}' '/var/lib/log' />
         <@service.ENV 'SERVICE_PORTS' '3306' />
         <@service.ENV 'TCP_PORTS' '3306' />
         <@service.ENV 'BALANCE' 'source' />
@@ -81,11 +82,11 @@
         <@service.ENV '15INTROSPECT_VARIABLE' 'server_id' />
       </@swarm.SERVICE>
     
-      <@checkNode 'percona-master-${dc}' />
+      <@checkNode 'percona-master-${dc}-${stackId}' />
   
-      <@swarm.SERVICE 'percona-proxy-${dc}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
+      <@swarm.SERVICE 'percona-proxy-${dc}-${stackId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
         <@service.NETWORK 'haproxy-monitoring' />
-        <@service.NETWORK 'percona-${dc}' />
+        <@service.NETWORK 'percona-${dc}-${stackId}' />
         <@service.DOCKER_SOCKET />
         <@node.MANAGER />
         <@service.DC dc />
@@ -95,6 +96,6 @@
       </@swarm.SERVICE>
     </@cloud.DATACENTER>
   
-    <@swarm.SERVICE_RM 'percona-init' />
+    <@swarm.SERVICE_RM 'percona-init-${stackId}' />
   </@bash.PROFILE>
 </@requirement.CONFORMS>
