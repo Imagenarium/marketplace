@@ -87,7 +87,7 @@
       <@swarm.SERVICE 'percona-proxy-${dc}-${stackId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
         <@service.NETWORK 'haproxy-monitoring' />
         <@service.NETWORK 'percona-${dc}-${stackId}' />
-        <@service.PORT requirement.p.proxyPort '3306' />
+        <@service.PORT requirement.p.proxyPort '3306' 'host' />
         <@service.DOCKER_SOCKET />
         <@node.MANAGER />
         <@service.DC dc />
