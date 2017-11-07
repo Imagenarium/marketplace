@@ -2,7 +2,7 @@
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
-<@requirement.PARAM 'proxyPort' '' />
+<@requirement.PARAM 'proxyPort' '3306' />
 
 <@requirement.CONFORMS>
   <@bash.PROFILE>
