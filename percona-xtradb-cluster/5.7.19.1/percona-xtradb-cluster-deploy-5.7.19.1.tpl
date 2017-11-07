@@ -2,6 +2,7 @@
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
+<@requirement.PARAM 'proxyPort' '' />
 
 <@requirement.CONFORMS>
   <@bash.PROFILE>
@@ -86,6 +87,7 @@
       <@swarm.SERVICE 'percona-proxy-${dc}-${stackId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
         <@service.NETWORK 'haproxy-monitoring' />
         <@service.NETWORK 'percona-${dc}-${stackId}' />
+        <@service.PORT requirement.p.proxyPort '3306' />
         <@service.DOCKER_SOCKET />
         <@node.MANAGER />
         <@service.DC dc />
