@@ -1,6 +1,7 @@
 <@requirement.HA />
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
+<@requirement.PARAM 'stackId' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
 <@requirement.PARAM 'proxyPort' '3306' />
 

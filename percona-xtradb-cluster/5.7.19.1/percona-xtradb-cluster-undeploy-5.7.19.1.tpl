@@ -1,8 +1,6 @@
 <@requirement.PARAM 'stackId' />
 
 <@requirement.CONFORMS>
-  <#assign stackId=requirement.p.stackId />
-
   <@swarm.SERVICE_RM 'percona-init-${stackId}' />
 
   <@cloud.DATACENTER ; dc, index, isLast>
