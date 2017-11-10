@@ -69,6 +69,12 @@
       </@swarm.SERVICE>
     </@cloud.DATACENTER>
 
+    <@docker.CONTAINER 'kafka-checker-${stackId}' 'imagenarium/kafka-checker:1.0'>
+      <@container.NETWORK 'kafka-net-${stackId}' />
+      <@container.EPHEMERAL />
+      <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
+    </@docker.CONTAINER>
+
     <@swarm.SERVICE 'kafka-manager-${stackId}' 'imagenarium/kafka-manager:1.3.3.14'>
       <@service.NETWORK 'kafka-net-${stackId}' />
       <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
