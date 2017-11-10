@@ -77,7 +77,7 @@
     <@swarm.SERVICE 'nginx-kafka-manager-${stackId}' 'imagenarium/nginx-basic-auth:1.13.5.1'>
       <@service.SECRET 'kafka_manager_password' />
       <@service.NETWORK 'kafka-net-${stackId}' />
-      <@service.PORT requirement.p.managerPort '8080' 'host' />
+      <@service.PORT requirement.p.managerPort '8080' />
       <@service.ENV 'WEB_USER' 'admin' />
       <@service.ENV 'WEB_PASSWORD_FILE' '/run/secrets/kafka_manager_password' />
       <@service.ENV 'APP_URL' 'http://kafka-manager-${stackId}:9000' />
