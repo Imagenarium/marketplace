@@ -40,7 +40,7 @@
       </@swarm.SERVICE>
     </@cloud.DATACENTER>
   
-    <@docker.CONTAINER 'zookeeper-checker-${stackId}' 'imagenarium/zookeeper-checker:1.0'>
+    <@docker.CONTAINER 'zookeeper-checker-${stackId}' 'imagenarium/zookeeper-checker:1.1'>
       <@container.NETWORK 'kafka-net-${stackId}' />
       <@container.EPHEMERAL />
       <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
@@ -70,7 +70,7 @@
       </@swarm.SERVICE>
     </@cloud.DATACENTER>
 
-    <@docker.CONTAINER 'kafka-checker-${stackId}' 'imagenarium/kafka-checker:1.0'>
+    <@docker.CONTAINER 'kafka-checker-${stackId}' 'imagenarium/kafka-checker:1.1'>
       <@container.NETWORK 'kafka-net-${stackId}' />
       <@container.EPHEMERAL />
       <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
