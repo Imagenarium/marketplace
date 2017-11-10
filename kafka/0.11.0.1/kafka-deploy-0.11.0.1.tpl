@@ -44,6 +44,7 @@
       <@container.NETWORK 'kafka-net-${stackId}' />
       <@container.EPHEMERAL />
       <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
+      <@container.ENV 'EXPECTED_FOLLOWERS' zoo_connect?size - 1 />
     </@docker.CONTAINER>
   
     <@cloud.DATACENTER ; dc, index, isLast>
@@ -73,6 +74,7 @@
       <@container.NETWORK 'kafka-net-${stackId}' />
       <@container.EPHEMERAL />
       <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
+      <@container.ENV 'EXPECTED_BROKERS' zoo_connect?size />
     </@docker.CONTAINER>
 
     <@swarm.SERVICE 'kafka-manager-${stackId}' 'imagenarium/kafka-manager:1.3.3.14'>
