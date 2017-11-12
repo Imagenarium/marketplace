@@ -1,7 +1,7 @@
 <@requirement.HA />
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
-<@requirement.PARAM 'stackId' />
+<@requirement.PARAM 'uniqueId' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
 <@requirement.PARAM 'proxyPort' '3306' />
 
@@ -12,8 +12,8 @@
     <#assign NET_MASK=randomNetmask24 />
   
     <#macro checkNode nodeName>
-      <@docker.CONTAINER 'percona-node-checker-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-        <@container.NETWORK 'percona-net-${stackId}' />
+      <@docker.CONTAINER 'percona-node-checker-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+        <@container.NETWORK 'percona-net-${uniqueId}' />
         <@container.ENV 'MYSQL_HOST' nodeName />
         <@container.ENTRY '/check_remote.sh' />
         <@container.EPHEMERAL />
@@ -22,31 +22,31 @@
   
     <@swarm.NETWORK 'monitoring' />
     <@swarm.NETWORK 'haproxy-monitoring' />
-    <@swarm.NETWORK 'percona-net-${stackId}' '${NET_MASK}.0/24' />
+    <@swarm.NETWORK 'percona-net-${uniqueId}' '${NET_MASK}.0/24' />
   
-    <@swarm.SERVICE 'percona-init-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@service.NETWORK 'percona-net-${stackId}' />
+    <@swarm.SERVICE 'percona-init-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@service.NETWORK 'percona-net-${uniqueId}' />
       <@service.SECRET 'mysql_root_password' />
       <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
     </@swarm.SERVICE>
   
-    <@checkNode 'percona-init-${stackId}' />
+    <@checkNode 'percona-init-${uniqueId}' />
   
     <@cloud.DATACENTER ; dc, index, isLast>
-      <@swarm.NETWORK 'percona-${dc}-${stackId}' />
+      <@swarm.NETWORK 'percona-${dc}-${uniqueId}' />
     
-      <#assign nodes = ["percona-init-${stackId}"] />
+      <#assign nodes = ["percona-init-${uniqueId}"] />
    
       <@cloud.DATACENTER ; _dc, _index, _isLast>
         <#if dc != _dc>
-          <#assign nodes += ["percona-master-${_dc}-${stackId}"] />
+          <#assign nodes += ["percona-master-${_dc}-${uniqueId}"] />
         </#if>
       </@cloud.DATACENTER>
     
-      <@swarm.SERVICE 'percona-master-${dc}-${stackId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${requirement.p.wsrepSlaveThreads}'>
+      <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${requirement.p.wsrepSlaveThreads}'>
         <@service.NETWORK 'monitoring' />
-        <@service.NETWORK 'percona-net-${stackId}' />
-        <@service.NETWORK 'percona-${dc}-${stackId}' />
+        <@service.NETWORK 'percona-net-${uniqueId}' />
+        <@service.NETWORK 'percona-${dc}-${uniqueId}' />
         <@service.SECRET 'mysql_root_password' />
         <@service.DC dc />
         <@service.CONS 'node.labels.percona' 'master' />
@@ -83,11 +83,11 @@
         <@service.ENV '15INTROSPECT_VARIABLE' 'server_id' />
       </@swarm.SERVICE>
     
-      <@checkNode 'percona-master-${dc}-${stackId}' />
+      <@checkNode 'percona-master-${dc}-${uniqueId}' />
   
-      <@swarm.SERVICE 'percona-proxy-${dc}-${stackId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
+      <@swarm.SERVICE 'percona-proxy-${dc}-${uniqueId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
         <@service.NETWORK 'haproxy-monitoring' />
-        <@service.NETWORK 'percona-${dc}-${stackId}' />
+        <@service.NETWORK 'percona-${dc}-${uniqueId}' />
         <@service.PORT requirement.p.proxyPort '3306' 'host' />
         <@service.DOCKER_SOCKET />
         <@node.MANAGER />
@@ -98,6 +98,6 @@
       </@swarm.SERVICE>
     </@cloud.DATACENTER>
   
-    <@swarm.SERVICE_RM 'percona-init-${stackId}' />
+    <@swarm.SERVICE_RM 'percona-init-${uniqueId}' />
   </@bash.PROFILE>
 </@requirement.CONFORMS>
