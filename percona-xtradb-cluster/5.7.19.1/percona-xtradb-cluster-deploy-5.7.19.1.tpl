@@ -27,6 +27,7 @@
     <@service.NETWORK 'percona-net-${uniqueId}' />
     <@service.SECRET 'mysql_root_password' />
     <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
+    <@service.VOLUME 'percona-init-logs-volume-${randomUuid}' '/var/logs' />
   </@swarm.SERVICE>
   
   <@checkNode 'percona-init-${uniqueId}' />
@@ -52,6 +53,7 @@
       <#-- Using randomUuid to avoid stale data volumes when replicas count > 1  -->
       <@service.VOLUME 'percona-master-data-volume-${randomUuid}' '/var/lib/mysql' />
       <@service.VOLUME 'percona-master-log-volume-${randomUuid}' '/var/lib/log' />
+      <@service.VOLUME 'percona-master-logs-volume-${randomUuid}' '/var/logs' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
       <@service.ENV 'TCP_PORTS' '3306' />
       <@service.ENV 'BALANCE' 'source' />
