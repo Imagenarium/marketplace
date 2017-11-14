@@ -49,7 +49,7 @@
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.SERVICE 'kafka-${dc}-${uniqueId}' 'imagenarium/kafka:0.11.0.1'>
       <@service.NETWORK 'kafka-net-${uniqueId}' />
-      <@service.PORT requirement.p.brokerPort '9092' 'host' />
+      <@service.PORT brokerPort '9092' 'host' />
       <@service.DOCKER_SOCKET />
       <@service.HOSTNAME 'kafka-${dc}-${uniqueId}' />
       <@service.DNSRR />
@@ -85,7 +85,7 @@
   <@swarm.SERVICE 'nginx-kafka-manager-${uniqueId}' 'imagenarium/nginx-basic-auth:1.13.5.1'>
     <@service.SECRET 'kafka_manager_password' />
     <@service.NETWORK 'kafka-net-${uniqueId}' />
-    <@service.PORT requirement.p.managerPort '8080' />
+    <@service.PORT managerPort '8080' />
     <@service.ENV 'WEB_USER' 'admin' />
     <@service.ENV 'WEB_PASSWORD_FILE' '/run/secrets/kafka_manager_password' />
     <@service.ENV 'APP_URL' 'http://kafka-manager-${uniqueId}:9000' />

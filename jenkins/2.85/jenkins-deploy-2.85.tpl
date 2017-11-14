@@ -1,8 +1,12 @@
 <@requirement.PARAM 'GITHUB_OWNER' />
 <@requirement.PARAM 'GITHUB_REPOS' />
 <@requirement.PARAM 'JENKINS_PORT' />
+<@requirement.PARAM 'SETTINGS_XML' />
 
-<@requirement.SECRET 'settings.xml' />
+<#if SETTINGS_XML??>
+  <@requirement.SECRET '${SETTINGS_XML}' />
+</#if>
+
 <@requirement.SECRET 'jenkins-pass' />
 <@requirement.SECRET 'jenkins-github-token' />
 
@@ -15,10 +19,10 @@
   <@node.MANAGER />
   <@service.DOCKER_SOCKET />
   <@service.CONS 'node.labels.jenkins' 'master' />
-  <@service.PORT requirement.p.JENKINS_PORT '8080' />
+  <@service.PORT JENKINS_PORT '8080' />
   <@service.ENV 'JENKINS_USER' 'admin' />
-  <@service.ENV 'GITHUB_OWNER' requirement.p.GITHUB_OWNER />
-  <@service.ENV 'GITHUB_REPOS' requirement.p.GITHUB_REPOS />
+  <@service.ENV 'GITHUB_OWNER' GITHUB_OWNER />
+  <@service.ENV 'GITHUB_REPOS' GITHUB_REPOS />
   <@service.SECRET 'settings.xml' '/credentials/settings.xml' />
   <@service.SECRET 'jenkins-pass' />
   <@service.SECRET 'jenkins-github-token' />
