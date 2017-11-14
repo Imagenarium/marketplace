@@ -1,12 +1,8 @@
 <@requirement.PARAM 'GITHUB_OWNER' />
 <@requirement.PARAM 'GITHUB_REPOS' />
 <@requirement.PARAM 'JENKINS_PORT' />
-<@requirement.PARAM 'SETTINGS_XML' />
 
-<#if SETTINGS_XML??>
-  <@requirement.SECRET '${SETTINGS_XML}' />
-</#if>
-
+<@requirement.SECRET 'settings.xml' />
 <@requirement.SECRET 'jenkins-pass' />
 <@requirement.SECRET 'jenkins-github-token' />
 
