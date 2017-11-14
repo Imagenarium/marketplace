@@ -1,9 +1,10 @@
 <@requirement.HA />
 <@requirement.CONS 'kafka' 'true' />
 <@requirement.SECRET 'kafka_manager_password' />
+
 <@requirement.PARAM 'uniqueId' />
-<@requirement.PARAM 'managerPort' '9000' />
-<@requirement.PARAM 'brokerPort' '9092' />
+<@requirement.PARAM 'managerPort' />
+<@requirement.PARAM 'brokerPort' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'kafka-net-${uniqueId}' />
