@@ -3,7 +3,7 @@
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'uniqueId' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
-<@requirement.PARAM 'proxyPort' '3306' />
+<@requirement.PARAM 'proxyPort' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
@@ -43,7 +43,7 @@
       </#if>
     </@cloud.DATACENTER>
     
-    <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${wsrepSlaveThreads}'>
+    <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${requirement.p.wsrepSlaveThreads}'>
       <@service.NETWORK 'monitoring' />
       <@service.NETWORK 'percona-net-${uniqueId}' />
       <@service.NETWORK 'percona-${dc}-${uniqueId}' />
