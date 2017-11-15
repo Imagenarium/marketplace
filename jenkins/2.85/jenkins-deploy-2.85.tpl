@@ -21,7 +21,7 @@
   <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
   <@service.ENV 'GITHUB_OWNER' PARAMS.GITHUB_OWNER />
   <@service.ENV 'GITHUB_REPOS' PARAMS.GITHUB_REPOS />
-  <@service.SECRET 'settings.xml' '/credentials/settings.xml' />
+  <@service.SECRET 'settings.xml' />
   <@service.SECRET 'jenkins-pass' />
   <@service.SECRET 'jenkins-github-token' />
 </@swarm.SERVICE>
