@@ -43,7 +43,7 @@
       </#if>
     </@cloud.DATACENTER>
     
-    <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${wsrepSlaveThreads}'>
+    <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.wsrepSlaveThreads}'>
       <@service.NETWORK 'monitoring' />
       <@service.NETWORK 'percona-net-${uniqueId}' />
       <@service.NETWORK 'percona-${dc}-${uniqueId}' />
@@ -88,7 +88,7 @@
     <@swarm.SERVICE 'percona-proxy-${dc}-${uniqueId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
       <@service.NETWORK 'haproxy-monitoring' />
       <@service.NETWORK 'percona-${dc}-${uniqueId}' />
-      <@service.PORT proxyPort '3306' 'host' />
+      <@service.PORT PARAMS.proxyPort '3306' 'host' />
       <@service.DOCKER_SOCKET />
       <@node.MANAGER />
       <@service.DC dc />
