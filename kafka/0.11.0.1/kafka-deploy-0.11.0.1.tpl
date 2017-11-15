@@ -4,7 +4,7 @@
 
 <@requirement.PARAM 'uniqueId' />
 <@requirement.PARAM 'managerPort' '-1' />
-<@requirement.PARAM 'brokerPort' />
+<@requirement.PARAM 'brokerPort' '-1' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'kafka-net-${uniqueId}' />

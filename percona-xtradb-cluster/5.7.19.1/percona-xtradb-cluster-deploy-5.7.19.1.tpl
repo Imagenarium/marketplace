@@ -3,7 +3,7 @@
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'uniqueId' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
-<@requirement.PARAM 'proxyPort' />
+<@requirement.PARAM 'proxyPort' '-1' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
