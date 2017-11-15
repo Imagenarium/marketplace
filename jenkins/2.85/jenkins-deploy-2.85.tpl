@@ -2,7 +2,6 @@
 <@requirement.PARAM 'GITHUB_REPOS' />
 <@requirement.PARAM 'JENKINS_PORT' />
 <@requirement.PARAM 'JENKINS_USER' 'admin' />
-<@requirement.PARAM 'uniqueId' />
 
 <@requirement.SECRET 'settings.xml' />
 <@requirement.SECRET 'jenkins-pass' />
