@@ -1,4 +1,6 @@
-<@swarm.SERVICE_RM 'jenkins-master' />
-<@swarm.SERVICE_RM 'jenkins-slave' />
+<@requirement.PARAM 'uniqueId' />
 
-<@swarm.NETWORK_RM 'jenkins-net' />
+<@swarm.SERVICE_RM 'jenkins-master-${uniqueId}' />
+<@swarm.SERVICE_RM 'jenkins-slave-${uniqueId}' />
+
+<@swarm.NETWORK_RM 'jenkins-net-${uniqueId}' />
