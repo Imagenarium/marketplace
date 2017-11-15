@@ -1,4 +1,4 @@
-<@requirement.PARAM 'PORT' />
+<@requirement.PARAM 'PORT' '7777' />
 
 <@requirement.CONFORMS>
   <@docker.CONTAINER 'eclipse-${uniqueId}' 'eclipse/che:5.20.0' 'start'>
