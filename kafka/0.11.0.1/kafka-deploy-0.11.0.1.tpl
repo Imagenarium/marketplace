@@ -3,7 +3,7 @@
 <@requirement.SECRET 'kafka_manager_password' />
 
 <@requirement.PARAM 'uniqueId' />
-<@requirement.PARAM 'managerPort' />
+<@requirement.PARAM 'managerPort' '-1' />
 <@requirement.PARAM 'brokerPort' />
 
 <@requirement.CONFORMS>
@@ -78,17 +78,19 @@
     <@container.ENV 'EXPECTED_BROKERS' zoo_connect?size />
   </@docker.CONTAINER>
 
-  <@swarm.SERVICE 'kafka-manager-${uniqueId}' 'imagenarium/kafka-manager:1.3.3.14'>
-    <@service.NETWORK 'kafka-net-${uniqueId}' />
-    <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
-  </@swarm.SERVICE>
+  <#if managerPort != '-1'>
+    <@swarm.SERVICE 'kafka-manager-${uniqueId}' 'imagenarium/kafka-manager:1.3.3.14'>
+      <@service.NETWORK 'kafka-net-${uniqueId}' />
+      <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
+    </@swarm.SERVICE>
 
-  <@swarm.SERVICE 'nginx-kafka-manager-${uniqueId}' 'imagenarium/nginx-basic-auth:1.13.5.1'>
-    <@service.SECRET 'kafka_manager_password' />
-    <@service.NETWORK 'kafka-net-${uniqueId}' />
-    <@service.PORT managerPort '8080' />
-    <@service.ENV 'WEB_USER' 'admin' />
-    <@service.ENV 'WEB_PASSWORD_FILE' '/run/secrets/kafka_manager_password' />
-    <@service.ENV 'APP_URL' 'http://kafka-manager-${uniqueId}:9000' />
-  </@swarm.SERVICE>
+    <@swarm.SERVICE 'nginx-kafka-manager-${uniqueId}' 'imagenarium/nginx-basic-auth:1.13.5.1'>
+      <@service.SECRET 'kafka_manager_password' />
+      <@service.NETWORK 'kafka-net-${uniqueId}' />
+      <@service.PORT managerPort '8080' />
+      <@service.ENV 'WEB_USER' 'admin' />
+      <@service.ENV 'WEB_PASSWORD_FILE' '/run/secrets/kafka_manager_password' />
+      <@service.ENV 'APP_URL' 'http://kafka-manager-${uniqueId}:9000' />
+    </@swarm.SERVICE>
+  </#if>
 </@requirement.CONFORMS>

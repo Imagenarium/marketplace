@@ -43,7 +43,7 @@
       </#if>
     </@cloud.DATACENTER>
     
-    <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${requirement.p.wsrepSlaveThreads}'>
+    <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${wsrepSlaveThreads}'>
       <@service.NETWORK 'monitoring' />
       <@service.NETWORK 'percona-net-${uniqueId}' />
       <@service.NETWORK 'percona-${dc}-${uniqueId}' />
