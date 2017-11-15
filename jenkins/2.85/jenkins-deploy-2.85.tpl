@@ -15,10 +15,10 @@
   <@node.MANAGER />
   <@service.DOCKER_SOCKET />
   <@service.CONS 'node.labels.jenkins' 'master' />
-  <@service.PORT JENKINS_PORT '8080' />
+  <@service.PORT PARAMS.JENKINS_PORT '8080' />
   <@service.ENV 'JENKINS_USER' 'admin' />
-  <@service.ENV 'GITHUB_OWNER' GITHUB_OWNER />
-  <@service.ENV 'GITHUB_REPOS' GITHUB_REPOS />
+  <@service.ENV 'GITHUB_OWNER' PARAMS.GITHUB_OWNER />
+  <@service.ENV 'GITHUB_REPOS' PARAMS.GITHUB_REPOS />
   <@service.SECRET 'settings.xml' '/credentials/settings.xml' />
   <@service.SECRET 'jenkins-pass' />
   <@service.SECRET 'jenkins-github-token' />
