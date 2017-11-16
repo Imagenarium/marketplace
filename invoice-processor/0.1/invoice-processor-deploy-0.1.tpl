@@ -1,6 +1,6 @@
 <@requirement.PARAM 'BROKER_LIST' />
 <@requirement.PARAM 'BROKER_NETWORK' />
-<@requirement.PARAM 'AUTO_OFFSET_RESET' />
+<@requirement.PARAM 'AUTO_OFFSET_RESET' 'latest' />
 
 <@requirement.CONFORMS>
   <@cloud.DATACENTER ; dc, index, isLast>
