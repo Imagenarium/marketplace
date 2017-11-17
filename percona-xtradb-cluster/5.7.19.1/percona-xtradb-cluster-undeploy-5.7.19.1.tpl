@@ -9,8 +9,10 @@
         <@swarm.SERVICE_RM 'percona-master-${dc}-${uniqueId}' />
         <@swarm.SERVICE_RM 'percona-proxy-${dc}-${uniqueId}' />
         <@swarm.NETWORK_RM 'percona-${dc}-${uniqueId}' />
+
         sleep 30
-      </#fi>
+
+      </#if>
     </@cloud.DATACENTER>
   </#list>
 
