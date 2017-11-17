@@ -100,9 +100,8 @@
           <@service.ENV 'INTROSPECT_PORT' '14567' />
           <@service.ENV 'INTROSPECT_PROTOCOL' 'haproxy' />
         </@swarm.SERVICE>
-      </@cloud.DATACENTER>
-    </#list>
-  </#if>
-  
+      </#if>
+    </@cloud.DATACENTER>
+  </#list>  
   <@swarm.SERVICE_RM 'percona-init-${uniqueId}' />
 </@requirement.CONFORMS>
