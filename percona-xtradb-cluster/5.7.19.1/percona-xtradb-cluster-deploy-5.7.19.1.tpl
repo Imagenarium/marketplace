@@ -4,6 +4,7 @@
 <@requirement.PARAM 'uniqueId' />
 <@requirement.PARAM 'wsrepSlaveThreads' '2' />
 <@requirement.PARAM 'proxyPort' '-1' />
+<@requirement.PARAM 'NEW_CLUSTER' 'true' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
@@ -22,19 +23,20 @@
   <@swarm.NETWORK 'monitoring' />
   <@swarm.NETWORK 'haproxy-monitoring' />
   <@swarm.NETWORK 'percona-net-${uniqueId}' '${NET_MASK}.0/24' />
+
+  <#if PARAMS.NEW_CLUSTER == 'true'>
+    <@swarm.SERVICE 'percona-init-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@service.NETWORK 'percona-net-${uniqueId}' />
+      <@service.SECRET 'mysql_root_password' />
+      <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
+    </@swarm.SERVICE>
   
-  <@swarm.SERVICE 'percona-init-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-    <@service.NETWORK 'percona-net-${uniqueId}' />
-    <@service.SECRET 'mysql_root_password' />
-    <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
-    <@service.VOLUME 'percona-init-log-volume-${randomUuid}' '/var/log' />
-  </@swarm.SERVICE>
-  
-  <@checkNode 'percona-init-${uniqueId}' />
+    <@checkNode 'percona-init-${uniqueId}' />
+  </#if>
   
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.NETWORK 'percona-${dc}-${uniqueId}' />
-    
+
     <#assign nodes = ["percona-init-${uniqueId}"] />
    
     <@cloud.DATACENTER ; _dc, _index, _isLast>
@@ -50,9 +52,8 @@
       <@service.SECRET 'mysql_root_password' />
       <@service.DC dc />
       <@service.CONS 'node.labels.percona' 'master' />
-      <#-- Using randomUuid to avoid stale data volumes when replicas count > 1  -->
-      <@service.VOLUME 'percona-master-data-volume-${randomUuid}' '/var/lib/mysql' />
-      <@service.VOLUME 'percona-master-log-volume-${randomUuid}' '/var/log' />
+      <@service.VOLUME 'percona-master-data-volume-${uniqueId}' '/var/lib/mysql' />
+      <@service.VOLUME 'percona-master-log-volume-${uniqueId}' '/var/log' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
       <@service.ENV 'TCP_PORTS' '3306' />
       <@service.ENV 'BALANCE' 'source' />
