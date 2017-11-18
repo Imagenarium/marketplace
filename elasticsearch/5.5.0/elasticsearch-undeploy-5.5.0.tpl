@@ -1,7 +1,13 @@
-<@cloud.DATACENTER ; dc, index, isLast>
-  <@swarm.SERVICE_RM 'es-master-${dc}' />
-  <@swarm.SERVICE_RM 'es-worker-${dc}' />
-</@cloud.DATACENTER>
+<@requirement.PARAM 'uniqueId' />
 
-<@swarm.SERVICE_RM 'es-router' />
+<@requirement.CONFORMS>
+  <@cloud.DATACENTER ; dc, index, isLast>
+    <@swarm.SERVICE_RM 'es-master-${dc}-${uniqueId}' />
+    <@swarm.SERVICE_RM 'es-worker-${dc}-${uniqueId}' />
+  </@cloud.DATACENTER>
 
+  <@swarm.SERVICE_RM 'es-router-${uniqueId}' />
+  
+  set +e
+  <@swarm.NETWORK_RM 'es-net-${uniqueId}' />
+</@requirement.CONFORMS>

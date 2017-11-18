@@ -21,8 +21,6 @@
     </@docker.CONTAINER>
   </#macro>
   
-  <@swarm.NETWORK 'monitoring' />
-  <@swarm.NETWORK 'haproxy-monitoring' />
   <@swarm.NETWORK 'percona-net-${uniqueId}' '${NET_MASK}.0/24' />
 
   <#if PARAMS.NEW_CLUSTER == 'true'>
@@ -49,7 +47,6 @@
         </@cloud.DATACENTER>
     
         <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.wsrepSlaveThreads}'>
-          <@service.NETWORK 'monitoring' />
           <@service.NETWORK 'percona-net-${uniqueId}' />
           <@service.NETWORK 'percona-${dc}-${uniqueId}' />
           <@service.SECRET 'mysql_root_password' />
@@ -90,7 +87,6 @@
         <@checkNode 'percona-master-${dc}-${uniqueId}' />
   
         <@swarm.SERVICE 'percona-proxy-${dc}-${uniqueId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
-          <@service.NETWORK 'haproxy-monitoring' />
           <@service.NETWORK 'percona-${dc}-${uniqueId}' />
           <@service.PORT PARAMS.proxyPort '3306' 'host' />
           <@service.DOCKER_SOCKET />
