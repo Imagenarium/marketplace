@@ -16,31 +16,3 @@
     <@service.DOCKER_SOCKET />
   </@swarm.SERVICE>
 </@requirement.CONFORMS>
-
-
-
-
-
-
-
-<#!--
-<@swarm.NETWORK 'haproxy-monitoring' />
-
-<@swarm.SERVICE 'introspector' 'imagenarium/introspector:0.16' 'global'>
-  <@service.NETWORK 'monitoring' />
-  <@service.NETWORK 'haproxy-monitoring' />
-  <@service.DOCKER_SOCKET />
-</@swarm.SERVICE>
-
-<@swarm.SERVICE 'dockergc' 'imagenarium/dockergc:0.2' 'global'>
-  <@service.DOCKER_SOCKET />
-  <@service.ENV 'CONTAINER_GRACE_PERIOD_MINUTES' '60' />
-  <@service.ENV 'VOLUME_GRACE_PERIOD_MINUTES' '720' />
-  <@service.ENV 'IMAGE_GRACE_PERIOD_MINUTES' '1440' />
-</@swarm.SERVICE>
-
-<@swarm.SERVICE 'drainpool' 'imagenarium/drainpool:0.1'>
-  <@node.MANAGER />
-  <@service.DOCKER_SOCKET />
-</@swarm.SERVICE>
--->
