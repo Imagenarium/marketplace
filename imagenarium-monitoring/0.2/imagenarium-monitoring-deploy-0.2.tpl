@@ -1,4 +1,4 @@
-﻿<@requirement.PARAM 'ES_NETWORK' 'es-net-system' />
+<@requirement.PARAM 'ES_NETWORK' 'es-net-system' />
 <@requirement.PARAM 'LOGSTASH_UNIQUE_ID' 'system' />
 <@requirement.PARAM 'uniqueId' 'system' />
 

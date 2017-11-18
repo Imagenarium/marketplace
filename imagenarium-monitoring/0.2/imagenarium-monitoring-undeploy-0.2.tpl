@@ -1,4 +1,4 @@
-﻿<@requirement.PARAM 'uniqueId' />
+<@requirement.PARAM 'uniqueId' />
 
 <@requirement.CONFORMS>
   <@swarm.SERVICE_RM 'swarmview-${uniqueId}' />
