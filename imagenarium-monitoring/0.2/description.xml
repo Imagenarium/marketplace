@@ -1,5 +1,5 @@
 ﻿<description>
-  <id>imagenarium</id>
+  <id>imagenarium-monitoring</id>
   <name>Imagenarium Monitoring</name>
   <version>0.2</version>
   <summary>Imagenarium monitoring services: logdog, swarmview, introspector.</summary>
