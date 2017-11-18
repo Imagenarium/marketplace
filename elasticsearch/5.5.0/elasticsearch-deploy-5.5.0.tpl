@@ -7,7 +7,7 @@
   <@swarm.NETWORK 'es-net-${uniqueId}' />
 
   <@swarm.SERVICE 'es-router-${uniqueId}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0'>
-    <@service.HOSTNAME 'es-router' />
+    <@service.HOSTNAME 'es-router-${uniqueId}' />
     <@service.NETWORK 'es-net-${uniqueId}' />
     <@service.DNSRR />
     <@service.ENV 'network.host' '0.0.0.0' />
