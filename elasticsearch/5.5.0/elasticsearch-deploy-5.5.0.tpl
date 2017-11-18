@@ -16,7 +16,7 @@
     <@service.ENV 'xpack.graph.enabled' 'false' />
     <@service.ENV 'xpack.ml.enabled' 'false' />
     <@service.ENV 'xpack.watcher.enabled' 'false' />
-    <@service.ENV 'node.name' 'es-router' />
+    <@service.ENV 'node.name' 'es-router-${uniqueId}' />
     <@service.ENV 'node.master' 'false' />
     <@service.ENV 'node.data' 'false' />
     <@service.ENV 'node.ingest' 'false' />
@@ -39,7 +39,7 @@
       <@service.ENV 'xpack.watcher.enabled' 'false' />
       <@service.ENV 'node.name' 'es-master-${dc}-${uniqueId}' />
       <@service.ENV 'discovery.zen.minimum_master_nodes' '2' />
-      <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router' />
+      <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${uniqueId}' />
     </@swarm.SERVICE>
   </@cloud.DATACENTER>
 
@@ -58,7 +58,7 @@
       <@service.ENV 'xpack.watcher.enabled' 'false' />
       <@service.ENV 'node.master' 'false' />
       <@service.ENV 'discovery.zen.minimum_master_nodes' '2' />
-      <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router' />
+      <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${uniqueId}' />
     </@swarm.SERVICE>
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>
