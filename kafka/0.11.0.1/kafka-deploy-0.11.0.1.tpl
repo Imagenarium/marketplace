@@ -78,7 +78,7 @@
     <@container.ENV 'EXPECTED_BROKERS' zoo_connect?size />
   </@docker.CONTAINER>
 
-  <#if PARAMS.MANAGER_PORT != '-1'>
+  <#if PARAMS.PUBLISHED_MANAGER_PORT != '-1'>
     <@swarm.SERVICE 'kafka-manager-${uniqueId}' 'imagenarium/kafka-manager:1.3.3.14'>
       <@service.NETWORK 'kafka-net-${uniqueId}' />
       <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
