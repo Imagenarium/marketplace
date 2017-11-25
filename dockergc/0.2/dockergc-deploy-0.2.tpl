@@ -1,6 +1,7 @@
 <@requirement.PARAM 'CONTAINER_PERIOD' '60' />
 <@requirement.PARAM 'VOLUME_PERIOD' '720' />
 <@requirement.PARAM 'IMAGE_PERIOD' '1440' />
+<@requirement.PARAM 'CONTAINER_EXCLUDE_PATTERN' 'workspace' /> <#-- for stopped eclipse che workspaces -->
 
 <@requirement.CONFORMS>
   <@swarm.SERVICE 'dockergc-${uniqueId}' 'imagenarium/dockergc:0.2' 'global'>

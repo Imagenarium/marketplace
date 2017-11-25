@@ -1,6 +1,6 @@
 <@requirement.PARAM 'GITHUB_OWNER' />
 <@requirement.PARAM 'GITHUB_REPOS' />
-<@requirement.PARAM 'JENKINS_PORT' />
+<@requirement.PARAM 'PUBLISHED_PORT' />
 <@requirement.PARAM 'JENKINS_USER' 'admin' />
 
 <@requirement.SECRET 'settings.xml' />
@@ -17,7 +17,7 @@
     <@node.MANAGER />
     <@service.DOCKER_SOCKET />
     <@service.CONS 'node.labels.jenkins' 'master' />
-    <@service.PORT PARAMS.JENKINS_PORT '8080' />
+    <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@service.ENV 'GITHUB_OWNER' PARAMS.GITHUB_OWNER />
     <@service.ENV 'GITHUB_REPOS' PARAMS.GITHUB_REPOS />
@@ -29,8 +29,8 @@
   <@swarm.SERVICE 'jenkins-slave-${uniqueId}' 'imagenarium/jenkins-slave:3.4' 'global'>
     <@service.NETWORK 'jenkins-net-${uniqueId}' />
     <@node.MANAGER />
-    <@service.CONS 'node.labels.jenkins' 'slave' />
     <@service.DOCKER_SOCKET />
+    <@service.CONS 'node.labels.jenkins' 'slave' />
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@service.SECRET 'jenkins-pass' />
   </@swarm.SERVICE>

@@ -2,8 +2,8 @@
 <@requirement.SECRET 'mysql_root_password' />
 <@requirement.CONS 'percona' 'master' />
 <@requirement.PARAM 'uniqueId' />
-<@requirement.PARAM 'wsrepSlaveThreads' '2' />
-<@requirement.PARAM 'proxyPort' '-1' />
+<@requirement.PARAM 'WSREP_SLAVE_THREADS' '2' />
+<@requirement.PARAM 'PUBLISHED_PORT' '-1' />
 <@requirement.PARAM 'NEW_CLUSTER' 'true' />
 <@requirement.PARAM 'RUN_ORDER' 'dc1,dc2,dc3' />
 
@@ -46,7 +46,7 @@
           </#if>
         </@cloud.DATACENTER>
     
-        <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.wsrepSlaveThreads}'>
+        <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
           <@service.NETWORK 'percona-net-${uniqueId}' />
           <@service.NETWORK 'percona-${dc}-${uniqueId}' />
           <@service.SECRET 'mysql_root_password' />
@@ -88,7 +88,7 @@
   
         <@swarm.SERVICE 'percona-proxy-${dc}-${uniqueId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
           <@service.NETWORK 'percona-${dc}-${uniqueId}' />
-          <@service.PORT PARAMS.proxyPort '3306' 'host' />
+          <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
           <@service.DOCKER_SOCKET />
           <@node.MANAGER />
           <@service.DC dc />
