@@ -1,6 +1,7 @@
-<@requirement.SECRET 'kibana_manager_password' />
-
+<@requirement.PARAM 'uniqueId' 'system' />
 <@requirement.PARAM 'PUBLISHED_PORT' '5601' />
+
+<@requirement.SECRET 'kibana_manager_password' />
 
 <@requirement.CONFORMS>
   <@swarm.SERVICE 'kibana-${uniqueId}' 'imagenarium/kibana:5.5.0.1'>
