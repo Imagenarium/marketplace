@@ -61,4 +61,6 @@
       <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${uniqueId}' />
     </@swarm.SERVICE>
   </@cloud.DATACENTER>
+
+  <@docker.HTTP_CHECK 'http://es-router-${uniqueId}:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${uniqueId}' />
 </@requirement.CONFORMS>

@@ -23,4 +23,6 @@
     <@service.ENV 'WEB_PASSWORD_FILE' '/run/secrets/kibana_manager_password' />
     <@service.ENV 'APP_URL' 'http://kibana-${uniqueId}:5601' />
   </@swarm.SERVICE>
+
+  <@docker.HTTP_CHECK 'http://kibana-${uniqueId}:5601' 'es-net-${uniqueId}' />
 </@requirement.CONFORMS>
