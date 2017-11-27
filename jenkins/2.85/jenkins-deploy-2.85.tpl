@@ -34,4 +34,6 @@
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@service.SECRET 'jenkins-pass' />
   </@swarm.SERVICE>
+
+  <@docker.HTTP_CHECK 'http://jenkins-master-${uniqueId}:8080' 'jenkins-net-${uniqueId}' />
 </@requirement.CONFORMS>

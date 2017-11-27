@@ -92,5 +92,7 @@
       <@service.ENV 'WEB_PASSWORD_FILE' '/run/secrets/kafka_manager_password' />
       <@service.ENV 'APP_URL' 'http://kafka-manager-${uniqueId}:9000' />
     </@swarm.SERVICE>
+
+    <@docker.HTTP_CHECK 'http://kafka-manager-${uniqueId}:9000' 'kafka-net-${uniqueId}' />
   </#if>
 </@requirement.CONFORMS>
