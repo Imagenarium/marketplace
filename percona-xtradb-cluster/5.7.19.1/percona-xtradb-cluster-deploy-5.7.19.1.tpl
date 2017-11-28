@@ -4,7 +4,7 @@
 <@requirement.PARAM 'uniqueId' />
 <@requirement.PARAM 'WSREP_SLAVE_THREADS' '2' />
 <@requirement.PARAM 'PUBLISHED_PORT' '-1' />
-<@requirement.PARAM 'NEW_CLUSTER' 'true' />
+<@requirement.PARAM 'NEW_CLUSTER' />
 <@requirement.PARAM 'RUN_ORDER' 'dc1,dc2,dc3' />
 
 <@requirement.CONFORMS>
