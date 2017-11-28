@@ -10,7 +10,7 @@
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
   <#assign HAPROXY_VERSION='1.6.7' />
-  <#assign NET_MASK=randomNetmask24 />
+  <#assign NETMASK=randomNetmask24 />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
@@ -21,7 +21,7 @@
     </@docker.CONTAINER>
   </#macro>
   
-  <@swarm.NETWORK 'percona-net-${uniqueId}' '${NET_MASK}.0/24' />
+  <@swarm.NETWORK 'percona-net-${uniqueId}' '${NETMASK}.0/24' />
 
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.SERVICE 'percona-init-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
@@ -63,7 +63,7 @@
           <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
           <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
           <@service.ENV 'GMCAST_SEGMENT' index />
-          <@service.ENV 'NETMASK' NET_MASK />
+          <@service.ENV 'NETMASK' NETMASK />
           <@service.ENV 'INTROSPECT_PORT' '3306' />
           <@service.ENV 'INTROSPECT_PROTOCOL' 'mysql' />
           <@service.ENV 'INTROSPECT_MYSQL_USER' 'healthchecker' />

@@ -1,7 +1,11 @@
-<@cloud.DATACENTER ; dc, index, isLast>
-  <@swarm.SERVICE_RM 'cassandra-seed-${dc}' />
-</@cloud.DATACENTER>
+<@requirement.PARAM 'uniqueId' />
 
-<@swarm.SERVICE_RM 'swarmstorage-cassandra' />
+<@requirement.CONFORMS>
+  <@cloud.DATACENTER ; dc, index, isLast>
+    <@swarm.SERVICE_RM 'cassandra-seed-${dc}-${uniqueId}' />
+  </@cloud.DATACENTER>
 
-<@swarm.NETWORK_RM 'cassandra-net' />
+  <@swarm.SERVICE_RM 'swarmstorage-cassandra-${uniqueId}' />
+
+  <@swarm.NETWORK_RM 'cassandra-net-${uniqueId}' />
+</@requirement.CONFORMS>
