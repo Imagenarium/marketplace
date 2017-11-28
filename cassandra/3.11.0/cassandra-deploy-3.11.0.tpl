@@ -28,6 +28,7 @@
       <@service.CONS 'node.labels.cassandra' 'master' />
       <@service.VOLUME 'cassandra-seed-volume-${dc}-${uniqueId}' '/var/lib/cassandra' />
       <@service.ENV 'NETMASK' NETMASK />
+      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cassandra-${uniqueId}' />
       <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
       <@service.ENV 'SERVICE_NAME' 'cassandra-seed-${dc}-${uniqueId}' />
