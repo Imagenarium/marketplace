@@ -9,7 +9,6 @@
   <@swarm.SERVICE_RM 'swarmstorage-kafka-${uniqueId}' />
   <@swarm.SERVICE_RM 'kafka-manager-${uniqueId}' />
   <@swarm.SERVICE_RM 'nginx-kafka-manager-${uniqueId}' />
-
-  set +e
+  
   <@swarm.NETWORK_RM 'kafka-net-${uniqueId}' />
 </@requirement.CONFORMS>

@@ -5,6 +5,5 @@
     <@swarm.SERVICE_RM 'invoice-receiver-${dc}-${uniqueId}' />
   </@cloud.DATACENTER>
 
-  set +e
   <@swarm.NETWORK_RM 'kafka-net-${uniqueId}' />
 </@requirement.CONFORMS>
