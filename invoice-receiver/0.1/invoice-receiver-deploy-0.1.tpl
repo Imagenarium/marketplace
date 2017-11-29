@@ -8,5 +8,7 @@
       <@service.PORT PARAMS.PUBLISHED_PORT '8080' 'host' />
       <@service.ENV 'brokerList' 'kafka-${dc}-${uniqueId}:9092' />
     </@swarm.SERVICE>
+  
+    <@docker.HTTP_CHECK 'http://invoice-receiver-${dc}-${uniqueId}:8080' 'kafka-net-${uniqueId}' />
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>

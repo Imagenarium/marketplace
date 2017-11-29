@@ -8,5 +8,7 @@
       <@service.ENV 'brokerList' 'kafka-${dc}-${uniqueId}:9092' />
       <@service.ENV 'autoOffsetReset' PARAMS.AUTO_OFFSET_RESET />
     </@swarm.SERVICE>
+
+    <@docker.HTTP_CHECK 'http://invoice-processor-${dc}-${uniqueId}:8080' 'kafka-net-${uniqueId}' />
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>
