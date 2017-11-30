@@ -8,6 +8,5 @@
 
   <@swarm.SERVICE_RM 'es-router-${uniqueId}' />
   
-  set +e
   <@swarm.NETWORK_RM 'es-net-${uniqueId}' />
 </@requirement.CONFORMS>
