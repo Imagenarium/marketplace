@@ -1,6 +1,6 @@
 <@requirement.HA />
 <@requirement.CONS_HA 'es' 'master' />
-<@requirement.PARAM 'ES_JAVA_OPTS' '-Xms1G -Xmx1G' />
+<@requirement.PARAM name='ES_JAVA_OPTS' description='Minimum and maximum heap space' />
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>
