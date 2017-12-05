@@ -1,7 +1,9 @@
 <@requirement.HA />
+
 <@requirement.SECRET 'mysql_root_password' />
-<@requirement.CONS 'percona' 'master' />
-<@requirement.PARAM 'uniqueId' />
+
+<@requirement.CONS_HA 'percona' 'master' />
+
 <@requirement.PARAM 'WSREP_SLAVE_THREADS' '2' />
 <@requirement.PARAM 'PUBLISHED_PORT' '-1' />
 <@requirement.PARAM 'NEW_CLUSTER' />
@@ -13,47 +15,47 @@
   <#assign NETMASK=randomNetmask24 />
   
   <#macro checkNode nodeName>
-    <@docker.CONTAINER 'percona-node-checker-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@container.NETWORK 'percona-net-${uniqueId}' />
+    <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@container.NETWORK 'percona-net-${namespace}' />
       <@container.ENV 'MYSQL_HOST' nodeName />
       <@container.ENTRY '/check_remote.sh' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
   </#macro>
   
-  <@swarm.NETWORK 'percona-net-${uniqueId}' '${NETMASK}.0/24' />
+  <@swarm.NETWORK 'percona-net-${namespace}' '${NETMASK}.0/24' />
 
   <#if PARAMS.NEW_CLUSTER == 'true'>
-    <@swarm.SERVICE 'percona-init-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@service.NETWORK 'percona-net-${uniqueId}' />
+    <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@service.NETWORK 'percona-net-${namespace}' />
       <@service.SECRET 'mysql_root_password' />
       <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
     </@swarm.SERVICE>
   
-    <@checkNode 'percona-init-${uniqueId}' />
+    <@checkNode 'percona-init-${namespace}' />
   </#if>
 
   <#list PARAMS.RUN_ORDER?split(",") as orderedDc>  
     <@cloud.DATACENTER ; dc, index, isLast>
       <#if dc == orderedDc>
-        <@swarm.NETWORK 'percona-${dc}-${uniqueId}' />
+        <@swarm.NETWORK 'percona-${dc}-${namespace}' />
 
-        <#assign nodes = ["percona-init-${uniqueId}"] />
+        <#assign nodes = ["percona-init-${namespace}"] />
    
         <@cloud.DATACENTER ; _dc, _index, _isLast>
           <#if dc != _dc>
-            <#assign nodes += ["percona-master-${_dc}-${uniqueId}"] />
+            <#assign nodes += ["percona-master-${_dc}-${namespace}"] />
           </#if>
         </@cloud.DATACENTER>
     
-        <@swarm.SERVICE 'percona-master-${dc}-${uniqueId}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-          <@service.NETWORK 'percona-net-${uniqueId}' />
-          <@service.NETWORK 'percona-${dc}-${uniqueId}' />
+        <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+          <@service.NETWORK 'percona-net-${namespace}' />
+          <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.SECRET 'mysql_root_password' />
           <@service.DC dc />
           <@service.CONS 'node.labels.percona' 'master' />
-          <@service.VOLUME 'percona-master-data-volume-${uniqueId}' '/var/lib/mysql' />
-          <@service.VOLUME 'percona-master-log-volume-${uniqueId}' '/var/log' />
+          <@service.VOLUME 'percona-master-data-volume-${namespace}' '/var/lib/mysql' />
+          <@service.VOLUME 'percona-master-log-volume-${namespace}' '/var/log' />
           <@service.ENV 'SERVICE_PORTS' '3306' />
           <@service.ENV 'TCP_PORTS' '3306' />
           <@service.ENV 'BALANCE' 'source' />
@@ -84,10 +86,10 @@
           <@service.ENV '15INTROSPECT_VARIABLE' 'server_id' />
         </@swarm.SERVICE>
     
-        <@checkNode 'percona-master-${dc}-${uniqueId}' />
+        <@checkNode 'percona-master-${dc}-${namespace}' />
   
-        <@swarm.SERVICE 'percona-proxy-${dc}-${uniqueId}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
-          <@service.NETWORK 'percona-${dc}-${uniqueId}' />
+        <@swarm.SERVICE 'percona-proxy-${dc}-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
+          <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
           <@service.DOCKER_SOCKET />
           <@node.MANAGER />
@@ -99,5 +101,5 @@
       </#if>
     </@cloud.DATACENTER>
   </#list>  
-  <@swarm.SERVICE_RM 'percona-init-${uniqueId}' />
+  <@swarm.SERVICE_RM 'percona-init-${namespace}' />
 </@requirement.CONFORMS>

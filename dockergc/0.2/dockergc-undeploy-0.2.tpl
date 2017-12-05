@@ -1,5 +1,3 @@
-<@requirement.PARAM 'uniqueId' />
-
 <@requirement.CONFORMS>
-  <@swarm.SERVICE_RM 'dockergc-${uniqueId}' />
+  <@swarm.SERVICE_RM 'dockergc-${namespace}' />
 </@requirement.CONFORMS>

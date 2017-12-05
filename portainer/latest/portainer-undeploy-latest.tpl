@@ -1,6 +1,4 @@
-<@requirement.PARAM 'uniqueId' />
-
 <@requirement.CONFORMS>
-  <@swarm.SERVICE_RM 'portainer-${uniqueId}' />
-  <@swarm.NETWORK_RM 'portainer-net-${uniqueId}' />
+  <@swarm.SERVICE_RM 'portainer-${namespace}' />
+  <@swarm.NETWORK_RM 'portainer-net-${namespace}' />
 </@requirement.CONFORMS>

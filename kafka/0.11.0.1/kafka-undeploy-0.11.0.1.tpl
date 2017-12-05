@@ -1,14 +1,12 @@
-<@requirement.PARAM 'uniqueId' />
-
 <@requirement.CONFORMS>
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE_RM 'kafka-${dc}-${uniqueId}' />
-    <@swarm.SERVICE_RM 'zookeeper-${dc}-${uniqueId}' />
+    <@swarm.SERVICE_RM 'kafka-${dc}-${namespace}' />
+    <@swarm.SERVICE_RM 'zookeeper-${dc}-${namespace}' />
   </@cloud.DATACENTER>
 
-  <@swarm.SERVICE_RM 'swarmstorage-kafka-${uniqueId}' />
-  <@swarm.SERVICE_RM 'kafka-manager-${uniqueId}' />
-  <@swarm.SERVICE_RM 'nginx-kafka-manager-${uniqueId}' />
+  <@swarm.SERVICE_RM 'swarmstorage-kafka-${namespace}' />
+  <@swarm.SERVICE_RM 'kafka-manager-${namespace}' />
+  <@swarm.SERVICE_RM 'nginx-kafka-manager-${namespace}' />
   
-  <@swarm.NETWORK_RM 'kafka-net-${uniqueId}' />
+  <@swarm.NETWORK_RM 'kafka-net-${namespace}' />
 </@requirement.CONFORMS>

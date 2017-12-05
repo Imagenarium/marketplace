@@ -1,8 +1,6 @@
-<@requirement.PARAM 'uniqueId' />
-
 <@requirement.CONFORMS>
-  <@swarm.SERVICE_RM 'jenkins-master-${uniqueId}' />
-  <@swarm.SERVICE_RM 'jenkins-slave-${uniqueId}' />
+  <@swarm.SERVICE_RM 'jenkins-master-${namespace}' />
+  <@swarm.SERVICE_RM 'jenkins-slave-${namespace}' />
 
-  <@swarm.NETWORK_RM 'jenkins-net-${uniqueId}' />
+  <@swarm.NETWORK_RM 'jenkins-net-${namespace}' />
 </@requirement.CONFORMS>
