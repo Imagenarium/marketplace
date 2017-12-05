@@ -1,4 +1,4 @@
-<@requirement.PARAM 'PUBLISHED_PORT' '-1' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='-1' />
 
 <@requirement.CONFORMS>
   <@cloud.DATACENTER ; dc, index, isLast>

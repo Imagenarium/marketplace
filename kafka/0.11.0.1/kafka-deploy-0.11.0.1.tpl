@@ -2,8 +2,8 @@
 <@requirement.CONS_HA 'kafka' 'true' />
 <@requirement.SECRET 'kafka_manager_password' />
 
-<@requirement.PARAM 'PUBLISHED_MANAGER_PORT' '-1' />
-<@requirement.PARAM 'PUBLISHED_BROKER_PORT' '-1' />
+<@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='-1' type='number' />
+<@requirement.PARAM name='PUBLISHED_BROKER_PORT' value='-1' type='number' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'kafka-net-${namespace}' />

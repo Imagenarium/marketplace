@@ -1,6 +1,7 @@
-<@requirement.PARAM 'CONTAINER_PERIOD' '60' />
-<@requirement.PARAM 'VOLUME_PERIOD' '720' />
-<@requirement.PARAM 'IMAGE_PERIOD' '1440' />
+<@requirement.PARAM name='CONTAINER_PERIOD' value='60' type='number' />
+<@requirement.PARAM name='VOLUME_PERIOD' value='720' type='number' />
+<@requirement.PARAM name='IMAGE_PERIOD' value='1440' type='number' />
+
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>

@@ -1,7 +1,7 @@
-<@requirement.PARAM 'GITHUB_OWNER' />
-<@requirement.PARAM 'GITHUB_REPOS' />
-<@requirement.PARAM 'PUBLISHED_PORT' />
-<@requirement.PARAM 'JENKINS_USER' 'admin' />
+<@requirement.PARAM name='GITHUB_OWNER' />
+<@requirement.PARAM name='GITHUB_REPOS' />
+<@requirement.PARAM name='PUBLISHED_PORT' type='number' />
+<@requirement.PARAM name='JENKINS_USER' value='admin' />
 
 <@requirement.NAMESPACE 'system' />
 

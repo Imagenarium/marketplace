@@ -4,10 +4,10 @@
 
 <@requirement.CONS_HA 'percona' 'master' />
 
-<@requirement.PARAM 'WSREP_SLAVE_THREADS' '2' />
-<@requirement.PARAM 'PUBLISHED_PORT' '-1' />
-<@requirement.PARAM 'NEW_CLUSTER' />
-<@requirement.PARAM 'RUN_ORDER' 'dc1,dc2,dc3' />
+<@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
+<@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
+<@requirement.PARAM name='RUN_ORDER' value='dc1,dc2,dc3' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />

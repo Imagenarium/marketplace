@@ -1,4 +1,4 @@
-<@requirement.PARAM 'AUTO_OFFSET_RESET' 'latest' />
+<@requirement.PARAM name='AUTO_OFFSET_RESET' value='latest' type='select' values='latest,earliest' />
 
 <@requirement.CONFORMS>
   <@cloud.DATACENTER ; dc, index, isLast>

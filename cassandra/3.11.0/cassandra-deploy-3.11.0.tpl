@@ -1,6 +1,6 @@
 <@requirement.HA />
 <@requirement.CONS_HA 'cassandra' 'master' />
-<@requirement.PARAM 'NEW_CLUSTER' />
+<@requirement.PARAM name='NEW_CLUSTER' default='false' type='boolean' />
 
 <@requirement.CONFORMS>
   <#assign NETMASK=randomNetmask24 />

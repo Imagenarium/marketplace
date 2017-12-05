@@ -1,5 +1,5 @@
 <@requirement.NAMESPACE 'system' />
-<@requirement.PARAM 'PUBLISHED_PORT' '5601' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='5601' type='number' />
 
 <@requirement.SECRET 'kibana_manager_password' />
 
