@@ -4,6 +4,7 @@
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='-1' type='number' />
 <@requirement.PARAM name='PUBLISHED_BROKER_PORT' value='-1' type='number' />
+<@requirement.PARAM name='NEW_CLUSTER' default='false' type='boolean' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'kafka-net-${namespace}' />
@@ -31,6 +32,7 @@
       <@service.CONS 'node.labels.kafka' 'true' />
       <@service.VOLUME 'zookeeper-data-volume-${namespace}' '/data' />
       <@service.VOLUME 'zookeeper-datalog-volume-${namespace}' '/datalog' />
+      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'SERVICE_NAME' 'zookeeper-${dc}-${namespace}' />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'ZOO_MY_ID' index />
@@ -56,6 +58,7 @@
       <@service.DC dc />
       <@service.CONS 'node.labels.kafka' 'true' />
       <@service.VOLUME 'kafka-volume-${namespace}' '/kafka' />
+      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'SERVICE_NAME' 'kafka-${dc}-${namespace}' />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'KAFKA_LISTENERS' 'PLAINTEXT://0.0.0.0:9092' />
