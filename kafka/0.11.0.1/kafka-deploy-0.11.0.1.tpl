@@ -4,7 +4,7 @@
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='-1' type='number' />
 <@requirement.PARAM name='PUBLISHED_BROKER_PORT' value='-1' type='number' />
-<@requirement.PARAM name='NEW_CLUSTER' default='false' type='boolean' />
+<@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'kafka-net-${namespace}' />
