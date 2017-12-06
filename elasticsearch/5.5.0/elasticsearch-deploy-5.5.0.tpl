@@ -1,12 +1,13 @@
 <@requirement.HA />
 <@requirement.CONS_HA 'es' 'master' />
 <@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G' />
+<@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'es-net-${namespace}' />
 
-  <@swarm.SERVICE 'es-router-${namespace}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0'>
+  <@swarm.SERVICE 'es-router-${namespace}' 'imagenarium/elasticsearch:5.5.0'>
     <@service.HOSTNAME 'es-router-${namespace}' />
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.DNSRR />
@@ -24,13 +25,14 @@
   </@swarm.SERVICE>
   
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE 'es-master-${dc}-${namespace}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0'>
+    <@swarm.SERVICE 'es-master-${dc}-${namespace}' 'imagenarium/elasticsearch:5.5.0'>
       <@service.HOSTNAME 'es-master-${dc}-${namespace}' />
       <@service.NETWORK 'es-net-${namespace}' />
       <@service.VOLUME 'es-master-data-${namespace}' '/usr/share/elasticsearch/data' />
       <@service.DC dc />
       <@service.DNSRR />
       <@service.CONS 'node.labels.es' 'master' />
+      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'network.host' '0.0.0.0' />
       <@service.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@service.ENV 'xpack.security.enabled' 'false' />
@@ -46,12 +48,13 @@
   </@cloud.DATACENTER>
 
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE 'es-worker-${dc}-${namespace}' 'docker.elastic.co/elasticsearch/elasticsearch:5.5.0' 'global'>
+    <@swarm.SERVICE 'es-worker-${dc}-${namespace}' 'imagenarium/elasticsearch:5.5.0' 'global'>
       <@service.NETWORK 'es-net-${namespace}' />
       <@service.VOLUME 'es-worker-data-${namespace}' '/usr/share/elasticsearch/data' />
       <@service.DC dc />
       <@service.DNSRR />
       <@service.CONS 'node.labels.es' 'worker' />
+      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'network.host' '0.0.0.0' />
       <@service.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@service.ENV 'xpack.security.enabled' 'false' />
