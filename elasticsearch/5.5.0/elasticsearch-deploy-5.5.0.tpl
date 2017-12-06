@@ -5,13 +5,15 @@
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>
-  <@swarm.NETWORK 'es-net-${namespace}' />
+  <#assign NETMASK=randomNetmask24 />
+  <@swarm.NETWORK 'es-net-${namespace}' '${NETMASK}.0/24' />
 
   <@swarm.SERVICE 'es-router-${namespace}' 'imagenarium/elasticsearch:5.5.0'>
     <@service.HOSTNAME 'es-router-${namespace}' />
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.DNSRR />
-    <@service.ENV 'network.host' '0.0.0.0' />
+    <@service.ENV 'network.bind_host' '0.0.0.0' />
+    <@service.ENV 'NETMASK' NETMASK />
     <@service.ENV 'ES_JAVA_OPTS' '-Xms512m -Xmx512m' />
     <@service.ENV 'xpack.security.enabled' 'false' />
     <@service.ENV 'xpack.graph.enabled' 'false' />
@@ -33,7 +35,8 @@
       <@service.DNSRR />
       <@service.CONS 'node.labels.es' 'master' />
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
-      <@service.ENV 'network.host' '0.0.0.0' />
+      <@service.ENV 'network.bind_host' '0.0.0.0' />
+      <@service.ENV 'NETMASK' NETMASK />
       <@service.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@service.ENV 'xpack.security.enabled' 'false' />
       <@service.ENV 'xpack.graph.enabled' 'false' />
@@ -55,7 +58,8 @@
       <@service.DNSRR />
       <@service.CONS 'node.labels.es' 'worker' />
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
-      <@service.ENV 'network.host' '0.0.0.0' />
+      <@service.ENV 'network.bind_host' '0.0.0.0' />
+      <@service.ENV 'NETMASK' NETMASK />
       <@service.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@service.ENV 'xpack.security.enabled' 'false' />
       <@service.ENV 'xpack.graph.enabled' 'false' />
