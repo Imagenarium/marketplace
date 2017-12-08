@@ -4,7 +4,7 @@
 
 <@requirement.CONS_HA 'percona' 'master' />
 
-<@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' />
+<@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='dc1,dc2,dc3' />
