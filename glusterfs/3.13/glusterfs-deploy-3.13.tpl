@@ -33,5 +33,5 @@
       <@service.DC dc />
       <@service.CONS 'node.labels.glusterfs' 'true' />
     </@swarm.SERVICE>
-  </@cloud.DATACENTER>
+  </@swarm.TASK_RUNNER>
 </@requirement.CONFORMS>
