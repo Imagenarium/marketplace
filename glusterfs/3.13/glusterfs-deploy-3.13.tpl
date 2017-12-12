@@ -4,7 +4,7 @@
 
 <@requirement.CONFORMS>
   <#assign NETMASK=randomNetmask16 />
-  <@swarm.NETWORK 'glusterfs-net-${namespace}' '${NETMASK}.0.0/24' />
+  <@swarm.NETWORK 'glusterfs-net-${namespace}' '10.100.0.0/16' />
     
   <#assign peers = [] />
     
@@ -35,7 +35,7 @@
       <@service.DC dc />
       <@service.CONS 'node.labels.glusterfs' 'true' />
       <@service.ENV 'NETMASK' NETMASK />
-      <@service.ENV 'SERVICE_INDEX' 90+index />
+      <@service.ENV 'SERVICE_INDEX' 100+index />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>
