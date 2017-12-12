@@ -3,8 +3,8 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign NETMASK=randomNetmask16 />
-  <@swarm.NETWORK 'glusterfs-net-${namespace}' '10.100.0.0/16' />
+  <#assign NETMASK='10.100' />
+  <@swarm.NETWORK 'glusterfs-net-${namespace}' '${NETMASK}.0.0/16' />
     
   <#assign peers = [] />
     
