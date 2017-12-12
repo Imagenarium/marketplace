@@ -19,12 +19,12 @@
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u2'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u3'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />    
       <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
       <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
-      <#if index != 1><#-- if not first node -->
-      <@container.ENV 'PEER' peers[index-2] />
+      <#if index == 3>
+      <@container.ENV 'PEERS' peers?join(" ") />
       </#if>
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
