@@ -9,7 +9,7 @@
   <#assign peers = [] />
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <#assign peers += ['glusterfs-${dc}-${namespace}.1:/gluster-data'] />
+    <#assign peers += ['glusterfs-${dc}-${namespace}.1'] />
   </@cloud.DATACENTER>
   
   <@swarm.SERVICE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.1'>
@@ -23,7 +23,9 @@
       <@container.NETWORK 'glusterfs-net-${namespace}' />    
       <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
       <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
-      <@container.ENV 'PEERS' peers?join(" ") />
+      <#if index != 1><#-- if not first node -->
+      <@container.ENV 'PEER' peers[index-2] />
+      </#if>
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
       <@container.ENV 'SERVICE_NAME' 'glusterfs-${dc}-${namespace}' />
