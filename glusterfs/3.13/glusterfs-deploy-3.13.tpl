@@ -16,7 +16,6 @@
     <@service.NETWORK 'glusterfs-net-${namespace}' />
     <@node.MANAGER />
     <@service.DOCKER_SOCKET />
-    <@service.ENV 'NETMASK' NETMASK />
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
@@ -35,6 +34,8 @@
     <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}'>
       <@service.DC dc />
       <@service.CONS 'node.labels.glusterfs' 'true' />
+      <@service.ENV 'NETMASK' NETMASK />
+      <@service.ENV 'SERVICE_INDEX' 90+index />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>
