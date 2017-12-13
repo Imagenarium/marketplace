@@ -4,7 +4,7 @@
 
 <@requirement.CONFORMS>
   <#assign NETMASK='10.100' />
-  <@swarm.NETWORK 'glusterfs-net-${namespace}' '${NETMASK}.0.0/8' />  
+  <@swarm.NETWORK 'glusterfs-net-${namespace}' '${NETMASK}.0.0/16' />  
     
   <#assign peers = [] />
     
