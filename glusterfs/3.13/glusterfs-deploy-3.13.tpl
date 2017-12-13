@@ -18,10 +18,11 @@
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u9'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u10'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />    
       <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
       <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
+      <@container.VOLUME 'glusterfs-lib-volume-${dc}-${namespace}' '/var/lib/glusterd' />
       <#if index == 3>
       <@container.ENV 'BUILD_NODE' 'true' />
       </#if>
