@@ -3,8 +3,7 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign NETMASK='10.100' />
-  <@swarm.NETWORK 'glusterfs-net-${namespace}' '${NETMASK}.0.0/16' />  
+  <@swarm.NETWORK 'glusterfs-net-${namespace}' />  
     
   <#assign peers = [] />
     
@@ -35,8 +34,6 @@
     <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}'>
       <@service.DC dc />
       <@service.CONS 'node.labels.glusterfs' 'true' />
-      <@service.ENV 'NETMASK' NETMASK />
-      <@service.ENV 'SERVICE_INDEX' 100+index />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>
