@@ -1,6 +1,8 @@
 <@requirement.HA />
 <@requirement.CONS_HA 'glusterfs' 'true' />
+<@requirement.NAMESPACE 'system' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='24007' type='number' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'glusterfs-net-${namespace}' />  
@@ -21,7 +23,9 @@
     
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u12'>
-      <@container.NETWORK 'glusterfs-net-${namespace}' />    
+      <@container.NETWORK 'glusterfs-net-${namespace}' />
+      <@container.NETWORK 'ingress' />
+      <@container.PORT PARAMS.PUBLISHED_PORT '24007' />
       <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
       <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
       <@container.VOLUME 'glusterfs-lib-volume-${dc}-${namespace}' '/var/lib/glusterd' />
