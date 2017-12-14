@@ -24,7 +24,6 @@
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u12'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
-      <@container.NETWORK 'ingress' />
       <@container.PORT PARAMS.PUBLISHED_PORT '24007' />
       <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
       <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
