@@ -1,10 +1,3 @@
 <@requirement.CONFORMS>
-  <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE_RM 'glusterfs-${dc}-${namespace}' />
-  </@cloud.DATACENTER>
-
-  <@swarm.SERVICE_RM 'swarmstorage-glusterfs-${namespace}' />
-
-  sleep 5
-  <@swarm.NETWORK_RM 'glusterfs-net-${namespace}' />
+  <@swarm.SERVICE_RM 'glusterfs-volume-${namespace}' />
 </@requirement.CONFORMS>
