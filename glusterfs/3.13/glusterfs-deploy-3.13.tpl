@@ -11,7 +11,7 @@
     
   <@cloud.DATACENTER ; dc, index, isLast>
     <#assign peers += ['glusterfs-${dc}-${namespace}.1'] />
-    <#assign volumes += ['glusterfs-${dc}-${namespace}.1:/gluster-data/default'] />
+    <#assign volumes += ['glusterfs-${dc}-${namespace}.1:/gluster-data'] />
   </@cloud.DATACENTER>
   
   <@swarm.SERVICE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.1'>
