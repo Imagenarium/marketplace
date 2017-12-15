@@ -21,7 +21,7 @@
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u20'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u21'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.PORT '24007-24008' '24007-24008' />
       <@container.PORT '49152-49182' '49152-49182' />
@@ -44,4 +44,13 @@
       <@service.CONS 'node.labels.glusterfs' 'true' />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
+
+  <@docker.HTTP_CHECK 'http://glusterfs-dc3-${namespace}.1:9200?action=check' 'glusterfs-net-${namespace}' />
+
+<#--
+  <@swarm.TASK 'glusterfs-client-${namespace}' 'imagenarium/glusterfs-client:3.13u2'>
+    <@container.NETWORK 'glusterfs-net-${namespace}' />
+  </@swarm.TASK>
+
+  <@swarm.TASK_RUNNER 'glusterfs-client-${namespace}' 'global' />-->
 </@requirement.CONFORMS>
