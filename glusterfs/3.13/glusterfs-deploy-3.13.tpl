@@ -21,7 +21,7 @@
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u15'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u16'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.PORT '24007-24008' '24007-24008' />
       <@container.PORT '49152-49182' '49152-49182' />
