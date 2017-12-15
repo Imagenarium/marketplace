@@ -21,7 +21,7 @@
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u19'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u20'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.PORT '24007-24008' '24007-24008' />
       <@container.PORT '49152-49182' '49152-49182' />
@@ -33,6 +33,7 @@
       </#if>
       <@container.ENV 'PEERS' peers?join(" ") />
       <@container.ENV 'VOLUMES' volumes?join(" ") />
+      <@container.ENV 'VOLUMES_COUNT' volumes?size />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
       <@container.ENV 'SERVICE_NAME' 'glusterfs-${dc}-${namespace}' />
