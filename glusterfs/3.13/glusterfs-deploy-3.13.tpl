@@ -55,11 +55,4 @@
   </@swarm.SERVICE>
 
   <@docker.HTTP_CHECK 'http://glusterfs-dc3-${namespace}.1:9200?action=check' 'glusterfs-net-${namespace}' />
-
-<#--
-  <@swarm.TASK 'glusterfs-client-${namespace}' 'imagenarium/glusterfs-client:3.13u2'>
-    <@container.NETWORK 'glusterfs-net-${namespace}' />
-  </@swarm.TASK>
-
-  <@swarm.TASK_RUNNER 'glusterfs-client-${namespace}' 'global' />-->
 </@requirement.CONFORMS>

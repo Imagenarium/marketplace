@@ -1,6 +1,4 @@
 <@requirement.CONFORMS>
-<#--  <@swarm.SERVICE_RM 'glusterfs-client-${namespace}' />-->
-
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.SERVICE_RM 'glusterfs-${dc}-${namespace}' />
   </@cloud.DATACENTER>
