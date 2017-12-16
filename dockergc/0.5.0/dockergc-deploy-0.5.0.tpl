@@ -5,7 +5,7 @@
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>
-  <@swarm.SERVICE 'dockergc-${namespace}' 'imagenarium/dockergc:0.2' 'global'>
+  <@swarm.SERVICE 'dockergc-${namespace}' 'imagenarium/dockergc:0.5.0' 'global'>
     <@service.DOCKER_SOCKET />
     <@service.ENV 'CONTAINER_GRACE_PERIOD_MINUTES' PARAMS.CONTAINER_PERIOD />
     <@service.ENV 'VOLUME_GRACE_PERIOD_MINUTES' PARAMS.VOLUME_PERIOD />

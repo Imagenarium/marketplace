@@ -12,7 +12,7 @@
     <#assign seeds += ['cassandra-seed-${dc}-${namespace}'] />
   </@cloud.DATACENTER>
   
-  <@swarm.SERVICE 'swarmstorage-cassandra-${namespace}' 'imagenarium/swarmstorage:0.1'>
+  <@swarm.SERVICE 'swarmstorage-cassandra-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
     <@service.NETWORK 'cassandra-net-${namespace}' />
     <@node.MANAGER />
     <@service.DOCKER_SOCKET />

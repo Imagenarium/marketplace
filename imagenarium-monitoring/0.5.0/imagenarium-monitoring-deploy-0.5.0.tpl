@@ -2,7 +2,7 @@
 
 <@requirement.CONFORMS>
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.SERVICE 'logdog-${dc}-${namespace}' 'imagenarium/logdog:0.10' 'global'>
+    <@swarm.SERVICE 'logdog-${dc}-${namespace}' 'imagenarium/logdog:0.5.0' 'global'>
       <@service.DOCKER_SOCKET />
       <@service.DC dc />
       <@service.NETWORK 'es-net-${namespace}' />
@@ -10,7 +10,7 @@
     </@swarm.SERVICE>
   </@cloud.DATACENTER>
 
-  <@swarm.SERVICE 'swarmview-${namespace}' 'imagenarium/swarmview:0.9' 'global'>
+  <@swarm.SERVICE 'swarmview-${namespace}' 'imagenarium/swarmview:0.5.0' 'global'>
     <@service.DOCKER_SOCKET />
   </@swarm.SERVICE>
 </@requirement.CONFORMS>

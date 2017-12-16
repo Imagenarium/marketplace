@@ -17,7 +17,7 @@
     <#assign zoo_connect += ['zookeeper-${dc}-${namespace}:2181'] />
   </@cloud.DATACENTER>
 
-  <@swarm.SERVICE 'swarmstorage-kafka-${namespace}' 'imagenarium/swarmstorage:0.1'>
+  <@swarm.SERVICE 'swarmstorage-kafka-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
     <@service.NETWORK 'kafka-net-${namespace}' />
     <@node.MANAGER />
     <@service.DOCKER_SOCKET />
