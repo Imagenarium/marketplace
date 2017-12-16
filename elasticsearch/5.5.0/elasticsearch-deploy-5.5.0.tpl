@@ -44,6 +44,7 @@
       <@service.ENV 'xpack.watcher.enabled' 'false' />
       <@service.ENV 'node.name' 'es-master-${dc}-${namespace}' />
       <@service.ENV 'cluster.routing.allocation.awareness.attributes' 'dc' />
+      <@service.ENV 'cluster.routing.allocation.awareness.force.zone.values' swarmService.getDistinctNodeLabelValues('dc')?join(",") />
       <@service.ENV 'node.attr.dc' dc />
       <@service.ENV 'discovery.zen.minimum_master_nodes' '2' />
       <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
@@ -67,6 +68,7 @@
       <@service.ENV 'xpack.watcher.enabled' 'false' />
       <@service.ENV 'node.master' 'false' />
       <@service.ENV 'cluster.routing.allocation.awareness.attributes' 'dc' />
+      <@service.ENV 'cluster.routing.allocation.awareness.force.zone.values' swarmService.getDistinctNodeLabelValues('dc')?join(",") />
       <@service.ENV 'node.attr.dc' dc />
       <@service.ENV 'discovery.zen.minimum_master_nodes' '2' />
       <@service.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
