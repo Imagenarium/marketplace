@@ -30,7 +30,6 @@
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cassandra-${namespace}' />
       <@service.ENV 'CASSANDRA_SEEDS' seeds?join(",") />
-      <@service.ENV 'SERVICE_NAME' 'cassandra-seed-${dc}-${namespace}' />
       <@service.ENV 'CASSANDRA_DC' dc />
       <@service.ENV 'CASSANDRA_RACK' dc />
       <@service.ENV 'CASSANDRA_ENDPOINT_SNITCH' 'GossipingPropertyFileSnitch' />

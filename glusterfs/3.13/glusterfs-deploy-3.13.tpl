@@ -34,7 +34,6 @@
       <@container.ENV 'VOLUMES_COUNT' volumes?size />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
-      <@container.ENV 'SERVICE_NAME' 'glusterfs-${dc}-${namespace}' />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}'>

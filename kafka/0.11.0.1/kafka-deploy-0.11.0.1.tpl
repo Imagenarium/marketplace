@@ -33,7 +33,6 @@
       <@service.VOLUME 'zookeeper-data-volume-${namespace}' '/data' />
       <@service.VOLUME 'zookeeper-datalog-volume-${namespace}' '/datalog' />
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
-      <@service.ENV 'SERVICE_NAME' 'zookeeper-${dc}-${namespace}' />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'ZOO_MY_ID' index />
       <@service.ENV 'JMXPORT' '9099' />
@@ -59,7 +58,6 @@
       <@service.CONS 'node.labels.kafka' 'true' />
       <@service.VOLUME 'kafka-volume-${namespace}' '/kafka' />
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
-      <@service.ENV 'SERVICE_NAME' 'kafka-${dc}-${namespace}' />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'KAFKA_LISTENERS' 'PLAINTEXT://0.0.0.0:9092' />
       <@service.ENV 'KAFKA_LEADER_IMBALANCE_CHECK_INTERVAL_SECONDS' '10' />
