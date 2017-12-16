@@ -35,11 +35,6 @@
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
       <@container.ENV 'SERVICE_NAME' 'glusterfs-${dc}-${namespace}' />
-      <@container.ENV 'SERVICE_PORTS' '24007' />
-      <@container.ENV 'TCP_PORTS' '24007' />
-      <@container.ENV 'BALANCE' 'source' />
-      <@container.ENV 'HEALTH_CHECK' 'check port 9200 inter 5000 rise 1 fall 2' />
-      <@container.ENV 'OPTION' 'httpchk GET /?action=check HTTP/1.1\\r\\nHost:\\ www' />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}'>
@@ -47,12 +42,6 @@
       <@service.CONS 'node.labels.glusterfs' 'true' />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
-
-  <@swarm.SERVICE 'glusterfs-proxy-${namespace}' 'dockercloud/haproxy:latest'>
-    <@service.NETWORK 'glusterfs-net-${namespace}' />
-    <@service.DOCKER_SOCKET />
-    <@node.MANAGER />
-  </@swarm.SERVICE>
 
   <@docker.HTTP_CHECK 'http://glusterfs-dc3-${namespace}.1:9200?action=check' 'glusterfs-net-${namespace}' />
 </@requirement.CONFORMS>
