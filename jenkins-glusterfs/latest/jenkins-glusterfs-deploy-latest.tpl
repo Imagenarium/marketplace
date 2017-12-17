@@ -9,7 +9,6 @@
 <@requirement.CONFORMS>
   <@swarm.TASK 'jenkins-master-${namespace}' 'imagenarium/jenkins-glusterfs:latest'>
     <@container.NETWORK 'glusterfs-net-${namespace}' />
-    <@container.DOCKER_SOCKET />
     <@container.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@container.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@container.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
