@@ -7,9 +7,16 @@
 <@requirement.CONS_HA 'jenkins' 'master' />
 
 <@requirement.CONFORMS>
+  <#assign peers = [] />
+    
+  <@cloud.DATACENTER ; dc, index, isLast>
+    <#assign peers += ['glusterfs-${dc}-${namespace}.1'] />
+  </@cloud.DATACENTER>
+
   <@swarm.TASK 'jenkins-master-${namespace}' 'imagenarium/jenkins-glusterfs:latest'>
     <@container.NETWORK 'glusterfs-net-${namespace}' />
     <@container.PORT PARAMS.PUBLISHED_PORT '8080' />
+    <@container.ENV 'PEERS' peers?join(" ") />
     <@container.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@container.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.TASK>

@@ -2,7 +2,6 @@
 
 <@requirement.CONFORMS>  
   <#assign peers = [] />
-  <#assign volumes = [] />
     
   <@cloud.DATACENTER ; dc, index, isLast>
     <#assign peers += ['glusterfs-${dc}-${namespace}.1'] />
