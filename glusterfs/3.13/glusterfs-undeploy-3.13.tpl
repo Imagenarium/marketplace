@@ -5,6 +5,6 @@
 
   <@swarm.SERVICE_RM 'swarmstorage-glusterfs-${namespace}' />
 
-  sleep 5
+  sleep 10
   <@swarm.NETWORK_RM 'glusterfs-net-${namespace}' />
 </@requirement.CONFORMS>
