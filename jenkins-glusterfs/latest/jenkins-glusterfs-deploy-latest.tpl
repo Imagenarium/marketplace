@@ -13,7 +13,7 @@
     <#assign peers += ['glusterfs-${dc}-${namespace}.1'] />
   </@cloud.DATACENTER>
 
-  <@swarm.TASK 'jenkins-master-${namespace}' 'imagenarium/jenkins-glusterfs:2.95-slim-u1'>
+  <@swarm.TASK 'jenkins-master-${namespace}' 'imagenarium/jenkins-glusterfs:2.95-slim-u2'>
     <@container.NETWORK 'glusterfs-net-${namespace}' />
     <@container.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@container.ENV 'PEERS' peers?join(" ") />
