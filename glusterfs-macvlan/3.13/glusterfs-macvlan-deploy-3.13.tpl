@@ -13,8 +13,8 @@
   <#assign volumes = [] />
     
   <#list 1..3 as index>
-    <#assign peers += ['${MACVLAN_PREFIX}.${index}.1'] />
-    <#assign volumes += ['${MACVLAN_PREFIX}.${index}.1:/gluster-data'] />
+    <#assign peers += ['${PARAMS.MACVLAN_PREFIX}.${index}.1'] />
+    <#assign volumes += ['${PARAMS.MACVLAN_PREFIX}.${index}.1:/gluster-data'] />
   </#list>
   
   <@swarm.SERVICE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
