@@ -27,9 +27,9 @@
     <@swarm.TASK 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13u25'>
       <@container.NETWORK 'glusterfs-overlay-net-${namespace}' />
       <@container.NETWORK name='glusterfs-macvlan-net-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=index macvlan_device=PARAMS.MACVLAN_DEVICE />
-      <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
-      <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
-      <@container.VOLUME 'glusterfs-lib-volume-${dc}-${namespace}' '/var/lib/glusterd' />
+      <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/gluster-data' />
+      <@container.VOLUME 'glusterfs-log-volume-${index}-${namespace}' '/var/log/glusterfs' />
+      <@container.VOLUME 'glusterfs-lib-volume-${index}-${namespace}' '/var/lib/glusterd' />
       <#if index == 3>
       <@container.ENV 'BUILD_NODE' 'true' />
       </#if>
