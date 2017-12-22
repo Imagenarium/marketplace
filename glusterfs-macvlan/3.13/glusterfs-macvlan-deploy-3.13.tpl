@@ -17,7 +17,7 @@
     <#assign volumes += ['${PARAMS.MACVLAN_PREFIX}.${index}.1:/gluster-data'] />
   </#list>
   
-  <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.5.0' />
+  <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'glusterfs-overlay-net-${namespace}' />
     
   <#list 1..3 as index>
     <@swarm.TASK 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13u25'>

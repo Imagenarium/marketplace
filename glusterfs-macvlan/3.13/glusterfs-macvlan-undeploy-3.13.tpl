@@ -4,4 +4,7 @@
   </#list>
 
   <@swarm.SERVICE_RM 'swarmstorage-glusterfs-${namespace}' />
+
+  sleep 5
+  <@swarm.NETWORK_RM 'glusterfs-overlay-net-${namespace}' />
 </@requirement.CONFORMS>
