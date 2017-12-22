@@ -3,8 +3,8 @@
 <@requirement.CONS 'glusterfs-2' 'true' />
 <@requirement.CONS 'glusterfs-3' 'true' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
-<@requirement.PARAM name='MACVLAN_PREFIX' value='10.99' />
-<@requirement.PARAM name='MACVLAN_DEVICE' value='enp0s8.99' />
+<@requirement.PARAM name='MACVLAN_PREFIX' value='10.33' />
+<@requirement.PARAM name='MACVLAN_DEVICE' value='ens7.33' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'glusterfs-overlay-net-${namespace}' />  
