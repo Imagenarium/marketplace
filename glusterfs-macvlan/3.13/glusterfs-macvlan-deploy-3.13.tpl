@@ -45,5 +45,5 @@
     </@swarm.TASK_RUNNER>
   </#list>
 
-  <@docker.HTTP_CHECK 'http://glusterfs-3-${namespace}.1:9200?action=check' 'glusterfs-net-${namespace}' />
+  <@docker.HTTP_CHECK 'http://glusterfs-3-${namespace}.1:9200?action=check' 'glusterfs-overlay-net-${namespace}' />
 </@requirement.CONFORMS>
