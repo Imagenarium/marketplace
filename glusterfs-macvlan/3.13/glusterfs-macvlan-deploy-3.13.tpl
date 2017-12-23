@@ -20,7 +20,7 @@
   <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'glusterfs-overlay-net-${namespace}' />
     
   <#list 1..3 as index>
-    <@swarm.TASK 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13u25'>
+    <@swarm.TASK 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13u26'>
       <@container.NETWORK 'glusterfs-overlay-net-${namespace}' />
       <@container.NETWORK name='glusterfs-macvlan-net-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=index macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/gluster-data' />
