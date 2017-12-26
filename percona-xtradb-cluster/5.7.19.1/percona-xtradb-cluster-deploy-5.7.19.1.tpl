@@ -1,13 +1,10 @@
 <@requirement.HA />
-
-<@requirement.SECRET 'mysql_root_password' />
-
 <@requirement.CONS_HA 'percona' 'master' />
-
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='dc1,dc2,dc3' />
+<@requirement.PARAM name='ROOT_PASSWORD' value='root' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
@@ -28,8 +25,7 @@
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.SECRET 'mysql_root_password' />
-      <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
+      <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     </@swarm.SERVICE>
   
     <@checkNode 'percona-init-${namespace}' />
@@ -51,7 +47,6 @@
         <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-${dc}-${namespace}' />
-          <@service.SECRET 'mysql_root_password' />
           <@service.DC dc />
           <@service.CONS 'node.labels.percona' 'master' />
           <@service.VOLUME 'percona-master-data-volume-${namespace}' '/var/lib/mysql' />
@@ -61,29 +56,12 @@
           <@service.ENV 'BALANCE' 'source' />
           <@service.ENV 'HEALTH_CHECK' 'check port 9200 inter 5000 rise 1 fall 2' />
           <@service.ENV 'OPTION' 'httpchk OPTIONS * HTTP/1.1\\r\\nHost:\\ www' />
-          <@service.ENV 'MYSQL_ROOT_PASSWORD_FILE' '/run/secrets/mysql_root_password' />
+          <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
           <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
           <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
           <@service.ENV 'GMCAST_SEGMENT' index />
           <@service.ENV 'NETMASK' NETMASK />
-          <@service.ENV 'INTROSPECT_PORT' '3306' />
-          <@service.ENV 'INTROSPECT_PROTOCOL' 'mysql' />
-          <@service.ENV 'INTROSPECT_MYSQL_USER' 'healthchecker' />
-          <@service.ENV '1INTROSPECT_STATUS' 'wsrep_cluster_status' />
-          <@service.ENV '2INTROSPECT_STATUS_LONG' 'wsrep_cluster_size' />
-          <@service.ENV '3INTROSPECT_STATUS_LONG' 'wsrep_local_state' />
-          <@service.ENV '4INTROSPECT_STATUS_LONG' 'wsrep_local_recv_queue' />
-          <@service.ENV '5INTROSPECT_STATUS_LONG' 'wsrep_local_send_queue' />
-          <@service.ENV '6INTROSPECT_STATUS_LONG' 'wsrep_received_bytes' />
-          <@service.ENV '7INTROSPECT_STATUS_LONG' 'wsrep_replicated_bytes' />
-          <@service.ENV '8INTROSPECT_STATUS_LONG' 'wsrep_flow_control_recv' />
-          <@service.ENV '9INTROSPECT_STATUS_LONG' 'wsrep_flow_control_sent' />
-          <@service.ENV '10INTROSPECT_STATUS_LONG' 'wsrep_flow_control_paused_ns' />
-          <@service.ENV '11INTROSPECT_STATUS_LONG' 'wsrep_local_commits' />
-          <@service.ENV '12INTROSPECT_STATUS_LONG' 'wsrep_local_bf_aborts' />
-          <@service.ENV '13INTROSPECT_STATUS_LONG' 'wsrep_local_cert_failures' />
-          <@service.ENV '14INTROSPECT_STATUS' 'wsrep_local_state_comment' />
-          <@service.ENV '15INTROSPECT_VARIABLE' 'server_id' />
+          <@introspector.PERCONA />
         </@swarm.SERVICE>
     
         <@checkNode 'percona-master-${dc}-${namespace}' />
@@ -95,8 +73,7 @@
           <@node.MANAGER />
           <@service.DC dc />
           <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
-          <@service.ENV 'INTROSPECT_PORT' '14567' />
-          <@service.ENV 'INTROSPECT_PROTOCOL' 'haproxy' />
+          <@introspector.HAPROXY />
         </@swarm.SERVICE>
       </#if>
     </@cloud.DATACENTER>

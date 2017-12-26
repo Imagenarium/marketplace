@@ -13,4 +13,8 @@
   <@swarm.SERVICE 'swarmview-${namespace}' 'imagenarium/swarmview:0.5.0' 'global'>
     <@service.DOCKER_SOCKET />
   </@swarm.SERVICE>
+
+  <@swarm.SERVICE 'introspector' 'imagenarium/introspector:0.5.0' 'global'>
+    <@service.DOCKER_SOCKET />
+  </@swarm.SERVICE>
 </@requirement.CONFORMS>
