@@ -7,6 +7,7 @@
   <options>
     <option>
       <name>multi-dc-overlay</name>
+      <defaultOption>true</defaultOption>
     </option>
     <option>
       <name>multi-rack-overlay</name>
