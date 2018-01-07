@@ -45,7 +45,7 @@
     <@introspector.PERCONA />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'percona-master-${namespace}' 'global'>
+  <@swarm.TASK_RUNNER 'percona-master-${namespace}'>
     <@service.NETWORK 'percona-net-overlay-${namespace}' />
     <@service.CONS 'node.labels.percona' 'master' />
     <@service.ENV 'SERVICE_PORTS' '3306' />
