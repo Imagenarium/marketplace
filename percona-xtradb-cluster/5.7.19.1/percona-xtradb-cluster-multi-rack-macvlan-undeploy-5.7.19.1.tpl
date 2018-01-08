@@ -6,5 +6,7 @@
   </#list>
 
   <@swarm.SERVICE_RM 'percona-proxy-${namespace}' />
+
+  sleep 5
   <@swarm.NETWORK_RM 'percona-net-overlay-${namespace}' />
 </@requirement.CONFORMS>
