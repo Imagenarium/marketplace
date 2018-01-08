@@ -12,7 +12,7 @@
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=99 macvlan_slot=1 macvlan_device=PARAMS.MACVLAN_DEVICE />
+      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=99 macvlan_slot="1" macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.ENV 'MYSQL_HOST' nodeName />
       <@container.ENTRY '/check_remote.sh' />
       <@container.EPHEMERAL />
