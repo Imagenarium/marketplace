@@ -3,7 +3,7 @@
 
   <#list "1,2,3"?split(",") as rack>
     <@swarm.SERVICE_RM 'percona-master-${rack}-${namespace}' />
-  </@cloud.DATACENTER>
+  </#list>
 
   <@swarm.SERVICE_RM 'percona-proxy-${namespace}' />
 
