@@ -9,69 +9,46 @@
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
   <#assign HAPROXY_VERSION='1.6.7' />
-  <#assign NETMASK=PARAMS.MACVLAN_PREFIX />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@container.NETWORK name='percona-net-overlay-${namespace}' />
+      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=99 macvlan_slot=1 macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.ENV 'MYSQL_HOST' nodeName />
       <@container.ENTRY '/check_remote.sh' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
   </#macro>
-
-  <@swarm.NETWORK 'percona-net-overlay-${namespace}' />
   
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.TASK 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
-      <@container.NETWORK 'percona-net-overlay-${namespace}' />
-      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=22 macvlan_device=PARAMS.MACVLAN_DEVICE />
+      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=42 macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-      <@container.ENV 'NETMASK' NETMASK />
+      <@container.ENV 'NETMASK' PARAMS.MACVLAN_PREFIX />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
-      <@service.NETWORK 'percona-net-overlay-${namespace}' />
-      <@service.ENV 'SERVICE_PORTS' '3306' />
-    </@swarm.TASK_RUNNER>
+    <@swarm.TASK_RUNNER 'percona-init-${namespace}' />
 
-    <@checkNode 'percona-init-${namespace}' />
+    <@checkNode '${PARAMS.MACVLAN_PREFIX}.42.1' />
   </#if>
 
-  <#assign nodes = ["percona-init-${namespace}", "percona-master-${namespace}"] />
+  <#assign nodes = ["${PARAMS.MACVLAN_PREFIX}.42.1", "${PARAMS.MACVLAN_PREFIX}.1.1"] />
     
   <@swarm.TASK 'percona-master-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-    <@container.NETWORK 'percona-net-overlay-${namespace}' />
     <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=1 macvlan_device=PARAMS.MACVLAN_DEVICE />
     <@container.VOLUME 'percona-master-data-volume-${namespace}' '/var/lib/mysql' />
     <@container.VOLUME 'percona-master-log-volume-${namespace}' '/var/log' />
     <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
     <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-    <@container.ENV 'NETMASK' NETMASK />
+    <@container.ENV 'NETMASK' PARAMS.MACVLAN_PREFIX />
     <@introspector.PERCONA />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'percona-master-${namespace}'>
-    <@service.NETWORK 'percona-net-overlay-${namespace}' />
     <@service.CONS 'node.labels.percona' 'master' />
-    <@service.ENV 'SERVICE_PORTS' '3306' />
-    <@service.ENV 'TCP_PORTS' '3306' />
-    <@service.ENV 'BALANCE' 'source' />
-    <@service.ENV 'HEALTH_CHECK' 'check port 9200 inter 5000 rise 1 fall 2' />
-    <@service.ENV 'OPTION' 'httpchk OPTIONS * HTTP/1.1\\r\\nHost:\\ www' />
   </@swarm.TASK_RUNNER>
     
-  <@checkNode 'percona-master-${namespace}' />  
+  <@checkNode '${PARAMS.MACVLAN_PREFIX}.1.1' />  
 
   <@swarm.SERVICE_RM 'percona-init-${namespace}' />
-
-  <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
-    <@service.NETWORK 'percona-net-overlay-${namespace}' />
-    <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
-    <@service.DOCKER_SOCKET />
-    <@node.MANAGER />
-    <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
-    <@introspector.HAPROXY />
-  </@swarm.SERVICE>  
 </@requirement.CONFORMS>
