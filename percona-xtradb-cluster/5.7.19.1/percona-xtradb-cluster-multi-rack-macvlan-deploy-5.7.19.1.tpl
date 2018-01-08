@@ -7,7 +7,7 @@
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
 <@requirement.PARAM name='MACVLAN_PREFIX' value='10.71' />
 <@requirement.PARAM name='MACVLAN_DEVICE' value='ens7.71' />
-<@requirement.PARAM name='RUN_ORDER' value='rack1,rack2,rack3' />
+<@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.1' />
@@ -37,28 +37,28 @@
   <#list PARAMS.RUN_ORDER?split(",") as rack>
     <#assign nodes = ["${PARAMS.MACVLAN_PREFIX}.42.1"] />
 
-    <#list PARAMS.RUN_ORDER?split(",") as r>
-      <#if rack != r>
-        <#assign nodes += ["${PARAMS.MACVLAN_PREFIX}.${r?counter}.1"] />
+    <#list PARAMS.RUN_ORDER?split(",") as _rack>
+      <#if rack != _rack>
+        <#assign nodes += ["${PARAMS.MACVLAN_PREFIX}.${_rack}.1"] />
       </#if>
     </#list>
     
     <@swarm.TASK 'percona-master-${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=rack?counter macvlan_device=PARAMS.MACVLAN_DEVICE />
+      <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=rack macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.VOLUME 'percona-master-data-volume-${namespace}' '/var/lib/mysql' />
       <@container.VOLUME 'percona-master-log-volume-${namespace}' '/var/log' />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-      <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
+      <@container.ENV 'CLUSTER_JOIN' nodes?join(',') />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
       <@container.ENV 'NETMASK' PARAMS.MACVLAN_PREFIX />
       <@introspector.PERCONA />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'percona-master-${rack}-${namespace}'>
-      <@service.CONS 'node.labels.percona' rack />
+      <@service.CONS 'node.labels.percona' 'rack${rack}' />
     </@swarm.TASK_RUNNER>
     
-    <@checkNode '${PARAMS.MACVLAN_PREFIX}.${rack?counter}.1' />  
+    <@checkNode '${PARAMS.MACVLAN_PREFIX}.${rack}.1' />  
   </#list>
 
   <@swarm.SERVICE_RM 'percona-init-${namespace}' />
