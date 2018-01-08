@@ -10,7 +10,7 @@
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.1' />
+  <#assign PERCONA_VERSION='5.7.19.2' />
   <#assign HAPROXY_VERSION='1.6.7' />
 
   <#macro checkNode nodeName>

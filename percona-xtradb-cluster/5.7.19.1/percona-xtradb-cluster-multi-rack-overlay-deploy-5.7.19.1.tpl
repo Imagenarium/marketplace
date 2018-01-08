@@ -4,11 +4,11 @@
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
-<@requirement.PARAM name='RUN_ORDER' value='rack1,rack2,rack3' />
+<@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.1' />
+  <#assign PERCONA_VERSION='5.7.19.2' />
   <#assign HAPROXY_VERSION='1.6.7' />
   <#assign NETMASK=randomNetmask24 />
   
@@ -43,7 +43,7 @@
     
     <@swarm.SERVICE 'percona-master-${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.CONS 'node.labels.percona' rack />
+      <@service.CONS 'node.labels.percona' 'rack${rack}' />
       <@service.VOLUME 'percona-master-data-volume-${namespace}' '/var/lib/mysql' />
       <@service.VOLUME 'percona-master-log-volume-${namespace}' '/var/log' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
