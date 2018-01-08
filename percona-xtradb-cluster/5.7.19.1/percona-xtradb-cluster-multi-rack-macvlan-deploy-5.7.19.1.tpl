@@ -37,9 +37,9 @@
   <#list PARAMS.RUN_ORDER?split(",") as rack>
     <#assign nodes = ["${PARAMS.MACVLAN_PREFIX}.42.1"] />
 
-    <#list PARAMS.RUN_ORDER?split(",") as _rack>
-      <#if rack != _rack>
-        <#assign nodes += ["${PARAMS.MACVLAN_PREFIX}.${_rack?counter}.1"] />
+    <#list PARAMS.RUN_ORDER?split(",") as r>
+      <#if rack != r>
+        <#assign nodes += ["${PARAMS.MACVLAN_PREFIX}.${r?counter}.1"] />
       </#if>
     </#list>
     
