@@ -37,17 +37,13 @@
   </#if>
 
   <#list PARAMS.RUN_ORDER?split(",") as rack>
-    <#if PARAMS.MULTICAST == "true">
-      <#assign nodes = ["224.0.0.1"] />
-    <#else>
-      <#assign nodes = ["${PARAMS.MACVLAN_PREFIX}.42.1"] />
+    <#assign nodes = ["${PARAMS.MACVLAN_PREFIX}.42.1"] />
 
-      <#list PARAMS.RUN_ORDER?split(",") as _rack>
-        <#if rack != _rack>
-          <#assign nodes += ["${PARAMS.MACVLAN_PREFIX}.${_rack}.1"] />
-        </#if>
-      </#list>
-    </#if>
+    <#list PARAMS.RUN_ORDER?split(",") as _rack>
+      <#if rack != _rack>
+        <#assign nodes += ["${PARAMS.MACVLAN_PREFIX}.${_rack}.1"] />
+      </#if>
+    </#list>
     
     <@swarm.TASK 'percona-master-${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=rack macvlan_device=PARAMS.MACVLAN_DEVICE />
