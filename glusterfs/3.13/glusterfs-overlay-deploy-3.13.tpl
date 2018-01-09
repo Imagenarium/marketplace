@@ -1,6 +1,5 @@
 <@requirement.HA />
 <@requirement.CONS_HA 'glusterfs' 'true' />
-<@requirement.NAMESPACE 'system' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 
 <@requirement.CONFORMS>

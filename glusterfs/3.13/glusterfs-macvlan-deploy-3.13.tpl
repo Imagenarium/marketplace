@@ -1,7 +1,6 @@
-<@requirement.NAMESPACE 'system' />
-<@requirement.CONS 'glusterfs-1' 'true' />
-<@requirement.CONS 'glusterfs-2' 'true' />
-<@requirement.CONS 'glusterfs-3' 'true' />
+<@requirement.CONS 'glusterfs' 'rack1' />
+<@requirement.CONS 'glusterfs' 'rack2' />
+<@requirement.CONS 'glusterfs' 'rack3' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='MACVLAN_PREFIX' value='10.33' />
 <@requirement.PARAM name='MACVLAN_DEVICE' value='ens7.33' />
@@ -22,7 +21,7 @@
   <#list 1..3 as index>
     <@swarm.TASK 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13u26'>
       <@container.NETWORK 'glusterfs-overlay-net-${namespace}' />
-      <@container.NETWORK name='glusterfs-macvlan-net-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=index macvlan_device=PARAMS.MACVLAN_DEVICE />
+      <@container.NETWORK name='glusterfs-net-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=index macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/gluster-data' />
       <@container.VOLUME 'glusterfs-log-volume-${index}-${namespace}' '/var/log/glusterfs' />
       <@container.VOLUME 'glusterfs-lib-volume-${index}-${namespace}' '/var/lib/glusterd' />
@@ -37,7 +36,7 @@
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'glusterfs-${index}-${namespace}'>
-      <@service.CONS 'node.labels.glusterfs-${index}' 'true' />
+      <@service.CONS 'node.labels.glusterfs' 'rack${index}' />
     </@swarm.TASK_RUNNER>
   </#list>
 
