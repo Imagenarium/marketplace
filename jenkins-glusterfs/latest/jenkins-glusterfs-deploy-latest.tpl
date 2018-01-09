@@ -19,6 +19,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'jenkins-master-${namespace}'>
+    <@container.NETWORK 'glusterfs-net-${namespace}' />
     <@service.CONS 'node.labels.jenkins' 'master' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'SERVICE_PORTS' '8080' />
