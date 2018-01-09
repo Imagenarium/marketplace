@@ -27,9 +27,10 @@
   <@swarm.SERVICE 'jenkins-slave-${namespace}' 'imagenarium/jenkins-slave:3.6'>
     <@service.NETWORK 'glusterfs-net-${namespace}' />
     <@service.DOCKER_SOCKET />
+    <@service.ENV 'JENKINS_MASTER' 'http://jenkins-master-${namespace}:8080' />
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@service.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECK 'http://jenkins-master-${namespace}.1:8080' 'glusterfs-net-${namespace}' />
+  <@docker.HTTP_CHECK 'http://jenkins-master-${namespace}:8080' 'glusterfs-net-${namespace}' />
 </@requirement.CONFORMS>
