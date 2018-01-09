@@ -19,19 +19,17 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'jenkins-master-${namespace}'>
-    <@service.NETWORK 'glusterfs-net-${namespace}' />
     <@service.CONS 'node.labels.jenkins' 'master' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'SERVICE_PORTS' '8080' />
+    <@service.HEALTH_CHECK 'curl -XGET http://127.0.0.1:8080' />
   </@swarm.TASK_RUNNER>
 
   <@swarm.SERVICE 'jenkins-slave-${namespace}' 'imagenarium/jenkins-slave:3.6'>
     <@service.NETWORK 'glusterfs-net-${namespace}' />
     <@service.DOCKER_SOCKET />
-    <@service.ENV 'JENKINS_MASTER' 'http://jenkins-master-${namespace}:8080' />
+    <@service.ENV 'JENKINS_MASTER' 'http://jenkins-master-${namespace}.1:8080' />
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@service.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.SERVICE>
-
-  <@docker.HTTP_CHECK 'http://jenkins-master-${namespace}:8080' 'glusterfs-net-${namespace}' />
 </@requirement.CONFORMS>

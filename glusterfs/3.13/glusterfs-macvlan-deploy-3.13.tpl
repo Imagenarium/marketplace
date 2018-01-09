@@ -37,8 +37,8 @@
 
     <@swarm.TASK_RUNNER 'glusterfs-${index}-${namespace}'>
       <@service.CONS 'node.labels.glusterfs' 'rack${index}' />
+      <@service.ENV 'SERVICE_PORTS' '9200' />
+      <@service.HEALTH_CHECK 'curl -XGET http://127.0.0.1:9200?action=check' />
     </@swarm.TASK_RUNNER>
   </#list>
-
-  <@docker.HTTP_CHECK 'http://glusterfs-3-${namespace}.1:9200?action=check' 'glusterfs-overlay-net-${namespace}' />
 </@requirement.CONFORMS>
