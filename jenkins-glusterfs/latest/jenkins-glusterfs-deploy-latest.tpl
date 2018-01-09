@@ -32,5 +32,5 @@
     <@service.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECK 'http://jenkins-master-${namespace}:8080' 'glusterfs-net-${namespace}' />
+  <@docker.HTTP_CHECK 'http://jenkins-master-${namespace}.1:8080' 'glusterfs-net-${namespace}' />
 </@requirement.CONFORMS>
