@@ -38,8 +38,10 @@
     <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}'>
       <@service.DC dc />
       <@service.CONS 'node.labels.glusterfs' 'true' />
+      <#if index == 3>
       <@service.ENV 'SERVICE_PORTS' '9200' />
       <@service.HEALTH_CHECK 'curl -XGET http://127.0.0.1:9200?action=check' />
+      </#if>
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 </@requirement.CONFORMS>
