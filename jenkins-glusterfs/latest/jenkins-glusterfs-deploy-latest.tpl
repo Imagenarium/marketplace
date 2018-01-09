@@ -21,7 +21,7 @@
   <@swarm.TASK_RUNNER 'jenkins-master-${namespace}'>
     <@service.CONS 'node.labels.jenkins' 'master' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
-    <@service.ENV 'SERVICE_PORTS' PARAMS.PUBLISHED_PORT />
+    <@service.ENV 'SERVICE_PORTS' '8080' />
   </@swarm.TASK_RUNNER>
 
   <@swarm.SERVICE 'jenkins-slave-${namespace}' 'imagenarium/jenkins-slave:3.6'>
