@@ -3,6 +3,7 @@
 <@requirement.CONFORMS>  
   <@swarm.TASK 'apache-php-${namespace}' 'imagenarium/php:5.6_1'>
     <@container.HOST_NETWORK />
+    <@container.ENV 'CHECK_PORT' '80' />
     <@container.ENV 'php.memory_limit' '1024M' />
     <@container.ENV 'php.post_max_size' '500M' />
     <@container.ENV 'php.upload_max_filesize' '500M' />
