@@ -17,5 +17,5 @@
     <@service.PORT '8080' '8080' />
     <@service.ENV 'SERVICE_PORTS' '8080' />
     <@service.ENV 'DST_PORT' '80' />
-  </@swarm>
+  </@swarm.TASK_RUNNER>
 </@requirement.CONFORMS>
