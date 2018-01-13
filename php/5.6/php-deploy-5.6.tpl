@@ -13,5 +13,9 @@
     <@container.ENV 'php.max_file_uploads' '100' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'apache-php-${namespace}' />
+  <@swarm.TASK_RUNNER 'apache-php-${namespace}'>
+    <@service.PORT '8080' '8080' />
+    <@service.ENV 'SERVICE_PORTS' '8080' />
+    <@service.ENV 'DST_PORT' '80' />
+  </@swarm>
 </@requirement.CONFORMS>
