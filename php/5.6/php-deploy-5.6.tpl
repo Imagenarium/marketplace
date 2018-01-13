@@ -1,7 +1,7 @@
 <@requirement.NAMESPACE 'dev' />
 
 <@requirement.CONFORMS>  
-  <@swarm.TASK 'apache-php-${namespace}' 'imagenarium/php:5.6_3'>
+  <@swarm.TASK 'apache-php-${namespace}' 'imagenarium/php:5.6_4'>
     <@container.HOST_NETWORK />
     <@container.ENV 'CHECK_PORT' '80' />
     <@container.ENV 'php.memory_limit' '1024M' />
