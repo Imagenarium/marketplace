@@ -1,4 +1,4 @@
-<@requirement.CONS_HA 'jenkins' 'master' />
+<@requirement.CONS 'jenkins' 'master' '3' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='number' />
 <@requirement.PARAM name='JENKINS_USER' value='admin' />
