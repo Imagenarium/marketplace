@@ -1,5 +1,7 @@
 <@requirement.HA />
+
 <@requirement.CONS_HA 'percona' 'master' />
+
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
@@ -8,7 +10,6 @@
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.2' />
-  <#assign HAPROXY_VERSION='1.6.7' />
   <#assign NETMASK=randomNetmask24 />
   
   <#macro checkNode nodeName>
@@ -66,10 +67,9 @@
     
         <@checkNode 'percona-master-${dc}-${namespace}' />
   
-        <@swarm.SERVICE 'percona-proxy-${dc}-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
+        <@swarm.SERVICE 'percona-proxy-${dc}-${namespace}' 'dockercloud/haproxy:1.6.7'>
           <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
-          <@service.DOCKER_SOCKET />
           <@node.MANAGER />
           <@service.DC dc />
           <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
