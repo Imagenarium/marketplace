@@ -37,7 +37,7 @@
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
-      <@service.ENV 'SRC_PORTS' '3306,9200' />
+      <@service.ENV 'PROXY_PORTS' '3306,9200' />
       <@service.NETWORK 'percona-proxy-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
