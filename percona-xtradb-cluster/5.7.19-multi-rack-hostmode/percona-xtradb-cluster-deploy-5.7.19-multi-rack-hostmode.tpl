@@ -14,7 +14,7 @@
 <@requirement.PARAM name='MULTICAST' value='false' type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.4' />
+  <#assign PERCONA_VERSION='5.7.19.5' />
   <#assign HAPROXY_VERSION='1.6.7' />
 
   <@swarm.NETWORK 'percona-proxy-net-${namespace}' />
