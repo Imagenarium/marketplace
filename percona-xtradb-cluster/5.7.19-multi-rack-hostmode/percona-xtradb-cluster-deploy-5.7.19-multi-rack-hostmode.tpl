@@ -38,6 +38,7 @@
 
     <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
       <@service.ENV 'SERVICE_PORTS' '3306' />
+      <@service.NETWORK 'percona-proxy-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
     <@checkNode 'percona-init-${namespace}' />
@@ -77,6 +78,8 @@
     <@checkNode 'percona-master-rack${rack}-${namespace}' />
   </#list>
 
+  <@swarm.SERVICE_RM 'percona-init-${namespace}' />
+
   <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
     <@service.NETWORK 'percona-proxy-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
@@ -84,6 +87,4 @@
     <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
     <@introspector.HAPROXY />
   </@swarm.SERVICE>
-
-  <@swarm.SERVICE_RM 'percona-init-${namespace}' />
 </@requirement.CONFORMS>

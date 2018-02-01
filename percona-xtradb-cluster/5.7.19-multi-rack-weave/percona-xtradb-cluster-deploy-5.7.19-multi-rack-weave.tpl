@@ -36,11 +36,13 @@
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
     </@swarm.TASK>
 
-    <@checkNode 'percona-init-${namespace}' />
+    <@swarm.TASK_RUNNER 'percona-init-${namespace}' />
+
+    <@checkNode 'percona-init-${namespace}.1' />
   </#if>
 
   <#list PARAMS.RUN_ORDER?split(",") as rack>
-    <#assign nodes = ["percona-init-${namespace}"] />
+    <#assign nodes = ["percona-init-${namespace}.1"] />
 
     <#list PARAMS.RUN_ORDER?split(",") as _rack>
       <#if rack != _rack>

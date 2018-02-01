@@ -73,8 +73,10 @@
       <@service.ENV 'OPTION' 'httpchk OPTIONS * HTTP/1.1\\r\\nHost:\\ www' />
     </@swarm.TASK_RUNNER>
 
-    <@checkNode '${PARAMS.MACVLAN_PREFIX}.${rack}.1' />  
+    <@checkNode 'percona-master-rack${rack}-${namespace}' />
   </#list>
+
+  <@swarm.SERVICE_RM 'percona-init-${namespace}' />
 
   <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
     <@service.NETWORK 'percona-proxy-net-${namespace}' />
@@ -83,6 +85,4 @@
     <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
     <@introspector.HAPROXY />
   </@swarm.SERVICE>
-
-  <@swarm.SERVICE_RM 'percona-init-${namespace}' />
 </@requirement.CONFORMS>
