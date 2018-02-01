@@ -17,7 +17,7 @@
   <#assign HAPROXY_VERSION='1.6.7' />
   <#assign NETMASK=randomNetmask24 />
 
-  <@swarm.NETWORK 'percona-net-${namespace}' '${NETMASK}.0/24' PARAMS.NETWORK_DRIVER 'weave:latest' />
+  <@swarm.NETWORK 'percona-net-${namespace}' '${NETMASK}.0/24' 'weave:latest' />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
