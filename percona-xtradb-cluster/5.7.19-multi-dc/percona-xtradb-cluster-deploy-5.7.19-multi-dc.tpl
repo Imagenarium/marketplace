@@ -50,7 +50,7 @@
           </#if>
         </@cloud.DATACENTER>
     
-        <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'global' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+        <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.DC dc />
