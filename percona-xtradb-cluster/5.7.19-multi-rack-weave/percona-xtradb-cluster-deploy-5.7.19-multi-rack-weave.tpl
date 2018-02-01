@@ -29,6 +29,12 @@
   </#macro>
   
   <#if PARAMS.NEW_CLUSTER == 'true'>
+    <@swarm.TASK 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@container.NETWORK 'percona-net-${namespace}' />
+      <@container.ENV 'NETMASK' NETMASK />
+      <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+      <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
+    </@swarm.TASK>
 
     <@checkNode 'percona-init-${namespace}' />
   </#if>
