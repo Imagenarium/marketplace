@@ -7,5 +7,5 @@
   </#list>
 
   <@swarm.SERVICE_RM 'percona-proxy-${namespace}' />
-  <@swarm.NETWORK_RM 'percona-net-${namespace}' />
+  <@swarm.NETWORK_RM 'percona-proxy-net-${namespace}' />
 </@requirement.CONFORMS>
