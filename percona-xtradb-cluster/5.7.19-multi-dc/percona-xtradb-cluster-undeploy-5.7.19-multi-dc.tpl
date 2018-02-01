@@ -5,7 +5,7 @@
     <@swarm.SERVICE_RM 'percona-master-${dc}-${namespace}' />
     <@swarm.SERVICE_RM 'percona-proxy-${dc}-${namespace}' />
     <@swarm.NETWORK_RM 'percona-${dc}-${namespace}' />
-    sleep 20
+    sleep 5
   </@cloud.DATACENTER>
 
   <@swarm.NETWORK_RM 'percona-net-${namespace}' />

@@ -3,7 +3,7 @@
 
   <#list "3,2,1"?split(",") as rack>
     <@swarm.SERVICE_RM 'percona-master-rack${rack}-${namespace}' />
-    sleep 20
+    sleep 5
   </#list>
 
   <@swarm.SERVICE_RM 'percona-proxy-${namespace}' />
