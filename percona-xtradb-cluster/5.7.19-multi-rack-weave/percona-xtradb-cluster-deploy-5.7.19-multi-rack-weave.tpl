@@ -38,6 +38,7 @@
 
     <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
       <@service.ENV 'SERVICE_PORTS' '3306' />
+      <@container.NETWORK 'percona-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
     <@checkNode 'percona-init-${namespace}' />
