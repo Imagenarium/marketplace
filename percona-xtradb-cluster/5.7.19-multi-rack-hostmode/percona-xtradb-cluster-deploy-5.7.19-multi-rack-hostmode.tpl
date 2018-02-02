@@ -26,7 +26,7 @@
     <@introspector.HAPROXY />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECK 'http://percona-proxy-${namespace}:1936' 'percona-proxy-net-${namespace}' />
+  <@docker.HTTP_CHECK 'http://stats:stats@percona-proxy-${namespace}:1936' 'percona-proxy-net-${namespace}' />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
