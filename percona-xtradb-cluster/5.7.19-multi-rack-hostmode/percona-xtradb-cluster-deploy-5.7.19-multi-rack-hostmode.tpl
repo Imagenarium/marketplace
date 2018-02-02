@@ -58,7 +58,7 @@
   </#if>
 
   <#list PARAMS.RUN_ORDER?split(",") as rack>
-    <#assign nodes = ["localhost"] />
+    <#assign nodes = ["127.0.0.1"] />
     
     <@swarm.TASK 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@container.HOST_NETWORK />
