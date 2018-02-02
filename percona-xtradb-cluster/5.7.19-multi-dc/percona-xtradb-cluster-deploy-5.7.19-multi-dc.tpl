@@ -53,6 +53,7 @@
         <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-${dc}-${namespace}' />
+          <@service.PORT_MUTEX '12121' />
           <@service.DC dc />
           <@service.CONS 'node.labels.percona' 'master' />
           <@service.VOLUME 'percona-master-data-volume-${dc}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
