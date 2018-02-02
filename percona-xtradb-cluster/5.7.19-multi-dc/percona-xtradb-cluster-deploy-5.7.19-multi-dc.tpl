@@ -13,7 +13,7 @@
 <@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.5' />
+  <#assign PERCONA_VERSION='5.7.19.6' />
   <#assign NETMASK=randomNetmask24 />
   
   <#macro checkNode nodeName>

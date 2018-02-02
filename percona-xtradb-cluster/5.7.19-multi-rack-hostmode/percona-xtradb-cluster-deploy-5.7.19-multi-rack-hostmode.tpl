@@ -9,18 +9,17 @@
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='NETWORK_PREFIX' value='10.71' />
-<@requirement.PARAM name='MULTICAST' value='false' type='boolean' />
+<@requirement.PARAM name='NETWORK_PREFIX' value='10.135' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.5' />
+  <#assign PERCONA_VERSION='5.7.19.6' />
   <#assign HAPROXY_VERSION='1.6.7' />
 
   <@swarm.NETWORK 'percona-proxy-net-${namespace}' />
 
   <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
     <@service.NETWORK 'percona-proxy-net-${namespace}' />
-    <@service.PORT '3306' '3306' />
+    <@service.PORT '3307' '3306' />
     <@node.MANAGER />
     <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
     <@introspector.HAPROXY />
@@ -42,7 +41,7 @@
       <@container.HOST_NETWORK />
       <@container.ENV 'NETMASK' PARAMS.NETWORK_PREFIX />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-      <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
+      <@container.ENV 'MULTICAST' 'true' />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
@@ -69,7 +68,8 @@
       <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
       <@container.ENV 'NETMASK' PARAMS.NETWORK_PREFIX />
-      <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
+      <@container.ENV 'MULTICAST' 'true' />
+      <@container.ENV 'DISCOVER_PORT' '3307' />
       <@introspector.PERCONA />
     </@swarm.TASK>
 
