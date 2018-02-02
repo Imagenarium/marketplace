@@ -65,7 +65,6 @@
     <@swarm.TASK_RUNNER 'percona-master-rack${rack}-${namespace}'>
       <@service.CONS 'node.labels.percona' 'rack${rack}' />
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.PORT_MUTEX '12121' />
       <@service.ENV 'PROXY_PORTS' '3306,9200' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
       <@service.ENV 'TCP_PORTS' '3306' />

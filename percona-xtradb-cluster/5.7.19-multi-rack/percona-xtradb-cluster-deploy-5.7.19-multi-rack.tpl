@@ -48,7 +48,6 @@
     
     <@swarm.SERVICE 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.PORT_MUTEX '12121' />
       <@service.CONS 'node.labels.percona' 'rack${rack}' />
       <@service.VOLUME 'percona-master-data-volume-rack${rack}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@service.VOLUME 'percona-master-log-volume-rack${rack}-${namespace}' '/var/log' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
