@@ -3,7 +3,6 @@
 <@requirement.CONS 'percona' 'rack3' />
 
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
-<@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
@@ -18,6 +17,16 @@
   <#assign HAPROXY_VERSION='1.6.7' />
 
   <@swarm.NETWORK 'percona-proxy-net-${namespace}' />
+
+  <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
+    <@service.NETWORK 'percona-proxy-net-${namespace}' />
+    <@service.PORT '3306' '3306' />
+    <@node.MANAGER />
+    <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
+    <@introspector.HAPROXY />
+  </@swarm.SERVICE>
+
+  <@docker.HTTP_CHECK 'http://percona-proxy-${namespace}:1936' 'percona-proxy-net-${namespace}' />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
@@ -37,21 +46,20 @@
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
-      <@service.ENV 'PROXY_PORTS' '3306,9200' />
       <@service.NETWORK 'percona-proxy-net-${namespace}' />
+      <@service.ENV 'PROXY_PORTS' '3306,9200' />
+      <@service.ENV 'SERVICE_PORTS' '3306' />
+      <@service.ENV 'TCP_PORTS' '3306' />
+      <@service.ENV 'BALANCE' 'source' />
+      <@service.ENV 'HEALTH_CHECK' 'check port 9200 inter 5000 rise 1 fall 2' />
+      <@service.ENV 'OPTION' 'httpchk OPTIONS * HTTP/1.1\\r\\nHost:\\ www' />
     </@swarm.TASK_RUNNER>
 
     <@checkNode 'percona-init-${namespace}' />
   </#if>
 
   <#list PARAMS.RUN_ORDER?split(",") as rack>
-    <#assign nodes = ["percona-init-${namespace}"] />
-
-    <#list PARAMS.RUN_ORDER?split(",") as _rack>
-      <#if rack != _rack>
-        <#assign nodes += ["percona-master-rack${_rack}-${namespace}"] />
-      </#if>
-    </#list>
+    <#assign nodes = ["localhost"] />
     
     <@swarm.TASK 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@container.HOST_NETWORK />
@@ -80,12 +88,4 @@
   </#list>
 
   <@swarm.SERVICE_RM 'percona-init-${namespace}' />
-
-  <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
-    <@service.NETWORK 'percona-proxy-net-${namespace}' />
-    <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
-    <@node.MANAGER />
-    <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
-    <@introspector.HAPROXY />
-  </@swarm.SERVICE>
 </@requirement.CONFORMS>
