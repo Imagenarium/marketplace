@@ -1,9 +1,16 @@
 <@requirement.HA />
+
 <@requirement.CONS_HA 'glusterfs' 'true' />
+
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' values='weave:latest,overlay' type='select' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
+<@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
+<@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
+<@requirement.PARAM name='LIB_VOLUME_OPTS' value=' ' />
 
 <@requirement.CONFORMS>
-  <@swarm.NETWORK 'glusterfs-net-${namespace}' />  
+  <@swarm.NETWORK name='glusterfs-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />  
     
   <#assign peers = [] />
   <#assign volumes = [] />
@@ -16,19 +23,19 @@
   <@swarm.SERVICE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
     <@service.NETWORK 'glusterfs-net-${namespace}' />
     <@node.MANAGER />
-    <@service.DOCKER_SOCKET />
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u26'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
-      <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' />
-      <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' />
-      <@container.VOLUME 'glusterfs-lib-volume-${dc}-${namespace}' '/var/lib/glusterd' />
+      <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
+      <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
+      <@container.VOLUME 'glusterfs-lib-volume-${dc}-${namespace}' '/var/lib/glusterd' PARAMS.VOLUME_DRIVER PARAMS.LIB_VOLUME_OPTS?trim />
       <#if index == 3>
       <@container.ENV 'BUILD_NODE' 'true' />
       </#if>
       <@container.ENV 'PEERS' peers?join(" ") />
+      <@container.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@container.ENV 'VOLUMES' volumes?join(" ") />
       <@container.ENV 'VOLUMES_COUNT' volumes?size />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
