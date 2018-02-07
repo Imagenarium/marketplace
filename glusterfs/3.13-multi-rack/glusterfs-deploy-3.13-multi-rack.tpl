@@ -31,7 +31,7 @@
       <@container.VOLUME 'glusterfs-data-volume-rack${rack}-${namespace}' '/gluster-data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@container.VOLUME 'glusterfs-log-volume-rack${rack}-${namespace}' '/var/log/glusterfs' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
       <@container.VOLUME 'glusterfs-lib-volume-rack${rack}-${namespace}' '/var/lib/glusterd' PARAMS.VOLUME_DRIVER PARAMS.LIB_VOLUME_OPTS?trim />
-      <#if index == 3>
+      <#if rack == 3>
       <@container.ENV 'BUILD_NODE' 'true' />
       </#if>
       <@container.ENV 'PEERS' peers?join(" ") />
