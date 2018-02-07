@@ -1,6 +1,6 @@
-<@requirement.CONS 'percona' 'rack1' />
-<@requirement.CONS 'percona' 'rack2' />
-<@requirement.CONS 'percona' 'rack3' />
+<@requirement.CONS 'glusterfs' 'rack1' />
+<@requirement.CONS 'glusterfs' 'rack2' />
+<@requirement.CONS 'glusterfs' 'rack3' />
 
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' values='weave:latest,overlay' type='select' />
