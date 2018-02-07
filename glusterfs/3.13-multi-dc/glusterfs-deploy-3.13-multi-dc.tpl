@@ -26,7 +26,7 @@
   </@swarm.SERVICE>
     
   <@cloud.DATACENTER ; dc, index, isLast>
-    <@swarm.TASK 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
+    <@swarm.TASK 'glusterfs-${dc}-${namespace}'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.VOLUME 'glusterfs-data-volume-${dc}-${namespace}' '/gluster-data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@container.VOLUME 'glusterfs-log-volume-${dc}-${namespace}' '/var/log/glusterfs' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
@@ -42,7 +42,7 @@
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}'>
+    <@swarm.TASK_RUNNER 'glusterfs-${dc}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
       <@service.DC dc />
       <@service.CONS 'node.labels.glusterfs' 'true' />
     </@swarm.TASK_RUNNER>

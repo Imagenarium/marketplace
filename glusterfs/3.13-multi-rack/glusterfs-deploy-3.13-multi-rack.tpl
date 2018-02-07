@@ -26,7 +26,7 @@
   </@swarm.SERVICE>
     
   <#list "1,2,3"?split(",") as rack>
-    <@swarm.TASK 'glusterfs-rack${rack}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
+    <@swarm.TASK 'glusterfs-rack${rack}-${namespace}'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.VOLUME 'glusterfs-data-volume-rack${rack}-${namespace}' '/gluster-data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@container.VOLUME 'glusterfs-log-volume-rack${rack}-${namespace}' '/var/log/glusterfs' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
@@ -42,7 +42,7 @@
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'glusterfs-rack${rack}-${namespace}'>
+    <@swarm.TASK_RUNNER 'glusterfs-rack${rack}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
       <@service.CONS 'node.labels.glusterfs' 'rack${rack}' />
     </@swarm.TASK_RUNNER>
   </#list>

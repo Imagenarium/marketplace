@@ -31,14 +31,14 @@
   </#macro>
   
   <#if PARAMS.NEW_CLUSTER == 'true'>
-    <@swarm.TASK 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+    <@swarm.TASK 'percona-init-${namespace}'>
       <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=42 macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.ENV 'NETMASK' PARAMS.MACVLAN_PREFIX />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'percona-init-${namespace}' />
+    <@swarm.TASK_RUNNER 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' />
 
     <@checkNode '${PARAMS.MACVLAN_PREFIX}.42.1' />
   </#if>
@@ -52,7 +52,7 @@
       </#if>
     </#list>
     
-    <@swarm.TASK 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+    <@swarm.TASK 'percona-master-rack${rack}-${namespace}'>
       <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=rack macvlan_device=PARAMS.MACVLAN_DEVICE />
       <@container.VOLUME 'percona-master-data-volume-rack${rack}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@container.VOLUME 'percona-master-log-volume-rack${rack}-${namespace}' '/var/log' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
@@ -64,7 +64,7 @@
       <@introspector.PERCONA />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'percona-master-rack${rack}-${namespace}'>
+    <@swarm.TASK_RUNNER 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@service.CONS 'node.labels.percona' 'rack${rack}' />
       <@service.NETWORK 'percona-proxy-net-${namespace}' />
       <@service.ENV 'PROXY_PORTS' '3306,9200' />

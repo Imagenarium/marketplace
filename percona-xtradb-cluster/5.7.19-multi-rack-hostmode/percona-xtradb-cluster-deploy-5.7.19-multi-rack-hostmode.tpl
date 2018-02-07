@@ -37,14 +37,14 @@
   </#macro>
   
   <#if PARAMS.NEW_CLUSTER == 'true'>
-    <@swarm.TASK 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+    <@swarm.TASK 'percona-init-${namespace}'>
       <@container.HOST_NETWORK />
       <@container.ENV 'NETMASK' PARAMS.NETWORK_PREFIX />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' 'true' />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'percona-init-${namespace}'>
+    <@swarm.TASK_RUNNER 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
       <@service.CONS 'node.labels.percona' 'init' />
       <@service.NETWORK 'percona-proxy-net-${namespace}' />
       <@service.ENV 'PROXY_PORTS' '3306,9200' />
@@ -61,7 +61,7 @@
   <#list PARAMS.RUN_ORDER?split(",") as rack>
     <#assign nodes = ["127.0.0.1"] />
     
-    <@swarm.TASK 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+    <@swarm.TASK 'percona-master-rack${rack}-${namespace}'>
       <@container.HOST_NETWORK />
       <@container.VOLUME 'percona-master-data-volume-rack${rack}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@container.VOLUME 'percona-master-log-volume-rack${rack}-${namespace}' '/var/log' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
@@ -74,7 +74,7 @@
       <@introspector.PERCONA />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'percona-master-rack${rack}-${namespace}'>
+    <@swarm.TASK_RUNNER 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
       <@service.CONS 'node.labels.percona' 'rack${rack}' />
       <@service.NETWORK 'percona-proxy-net-${namespace}' />
       <@service.ENV 'PROXY_PORTS' '3306,9200' />
