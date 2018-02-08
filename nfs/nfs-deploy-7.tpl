@@ -20,7 +20,9 @@
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-nfs-${namespace}' />
-    <@container.ENV 'READ_ONLY' PARAMS.READ_ONLY />
+    <#if PARAMS.READ_ONLY == 'true'>
+      <@container.ENV 'READ_ONLY' 'true' />
+    </#if>
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-filestorage-${namespace}' 'imagenarium/nfs:7'>
@@ -33,7 +35,9 @@
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-nfs-${namespace}' />
-    <@container.ENV 'READ_ONLY' PARAMS.READ_ONLY />
+    <#if PARAMS.READ_ONLY == 'true'>
+      <@container.ENV 'READ_ONLY' 'true' />
+    </#if>
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-temp-${namespace}' 'imagenarium/nfs:7'>
