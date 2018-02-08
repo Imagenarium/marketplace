@@ -19,6 +19,7 @@
     <@container.VOLUME 'nfs-filestorage-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.VOLUME_OPTS?trim />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-nfs-${namespace}' />
     <@container.ENV 'READ_ONLY' PARAMS.READ_ONLY />
   </@swarm.TASK>
 
@@ -31,6 +32,7 @@
     <@container.VOLUME 'nfs-temp-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.VOLUME_OPTS?trim />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-nfs-${namespace}' />
     <@container.ENV 'READ_ONLY' PARAMS.READ_ONLY />
   </@swarm.TASK>
 
