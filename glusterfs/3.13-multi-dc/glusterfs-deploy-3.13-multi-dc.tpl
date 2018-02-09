@@ -20,10 +20,7 @@
     <#assign volumes += ['glusterfs-${dc}-${namespace}.1:/gluster-data'] />
   </@cloud.DATACENTER>
   
-  <@swarm.SERVICE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
-    <@service.NETWORK 'glusterfs-net-${namespace}' />
-    <@node.MANAGER />
-  </@swarm.SERVICE>
+  <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'glusterfs-net-${namespace}' />
     
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.TASK 'glusterfs-${dc}-${namespace}'>

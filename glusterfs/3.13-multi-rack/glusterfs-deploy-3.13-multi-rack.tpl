@@ -20,10 +20,7 @@
     <#assign volumes += ['glusterfs-rack${rack}-${namespace}.1:/gluster-data'] />
   </#list>
   
-  <@swarm.SERVICE 'swarmstorage-glusterfs-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
-    <@service.NETWORK 'glusterfs-net-${namespace}' />
-    <@node.MANAGER />
-  </@swarm.SERVICE>
+  <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'glusterfs-net-${namespace}' />
     
   <#list "1,2,3"?split(",") as rack>
     <@swarm.TASK 'glusterfs-rack${rack}-${namespace}'>

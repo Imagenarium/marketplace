@@ -1,28 +1,22 @@
 <@requirement.CONS 'nfs' 'true' />
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' values='weave:latest,overlay' type='select' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
-<@requirement.PARAM name='VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='READ_ONLY' value='false' type='boolean' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='vsphere' values='vsphere,local' type='select' />
+<@requirement.PARAM name='FILESTORAGE_VOLUME_SIZE_GB' value='1' type='number' />
+<@requirement.PARAM name='TEMP_VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='nfs-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />  
 
-  <@swarm.SERVICE 'swarmstorage-nfs-${namespace}' 'imagenarium/swarmstorage:0.5.0'>
-    <@service.NETWORK 'nfs-net-${namespace}' />
-    <@node.MANAGER />
-  </@swarm.SERVICE>
+  <@swarm.STORAGE 'swarmstorage-nfs-${namespace}' 'nfs-net-${namespace}' />
           
   <@swarm.TASK 'nfs-filestorage-${namespace}'>
     <@container.NETWORK 'nfs-net-${namespace}' />
-    <@container.VOLUME 'nfs-filestorage-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.VOLUME_OPTS?trim />
+    <@container.VOLUME 'nfs-filestorage-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.FILESTORAGE_VOLUME_SIZE_GB}gb' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-nfs-${namespace}' />
-    <#if PARAMS.READ_ONLY == 'true'>
-      <@container.ENV 'READ_ONLY' 'true' />
-    </#if>
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-filestorage-${namespace}' 'imagenarium/nfs:7'>
@@ -31,13 +25,10 @@
 
   <@swarm.TASK 'nfs-temp-${namespace}'>
     <@container.NETWORK 'nfs-net-${namespace}' />
-    <@container.VOLUME 'nfs-temp-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.VOLUME_OPTS?trim />
+    <@container.VOLUME 'nfs-temp-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.TEMP_VOLUME_SIZE_GB}gb' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-nfs-${namespace}' />
-    <#if PARAMS.READ_ONLY == 'true'>
-      <@container.ENV 'READ_ONLY' 'true' />
-    </#if>
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-temp-${namespace}' 'imagenarium/nfs:7'>
