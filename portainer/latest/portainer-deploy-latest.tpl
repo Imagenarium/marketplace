@@ -1,4 +1,4 @@
-<@requirement.PARAM name='PUBLISHED_PORT' value='3333' type='number' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='3333' type='port' />
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>
