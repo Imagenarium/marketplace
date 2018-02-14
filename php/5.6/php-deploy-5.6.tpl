@@ -5,6 +5,10 @@
   <@swarm.NETWORK name='frontend-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
   <@swarm.TASK 'apache-php-${namespace}'>
+    <@container.ENV 'FILESTORAGE_PATH' '/mnt/filestorage' />
+    <@container.ENV 'TEMP_PATH' '/mnt/temp' />
+    <@container.ENV 'FILESTORAGE_SERVER' 'nfs-filestorage-${namespace}.1' />
+    <@container.ENV 'TEMP_SERVER' 'nfs-temp-${namespace}.1' />
     <@container.ENV 'php.memory_limit' '1024M' />
     <@container.ENV 'php.post_max_size' '500M' />
     <@container.ENV 'php.upload_max_filesize' '500M' />
@@ -14,7 +18,7 @@
     <@container.ENV 'php.max_file_uploads' '100' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'apache-php-${namespace}' 'imagenarium/php:5.6_4'>
+  <@swarm.TASK_RUNNER 'apache-php-${namespace}' 'imagenarium/php:5.6_5'>
     <@service.NETWORK 'frontend-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'PROXY_PORTS' '8080' />
