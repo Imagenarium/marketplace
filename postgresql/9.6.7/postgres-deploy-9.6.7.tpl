@@ -10,14 +10,14 @@
 
   <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'network-${namespace}' />
 
-  <@swarm.TASK 'postgres-${namespace}' 'imagenarium/postgresql:9.6.7_1'>
+  <@swarm.TASK 'postgres-${namespace}'>
     <@container.NETWORK 'postgres-net-${namespace}' />
     <@container.VOLUME 'postgres-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-postgres-${namespace}' />
     <@container.ENV 'NEW_DB' PARAMS.DELETE_DATA />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'postgres-${namespace}'>
+  <@swarm.TASK_RUNNER 'postgres-${namespace}' 'imagenarium/postgresql:9.6.7_1'>
     <@service.CONS 'node.labels.postgres' 'true' />
   </@swarm.TASK_RUNNER>
 </@requirement.CONFORMS>
