@@ -3,8 +3,10 @@
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='frontend-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='nfs-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />  
 
   <@swarm.TASK 'apache-php-${namespace}'>
+    <@container.NETWORK 'nfs-net-${namespace}' />
     <@container.ENV 'FILESTORAGE_PATH' '/mnt/filestorage' />
     <@container.ENV 'TEMP_PATH' '/mnt/temp' />
     <@container.ENV 'FILESTORAGE_SERVER' 'nfs-filestorage-${namespace}.1' />
