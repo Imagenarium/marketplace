@@ -14,7 +14,7 @@
 
   <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:9.6.7_1'>
     <@service.NETWORK 'postgres-net-${namespace}' />
-    <@service.VOLUME 'postgres-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+    <@service.VOLUME 'postgres-volume-${namespace}' '/var/lib/postgresql/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@service.CONS 'node.labels.postgres' 'true' />
     <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-postgres-${namespace}' />
     <@service.ENV 'NEW_DB' PARAMS.DELETE_DATA />
