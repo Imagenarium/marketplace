@@ -20,7 +20,7 @@
     <@container.ENV 'php.max_file_uploads' '100' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'apache-php-${namespace}' 'imagenarium/php:5.6_5'>
+  <@swarm.TASK_RUNNER 'apache-php-${namespace}' 'imagenarium/php:5.6_6'>
     <@service.NETWORK 'frontend-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'PROXY_PORTS' '8080' />
