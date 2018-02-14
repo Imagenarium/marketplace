@@ -1,8 +1,8 @@
 <@requirement.CONS 'nfs' 'true' />
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
+<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='FILESTORAGE_VOLUME_SIZE_GB' value='1' type='number' />
 <@requirement.PARAM name='TEMP_VOLUME_SIZE_GB' value='1' type='number' />
 
