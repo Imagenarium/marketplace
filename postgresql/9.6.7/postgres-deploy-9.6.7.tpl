@@ -8,7 +8,7 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='postgres-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
-  <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'network-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'postgres-net-${namespace}' />
 
   <@swarm.TASK 'postgres-${namespace}'>
     <@container.NETWORK 'postgres-net-${namespace}' />
