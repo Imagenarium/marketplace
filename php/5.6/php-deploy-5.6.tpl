@@ -9,8 +9,8 @@
     <@container.NETWORK 'nfs-net-${namespace}' />
     <@container.ENV 'FILESTORAGE_PATH' '/mnt/filestorage' />
     <@container.ENV 'TEMP_PATH' '/mnt/temp' />
-    <@container.ENV 'FILESTORAGE_SERVER' 'nfs-filestorage-${namespace}.1' />
-    <@container.ENV 'TEMP_SERVER' 'nfs-temp-${namespace}.1' />
+    <@container.ENV 'FILESTORAGE_SERVER' 'nfs-filestorage-${namespace}' />
+    <@container.ENV 'TEMP_SERVER' 'nfs-temp-${namespace}' />
     <@container.ENV 'php.memory_limit' '1024M' />
     <@container.ENV 'php.post_max_size' '500M' />
     <@container.ENV 'php.upload_max_filesize' '500M' />

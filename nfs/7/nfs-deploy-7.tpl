@@ -20,7 +20,9 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-filestorage-${namespace}' 'imagenarium/nfs:7'>
+    <@service.NETWORK 'nfs-net-${namespace}' />
     <@service.CONS 'node.labels.nfs' 'true' />
+    <@service.ENV 'PROXY_PORTS' '2049' />
   </@swarm.TASK_RUNNER>
 
   <@swarm.TASK 'nfs-temp-${namespace}'>
@@ -32,6 +34,8 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-temp-${namespace}' 'imagenarium/nfs:7'>
+    <@service.NETWORK 'nfs-net-${namespace}' />
     <@service.CONS 'node.labels.nfs' 'true' />
+    <@service.ENV 'PROXY_PORTS' '2049' />
   </@swarm.TASK_RUNNER>
 </@requirement.CONFORMS>
