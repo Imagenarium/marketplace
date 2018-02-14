@@ -1,4 +1,4 @@
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='8080' type='port' />
 
 <@requirement.CONFORMS>
