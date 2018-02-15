@@ -9,10 +9,10 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='sylex-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />  
 
-  <@swarm.STORAGE 'swarmstorage-nfs-${namespace}' 'nfs-net-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-nfs-${namespace}' 'sylex-net-${namespace}' />
           
   <@swarm.TASK 'nfs-filestorage-${namespace}'>
-    <@container.NETWORK 'nfs-net-${namespace}' />
+    <@container.NETWORK 'sylex-net-${namespace}' />
     <@container.VOLUME 'nfs-filestorage-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.FILESTORAGE_VOLUME_SIZE_GB}gb' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'SHARED_DIRECTORY' '/data' />

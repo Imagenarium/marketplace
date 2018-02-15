@@ -16,9 +16,14 @@
       <order>2</order>
     </stack>
     <stack>
+      <id>memcached</id>
+      <version>1.5</version>
+      <order>3</order>
+    </stack>
+    <stack>
       <id>php</id>
       <version>5.6</version>
-      <order>3</order>
+      <order>4</order>
     </stack>
   </stacks>
 </group>
