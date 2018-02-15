@@ -1,7 +1,7 @@
 <@requirement.CONS 'postgres' 'true' />
 
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 <@requirement.PARAM name='CHECK_DB' value='postgres' />
@@ -9,11 +9,11 @@
 <@requirement.PARAM name='CHECK_DB_PASSWORD' value='sylex' />
 
 <@requirement.CONFORMS>
-  <@swarm.NETWORK name='postgres-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='sylex-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
   <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'postgres-net-${namespace}' />
 
   <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:9.6.7_1'>
-    <@service.NETWORK 'postgres-net-${namespace}' />
+    <@service.NETWORK 'sylex-net-${namespace}' />
     <@service.VOLUME 'postgres-volume-${namespace}' '/var/lib/postgresql/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@service.CONS 'node.labels.postgres' 'true' />
     <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-postgres-${namespace}' />
@@ -21,7 +21,7 @@
   </@swarm.SERVICE>
 
   <@docker.CONTAINER 'postgres-checker-${namespace}' 'imagenarium/postgresql:9.6.7_1'>
-    <@container.NETWORK 'postgres-net-${namespace}' />
+    <@container.NETWORK 'sylex-net-${namespace}' />
     <@container.ENV 'PGHOST' 'postgres-${namespace}' />
     <@container.ENV 'PGDB' PARAMS.CHECK_DB />
     <@container.ENV 'PGUSER' PARAMS.CHECK_DB_USER />
