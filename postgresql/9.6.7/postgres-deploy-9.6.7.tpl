@@ -10,7 +10,7 @@
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='sylex-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
-  <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'postgres-net-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'sylex-net-${namespace}' />
 
   <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:9.6.7_1'>
     <@service.NETWORK 'sylex-net-${namespace}' />
