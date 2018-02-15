@@ -9,6 +9,10 @@
   <@swarm.TASK 'worker-${namespace}'>
     <@container.NETWORK 'sylex-net-${namespace}' />
     <@container.NETWORK 'multicast-net-${namespace}' />
+    <@container.ENV 'FILESTORAGE_PATH' '/mnt/filestorage' />
+    <@container.ENV 'TEMP_PATH' '/mnt/temp' />
+    <@container.ENV 'FILESTORAGE_SERVER' 'nfs-filestorage-${namespace}' />
+    <@container.ENV 'TEMP_SERVER' 'nfs-temp-${namespace}' />
     <@container.ENV 'SYLEX_NET' 'sylex-net-${namespace}' />
     <@container.ENV 'MULTICAST_NET' 'multicast-net-${namespace}' />
   </@swarm.TASK>
