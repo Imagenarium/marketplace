@@ -21,9 +21,14 @@
       <order>3</order>
     </stack>
     <stack>
+      <id>worker</id>
+      <version>0.1</version>
+      <order>4</order>
+    </stack>
+    <stack>
       <id>php</id>
       <version>5.6</version>
-      <order>4</order>
+      <order>5</order>
     </stack>
   </stacks>
 </group>
