@@ -8,7 +8,6 @@
     <@node.MANAGER />
     <@service.NETWORK 'portainer-net-${namespace}' />
     <@service.CONS 'node.labels.clustercontrol' 'true' />
-    <@service.DOCKER_SOCKET />
     <@service.PORT PARAMS.PUBLISHED_PORT '9000' />
   </@swarm.SERVICE>
   
