@@ -33,7 +33,7 @@
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.TASK 'percona-init-${namespace}'>
       <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=42 macvlan_device=PARAMS.MACVLAN_DEVICE />
-      <@container.ENV 'NETWORK_NAME' 'percona-net-macvlan-${namespace}' />
+      <@container.ENV 'NET_PREFIX' PARAMS.MACVLAN_PREFIX />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
     </@swarm.TASK>
@@ -59,7 +59,7 @@
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@container.ENV 'NETWORK_NAME' 'percona-net-macvlan-${namespace}' />
+      <@container.ENV 'NET_PREFIX' PARAMS.MACVLAN_PREFIX />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
       <@introspector.PERCONA />
     </@swarm.TASK>

@@ -24,12 +24,13 @@
     </@docker.CONTAINER>
   </#macro>
   
-  <@swarm.NETWORK name='percona-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='percona-net-${namespace}' subnet='${RANDOM_NET_PREFIX_24}.0/24' driver=PARAMS.NETWORK_DRIVER />
 
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@service.HOSTNAME 'percona-init-${namespace}' />
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+      <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     </@swarm.SERVICE>
   
@@ -46,7 +47,7 @@
     </#list>
     
     <@swarm.SERVICE 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-      <@service.HOSTNAME 'percona-rack${rack}' />
+      <@service.HOSTNAME 'percona-master-rack${rack}-${namespace}' />
       <@service.NETWORK 'percona-net-${namespace}' />
       <@service.CONS 'node.labels.percona' 'rack${rack}' />
       <@service.VOLUME 'percona-master-data-volume-rack${rack}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
@@ -59,7 +60,7 @@
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+      <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@introspector.PERCONA />
     </@swarm.SERVICE>
     

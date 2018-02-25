@@ -25,12 +25,14 @@
     </@docker.CONTAINER>
   </#macro>
   
-  <@swarm.NETWORK name='percona-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='percona-net-${namespace}' subnet='${RANDOM_NET_PREFIX_24}.0/24' driver=PARAMS.NETWORK_DRIVER />
 
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
+      <@service.HOSTNAME 'percona-init-${namespace}' />
       <@service.NETWORK 'percona-net-${namespace}' />
       <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+      <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     </@swarm.SERVICE>
   
@@ -51,7 +53,7 @@
         </@cloud.DATACENTER>
     
         <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-          <@service.HOSTNAME 'percona-${dc}' />
+          <@service.HOSTNAME 'percona-master-${dc}-${namespace}' />
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.DC dc />
@@ -67,7 +69,7 @@
           <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
           <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
           <@service.ENV 'GMCAST_SEGMENT' '${index}' />
-          <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+          <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
           <@introspector.PERCONA />
         </@swarm.SERVICE>
     

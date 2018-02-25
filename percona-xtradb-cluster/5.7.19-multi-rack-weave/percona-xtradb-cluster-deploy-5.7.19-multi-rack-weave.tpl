@@ -25,12 +25,12 @@
     </@docker.CONTAINER>
   </#macro>
 
-  <@swarm.NETWORK name='percona-net-${namespace}' driver='weave:latest' />
+  <@swarm.NETWORK name='percona-net-${namespace}' subnet='${RANDOM_NET_PREFIX_24}.0/24' driver='weave:latest' />
   
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.TASK 'percona-init-${namespace}'>
       <@container.NETWORK 'percona-net-${namespace}' />
-      <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+      <@container.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
     </@swarm.TASK>
@@ -56,7 +56,7 @@
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+      <@container.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
       <@introspector.PERCONA />
     </@swarm.TASK>
