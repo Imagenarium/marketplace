@@ -51,6 +51,7 @@
         </@cloud.DATACENTER>
     
         <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+          <@service.HOSTNAME 'percona-${dc}' />
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.DC dc />
