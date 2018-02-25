@@ -7,7 +7,7 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='MACVLAN_PREFIX' value='10.71' />
@@ -33,7 +33,7 @@
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.TASK 'percona-init-${namespace}'>
       <@container.NETWORK name='percona-net-macvlan-${namespace}' type='macvlan' macvlan_prefix=PARAMS.MACVLAN_PREFIX macvlan_service_id=42 macvlan_device=PARAMS.MACVLAN_DEVICE />
-      <@container.ENV 'NETMASK' PARAMS.MACVLAN_PREFIX />
+      <@container.ENV 'NETWORK_NAME' 'percona-net-macvlan-${namespace}' />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
     </@swarm.TASK>
@@ -59,7 +59,7 @@
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@container.ENV 'NETMASK' PARAMS.MACVLAN_PREFIX />
+      <@container.ENV 'NETWORK_NAME' 'percona-net-macvlan-${namespace}' />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
       <@introspector.PERCONA />
     </@swarm.TASK>

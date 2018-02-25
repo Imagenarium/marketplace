@@ -7,14 +7,14 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='dc1,dc2,dc3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' values='weave:latest,overlay' type='select' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.6' />
-  <#assign NETMASK=randomNetmask24 />
+  <#assign HAPROXY_VERSION='1.6.7' />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
@@ -25,12 +25,12 @@
     </@docker.CONTAINER>
   </#macro>
   
-  <@swarm.NETWORK 'percona-net-${namespace}' '${NETMASK}.0/24' PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='percona-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.ENV 'NETMASK' NETMASK />
+      <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     </@swarm.SERVICE>
   
@@ -53,7 +53,6 @@
         <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-${dc}-${namespace}' />
-          <@service.PORT_MUTEX '12121' />
           <@service.DC dc />
           <@service.CONS 'node.labels.percona' 'master' />
           <@service.VOLUME 'percona-master-data-volume-${dc}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
@@ -66,14 +65,14 @@
           <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
           <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
           <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-          <@service.ENV 'GMCAST_SEGMENT' index />
-          <@service.ENV 'NETMASK' NETMASK />
+          <@service.ENV 'GMCAST_SEGMENT' '${index}' />
+          <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
           <@introspector.PERCONA />
         </@swarm.SERVICE>
     
         <@checkNode 'percona-master-${dc}-${namespace}' />
   
-        <@swarm.SERVICE 'percona-proxy-${dc}-${namespace}' 'dockercloud/haproxy:1.6.7'>
+        <@swarm.SERVICE 'percona-proxy-${dc}-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
           <@service.NETWORK 'percona-${dc}-${namespace}' />
           <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
           <@node.MANAGER />

@@ -7,7 +7,7 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='MULTICAST' value='false' type='boolean' />
@@ -15,9 +15,6 @@
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.6' />
   <#assign HAPROXY_VERSION='1.6.7' />
-  <#assign NETMASK=randomNetmask24 />
-
-  <@swarm.NETWORK 'percona-net-${namespace}' '${NETMASK}.0/24' 'weave:latest' />
   
   <#macro checkNode nodeName>
     <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
@@ -27,11 +24,13 @@
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
   </#macro>
+
+  <@swarm.NETWORK name='percona-net-${namespace}' driver='weave:latest' />
   
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.TASK 'percona-init-${namespace}'>
       <@container.NETWORK 'percona-net-${namespace}' />
-      <@container.ENV 'NETMASK' NETMASK />
+      <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
     </@swarm.TASK>
@@ -57,7 +56,7 @@
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@container.ENV 'NETMASK' NETMASK />
+      <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
       <@container.ENV 'MULTICAST' PARAMS.MULTICAST />
       <@introspector.PERCONA />
     </@swarm.TASK>

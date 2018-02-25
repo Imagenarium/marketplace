@@ -6,10 +6,10 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='vmware,do,aws,gce,azure,local' type='select' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='NETWORK_PREFIX' value='10.135' />
+<@requirement.PARAM name='HOST_INTERFACE' value='eth0' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.19.6' />
@@ -39,7 +39,7 @@
   <#if PARAMS.NEW_CLUSTER == 'true'>
     <@swarm.TASK 'percona-init-${namespace}'>
       <@container.HOST_NETWORK />
-      <@container.ENV 'NETMASK' PARAMS.NETWORK_PREFIX />
+      <@container.ENV 'HOST_INTERFACE' PARAMS.HOST_INTERFACE />
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'MULTICAST' 'true' />
     </@swarm.TASK>
@@ -68,7 +68,7 @@
       <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@container.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@container.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@container.ENV 'NETMASK' PARAMS.NETWORK_PREFIX />
+      <@container.ENV 'HOST_INTERFACE' PARAMS.HOST_INTERFACE />
       <@container.ENV 'MULTICAST' 'true' />
       <@container.ENV 'DISCOVER_PORT' '3307' />
       <@introspector.PERCONA />
