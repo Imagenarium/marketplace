@@ -41,7 +41,6 @@
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
-      <@container.ENV 'es.enforce.bootstrap.checks' 'true' />
       <@container.ENV 'bootstrap.memory_lock' 'true' />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'network.bind_host' '0.0.0.0' />
@@ -69,7 +68,6 @@
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
-      <@container.ENV 'es.enforce.bootstrap.checks' 'true' />
       <@container.ENV 'bootstrap.memory_lock' 'true' />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@container.ENV 'network.bind_host' '0.0.0.0' />
