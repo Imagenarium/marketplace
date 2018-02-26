@@ -11,11 +11,14 @@
   <#assign ES_VERSION='6.2.2_1' />
   <@swarm.NETWORK name='es-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
+  <@swarm.STORAGE 'swarmstorage-es-${namespace}' 'es-net-${namespace}' />
+
   <@swarm.TASK 'es-router-${namespace}'>
     <@container.NETWORK 'es-net-${namespace}' />
     <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
     <@container.ENV 'es.enforce.bootstrap.checks' 'true' />
     <@container.ENV 'bootstrap.memory_lock' 'true' />
     <@container.ENV 'network.bind_host' '0.0.0.0' />
@@ -38,6 +41,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
+      <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
       <@container.ENV 'es.enforce.bootstrap.checks' 'true' />
       <@container.ENV 'bootstrap.memory_lock' 'true' />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
@@ -65,6 +69,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
+      <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
       <@container.ENV 'es.enforce.bootstrap.checks' 'true' />
       <@container.ENV 'bootstrap.memory_lock' 'true' />
       <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />

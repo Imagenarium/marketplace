@@ -7,6 +7,7 @@
   </@cloud.DATACENTER>
 
   <@swarm.SERVICE_RM 'es-router-${namespace}' />
+  <@swarm.SERVICE_RM 'swarmstorage-es-${namespace}' />
   
   <@swarm.NETWORK_RM 'es-net-${namespace}' />
 </@requirement.CONFORMS>
