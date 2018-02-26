@@ -1,7 +1,7 @@
 <@requirement.HA />
 <@requirement.CONS_HA 'es' 'master' />
 
-<@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G' />
+<@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' />
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
@@ -19,10 +19,9 @@
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
-    <@container.ENV 'es.enforce.bootstrap.checks' 'true' />
     <@container.ENV 'bootstrap.memory_lock' 'true' />
     <@container.ENV 'network.bind_host' '0.0.0.0' />
-    <@container.ENV 'ES_JAVA_OPTS' '-Xms512m -Xmx512m' />
+    <@container.ENV 'ES_JAVA_OPTS' '-Xms512m -Xmx512m -Des.enforce.bootstrap.checks=true' />
     <@container.ENV 'node.name' 'es-router-${namespace}' />
     <@container.ENV 'node.master' 'false' />
     <@container.ENV 'node.data' 'false' />
