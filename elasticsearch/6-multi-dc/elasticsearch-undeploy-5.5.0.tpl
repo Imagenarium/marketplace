@@ -1,4 +1,6 @@
 <@requirement.CONFORMS>
+  <@docker.REMOVE_HTTP_CHECK />
+
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.SERVICE_RM 'es-master-${dc}-${namespace}' />
     <@swarm.SERVICE_RM 'es-worker-${dc}-${namespace}' />
