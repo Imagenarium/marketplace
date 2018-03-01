@@ -4,12 +4,12 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'portainer-net-${namespace}' />
 
-  <@swarm.SERVICE 'portainer-${namespace}' 'portainer/portainer:123latest' 'replicated' '-H unix:///var/run/docker.sock'>
+  <@swarm.SERVICE 'portainer-${namespace}' 'portainer/portainer:latest' 'replicated' '-H unix:///var/run/docker.sock'>
     <@node.MANAGER />
     <@service.NETWORK 'portainer-net-${namespace}' />
     <@service.CONS 'node.labels.clustercontrol' 'true' />
     <@service.PORT PARAMS.PUBLISHED_PORT '9000' />
   </@swarm.SERVICE>
   
-  <@docker.HTTP_CHECKER 'portainer-checker-${namespace}' 'http://portainer-${namespace}:9001' 'portainer-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'portainer-checker-${namespace}' 'http://portainer-${namespace}:9000' 'portainer-net-${namespace}' />
 </@requirement.CONFORMS>
