@@ -23,7 +23,7 @@
     <#assign zoo_connect += ['zookeeper-${index}-${namespace}:2181'] />
   </#list>
 
-  <@swarm.STORAGE 'swarmstorage-kafka-${namespace}' 'es-net-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-kafka-${namespace}' 'kafka-net-${namespace}' />
   
   <#list 1..3 as index>
     <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/zookeeper:3.4.10'>
