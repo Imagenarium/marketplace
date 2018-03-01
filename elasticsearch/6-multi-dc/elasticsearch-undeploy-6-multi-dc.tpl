@@ -1,5 +1,5 @@
 <@requirement.CONFORMS>
-  <@docker.REMOVE_HTTP_CHECK />
+  <@docker.REMOVE_HTTP_CHECKER 'es-checker-${namespace}' />
 
   <@cloud.DATACENTER ; dc, index, isLast>
     <@swarm.SERVICE_RM 'es-master-${dc}-${namespace}' />

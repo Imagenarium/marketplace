@@ -89,5 +89,5 @@
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 
-  <@docker.HTTP_CHECK 'http://es-router-${namespace}.1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}.1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
 </@requirement.CONFORMS>

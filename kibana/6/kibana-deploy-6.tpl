@@ -17,5 +17,5 @@
     <@service.ENV 'APP_URL' 'http://kibana-${namespace}:5601' />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECK 'http://kibana-${namespace}:5601' 'es-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'kibana-checker-${namespace}' 'http://kibana-${namespace}:5601' 'es-net-${namespace}' />
 </@requirement.CONFORMS>

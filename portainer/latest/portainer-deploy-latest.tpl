@@ -11,5 +11,5 @@
     <@service.PORT PARAMS.PUBLISHED_PORT '9000' />
   </@swarm.SERVICE>
   
-  <@docker.HTTP_CHECK 'http://portainer-${namespace}:9001' 'portainer-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'portainer-checker-${namespace}' 'http://portainer-${namespace}:9001' 'portainer-net-${namespace}' />
 </@requirement.CONFORMS>
