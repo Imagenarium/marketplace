@@ -35,7 +35,7 @@
       <@service.VOLUME 'zookeeper-datalog-volume-${index}-${namespace}' '/datalog' PARAMS.VOLUME_DRIVER PARAMS.ZOOKEEPER_DATALOG_VOLUME_OPTS?trim />
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
-      <@service.ENV 'ZOO_MY_ID' index />
+      <@service.ENV 'ZOO_MY_ID' '${index}' />
       <@service.ENV 'JMXPORT' '9099' />
       <@service.ENV 'ZOO_SERVERS' zoo_servers?join(" ") />
     </@swarm.SERVICE>
@@ -60,7 +60,7 @@
       <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'KAFKA_LEADER_IMBALANCE_CHECK_INTERVAL_SECONDS' '10' />
-      <@service.ENV 'KAFKA_BROKER_ID' index />
+      <@service.ENV 'KAFKA_BROKER_ID' '${index}' />
       <@service.ENV 'KAFKA_ZOOKEEPER_CONNECT' zoo_connect?join(",") />
       <@service.ENV 'KAFKA_MESSAGE_MAX_BYTES' '10485760' />
       <@service.ENV 'KAFKA_REPLICA_FETCH_MAX_BYTES' '10485760' />
