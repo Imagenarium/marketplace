@@ -1,4 +1,6 @@
 <@requirement.CONFORMS>
+  <@docker.CONTAINER_RM 'zookeeper-checker-${namespace}' />
+  <@docker.CONTAINER_RM 'kafka-checker-${namespace}' />
   <@docker.REMOVE_HTTP_CHECKER 'kafka-manager-checker-${namespace}' />
 
   <#list 1..3 as index>
