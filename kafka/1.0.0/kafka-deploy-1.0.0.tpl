@@ -45,7 +45,7 @@
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
     <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
-    <@container.ENV 'EXPECTED_FOLLOWERS' zoo_connect?size - 1 />
+    <@container.ENV 'EXPECTED_FOLLOWERS' '${zoo_connect?size - 1}' />
   </@docker.CONTAINER>
   
   <#list 1..3 as index>
@@ -76,7 +76,7 @@
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
     <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
-    <@container.ENV 'EXPECTED_BROKERS' zoo_connect?size />
+    <@container.ENV 'EXPECTED_BROKERS' '${zoo_connect?size}' />
   </@docker.CONTAINER>
 
   <#if PARAMS.RUN_KAFKA_MANAGER == "true">
