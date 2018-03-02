@@ -5,9 +5,13 @@
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 
 <@requirement.CONFORMS>
-  <@swarm.SERVICE 'eclipse-${namespace}' 'eclipse/che-server:6.1.1'>
+  <@swarm.TASK 'eclipse-${namespace}'>
     <@service.VOLUME 'eclipse-data-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
-    <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'CHE_HOST' '45.77.142.235' />
-  </@swarm.SERVICE>
+  </@swarm.TASK>
+
+  <@swarm.TASK_RUNNER 'eclipse-${namespace}' 'eclipse/che-server:6.1.1'>
+    <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
+    <@service.ENV 'PROXY_PORTS' '8080' />
+  </@swarm.TASK_RUNNER>
 </@requirement.CONFORMS>
