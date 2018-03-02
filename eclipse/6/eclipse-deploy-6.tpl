@@ -8,9 +8,9 @@
 
 <@requirement.CONFORMS>
   <@swarm.TASK 'eclipse-${namespace}'>
-    <@service.VOLUME 'eclipse-data-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
-    <@service.ENV 'CHE_HOST' PARAMS.CHE_IP />
-    <@service.ENV 'CHE_DOCKER_IP_EXTERNAL' PARAMS.CHE_IP />
+    <@container.VOLUME 'eclipse-data-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
+    <@container.ENV 'CHE_HOST' PARAMS.CHE_IP />
+    <@container.ENV 'CHE_DOCKER_IP_EXTERNAL' PARAMS.CHE_IP />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'eclipse-${namespace}' 'eclipse/che-server:6.1.1'>
