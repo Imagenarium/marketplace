@@ -8,5 +8,6 @@
   <@swarm.SERVICE 'eclipse-${namespace}' 'eclipse/che-server:6.1.1'>
     <@service.VOLUME 'eclipse-data-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
+    <@service.ENV 'CHE_HOST' '45.77.142.235' />
   </@swarm.SERVICE>
 </@requirement.CONFORMS>
