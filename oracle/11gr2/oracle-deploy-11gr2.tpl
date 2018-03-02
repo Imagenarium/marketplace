@@ -1,3 +1,5 @@
+<@requirement.CONS 'oracle' 'true' />
+
 <@requirement.PARAM name='NEW_DB' value='false' type='boolean' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
@@ -20,6 +22,7 @@
     <@service.ENV 'PROXY_PORTS' '1521' />
     <@service.NETWORK 'network-${namespace}' />
     <@service.PORT_MUTEX PARAMS.PORT_MUTEX />
+    <@service.CONS 'node.labels.oracle' 'true' />
   </@swarm.TASK_RUNNER>
 
   <@docker.CONTAINER 'oracle-checker-${namespace}' 'imagenarium/oracle_checker:latest'>
