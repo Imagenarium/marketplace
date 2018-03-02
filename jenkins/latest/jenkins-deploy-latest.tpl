@@ -18,7 +18,7 @@
   </#list>
 
   <@swarm.TASK 'jenkins-master-${namespace}'>
-    <@service.NETWORK 'jenkins-net-${namespace}' />
+    <@container.NETWORK 'jenkins-net-${namespace}' />
     <#if PARAMS.USE_GLUSTER == 'true'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.ENV 'GLUSTER_PEERS' peers?join(" ") />
@@ -31,12 +31,15 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'jenkins-master-${namespace}' 'imagenarium/jenkins-glusterfs:2.109-slim_1'>
+    <@service.PORT_MUTEX '13331' />
     <@service.CONS 'node.labels.jenkins' 'master' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'SERVICE_PORTS' '8080' />  
   </@swarm.TASK_RUNNER>
 
   <@swarm.SERVICE 'jenkins-slave-${namespace}' 'imagenarium/jenkins-slave:3.10'>
+    <@service.SCALABLE />
+    <@service.PORT_MUTEX '13331' />
     <@service.NETWORK 'jenkins-net-${namespace}' />
     <@service.ENV 'JENKINS_MASTER' 'http://jenkins-master-${namespace}.1:8080' />
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
