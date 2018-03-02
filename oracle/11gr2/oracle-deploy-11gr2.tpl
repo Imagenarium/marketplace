@@ -16,7 +16,7 @@
     <@container.ENV 'NEW_DB' PARAMS.NEW_DB />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'oracle-${namespace}' 'imagenarium/oracle:11gR2_9'>
+  <@swarm.TASK_RUNNER 'oracle-${namespace}' 'imagenarium/oracle:11gR2_10'>
     <@service.ENV 'PROXY_PORTS' '1521' />
     <@service.NETWORK 'network-${namespace}' />
     <@service.PORT_MUTEX PARAMS.PORT_MUTEX />
