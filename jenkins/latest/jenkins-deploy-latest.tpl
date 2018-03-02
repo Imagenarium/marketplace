@@ -2,7 +2,7 @@
 
 <@requirement.PARAM name='PUBLISHED_PORT' value='4444' type='number' />
 <@requirement.PARAM name='JENKINS_USER' value='admin' />
-<@requirement.PARAM name='JENKINS_PASSWORD' value='admin' />
+<@requirement.PARAM name='JENKINS_PASSWORD' value='admin' type='password' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
