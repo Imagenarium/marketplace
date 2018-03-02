@@ -16,14 +16,14 @@
   <#assign volumes = [] />
     
   <#list "1,2,3"?split(",") as rack>
-    <#assign peers += ['glusterfs-rack${rack}-${namespace}.1'] />
-    <#assign volumes += ['glusterfs-rack${rack}-${namespace}.1:/gluster-data'] />
+    <#assign peers += ['glusterfs-${rack}-${namespace}.1'] />
+    <#assign volumes += ['glusterfs-${rack}-${namespace}.1:/gluster-data'] />
   </#list>
   
   <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'glusterfs-net-${namespace}' />
     
   <#list "1,2,3"?split(",") as rack>
-    <@swarm.TASK 'glusterfs-rack${rack}-${namespace}'>
+    <@swarm.TASK 'glusterfs-${rack}-${namespace}'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
       <@container.VOLUME 'glusterfs-data-volume-rack${rack}-${namespace}' '/gluster-data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
       <@container.VOLUME 'glusterfs-log-volume-rack${rack}-${namespace}' '/var/log/glusterfs' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
@@ -39,10 +39,10 @@
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'glusterfs-rack${rack}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
+    <@swarm.TASK_RUNNER 'glusterfs-${rack}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
       <@service.CONS 'node.labels.glusterfs' 'rack${rack}' />
     </@swarm.TASK_RUNNER>
   </#list>
 
-  <@docker.HTTP_CHECKER 'gluster-checker-${namespace}' 'http://glusterfs-rack3-${namespace}.1:9200?action=check' 'glusterfs-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'gluster-checker-${namespace}' 'http://glusterfs-3-${namespace}.1:9200?action=check' 'glusterfs-net-${namespace}' />
 </@requirement.CONFORMS>

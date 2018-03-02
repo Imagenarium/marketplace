@@ -2,7 +2,7 @@
   <#assign peers = [] />
     
   <#list "1,2,3"?split(",") as rack>
-    <#assign peers += ['glusterfs-rack${rack}-${namespace}.1'] />
+    <#assign peers += ['glusterfs-${rack}-${namespace}.1'] />
   </#list>
 
   <@swarm.TASK 'glusterfs-client-${namespace}'>
