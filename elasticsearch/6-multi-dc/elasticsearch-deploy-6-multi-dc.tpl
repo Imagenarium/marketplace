@@ -81,7 +81,6 @@
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'es-worker-${dc}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
-      <@service.SCALABLE />
       <@service.DC dc />
       <@service.PORT_MUTEX '13131' />
       <@service.REPLICAS '0' />

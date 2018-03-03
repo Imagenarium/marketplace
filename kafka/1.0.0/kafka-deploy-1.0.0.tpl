@@ -41,7 +41,8 @@
     </@swarm.SERVICE>
   </#list>
   
-  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/zookeeper-checker:1.1'>
+  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/zookeeper:3.4.10'>
+    <@container.ENTRY '/zookeeper_checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
     <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
@@ -75,7 +76,8 @@
     </@swarm.SERVICE>
   </#list>
 
-  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/kafka-checker:1.1'>
+  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/zookeeper:3.4.10'>
+    <@container.ENTRY '/kafka_checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
     <@container.ENV 'ZOO_CONNECT' zoo_connect?join(",") />
