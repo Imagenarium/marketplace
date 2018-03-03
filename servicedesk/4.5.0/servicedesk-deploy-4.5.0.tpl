@@ -1,12 +1,12 @@
 <@requirement.PARAM name='PUBLISHED_PORT' value='8080' type='number' />
 <@requirement.PARAM name='BASE_URL' value='http://localhost:8080/sd' />
-<@requirement.PARAM name='NEW_DB' value='false' type='boolean' />
+<@requirement.PARAM name='NEW_DB' value='false' type='boolean' scope='global' />
 <@requirement.PARAM name='ORACLE_SID' value='orcl' />
 <@requirement.PARAM name='ORACLE_USER' value='system' />
 <@requirement.PARAM name='ORACLE_PASSWORD' value='oracle' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='PORT_MUTEX' value='11222' type='number' />
+<@requirement.PARAM name='PORT_MUTEX' value='11222' type='number' scope='global' />
 
 <@requirement.CONFORMS>
   <@swarm.STORAGE 'swarmstorage-servicedesk-${namespace}' 'network-${namespace}' />

@@ -1,10 +1,10 @@
 <@requirement.CONS 'oracle' 'true' />
 
-<@requirement.PARAM name='NEW_DB' value='false' type='boolean' />
+<@requirement.PARAM name='NEW_DB' value='false' type='boolean' scope='global' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
 <@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='PORT_MUTEX' value='11222' type='number' />
+<@requirement.PARAM name='PORT_MUTEX' value='11222' type='number' scope='global' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='network-${namespace}' driver=PARAMS.NETWORK_DRIVER />
