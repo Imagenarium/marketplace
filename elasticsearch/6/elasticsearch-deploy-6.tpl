@@ -54,7 +54,7 @@
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.CONS 'node.labels.es' 'master${index}' />
     </@swarm.TASK_RUNNER>
-  </@cloud.DATACENTER>
+  </#list>
 
   <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}.1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
 </@requirement.CONFORMS>
