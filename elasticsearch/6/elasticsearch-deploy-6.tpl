@@ -1,0 +1,60 @@
+<@requirement.CONS 'es' 'master1' />
+<@requirement.CONS 'es' 'master2' />
+<@requirement.CONS 'es' 'master3' />
+
+<@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' />
+<@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
+<@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
+
+<@requirement.CONFORMS>
+  <#assign ES_VERSION='6.2.2_1' />
+  <@swarm.NETWORK name='es-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+
+  <@swarm.STORAGE 'swarmstorage-es-${namespace}' 'es-net-${namespace}' />
+
+  <@swarm.TASK 'es-router-${namespace}'>
+    <@container.NETWORK 'es-net-${namespace}' />
+    <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
+    <@container.ULIMIT 'nofile=65536:65536' />
+    <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
+    <@container.ENV 'bootstrap.memory_lock' 'true' />
+    <@container.ENV 'network.bind_host' '0.0.0.0' />
+    <@container.ENV 'ES_JAVA_OPTS' '-Xms512m -Xmx512m -Des.enforce.bootstrap.checks=true' />
+    <@container.ENV 'node.name' 'es-router-${namespace}' />
+    <@container.ENV 'node.master' 'false' />
+    <@container.ENV 'node.data' 'false' />
+    <@container.ENV 'node.ingest' 'false' />
+    <@container.ENV 'search.remote.connect' 'false' />
+    <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
+  </@swarm.TASK>
+
+  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}' />
+  
+  <#list "1,2,3"?split(",") as index>
+    <@swarm.TASK 'es-master-${index}-${namespace}'>
+      <@container.NETWORK 'es-net-${namespace}' />
+      <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
+      <@container.VOLUME 'es-master-data-${index}-${namespace}' '/usr/share/elasticsearch/data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
+      <@container.ULIMIT 'nofile=65536:65536' />
+      <@container.ULIMIT 'nproc=4096:4096' />
+      <@container.ULIMIT 'memlock=-1:-1' />
+      <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
+      <@container.ENV 'bootstrap.memory_lock' 'true' />
+      <@container.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
+      <@container.ENV 'network.bind_host' '0.0.0.0' />
+      <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
+      <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
+      <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
+      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}.1' />
+    </@swarm.TASK>
+
+    <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+      <@service.CONS 'node.labels.es' 'master${index}' />
+    </@swarm.TASK_RUNNER>
+  </@cloud.DATACENTER>
+
+  <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}.1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
+</@requirement.CONFORMS>
