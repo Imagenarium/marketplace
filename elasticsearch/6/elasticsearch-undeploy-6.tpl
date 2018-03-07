@@ -3,7 +3,7 @@
 
   <#list "1,2,3"?split(",") as index>
     <@swarm.SERVICE_RM 'es-master-${index}-${namespace}' />
-  </@list>
+  </#list>
 
   <@swarm.SERVICE_RM 'es-router-${namespace}' />
   <@swarm.SERVICE_RM 'swarmstorage-es-${namespace}' />
