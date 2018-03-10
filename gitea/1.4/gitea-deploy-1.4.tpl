@@ -13,4 +13,6 @@
     <@service.PORT PARAMS.PUBLISHED_PORT '3000' />
     <@service.VOLUME 'gitea-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
   </@swarm.SERVICE>
+
+  <@docker.HTTP_CHECKER 'gitea-checker-${namespace}' 'http://gitea-${namespace}:3000' 'gitea-net-${namespace}' />
 </@requirement.CONFORMS>
