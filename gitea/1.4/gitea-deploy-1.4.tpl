@@ -9,7 +9,7 @@
   <@swarm.NETWORK name='gitea-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
   <@swarm.SERVICE 'gitea-${namespace}' 'gitea/gitea:latest'>
-    <@service.NETWORK 'gitea-net-${namespace}' />
+    <@service.NETWORK 'clustercontrol-net' />
     <@service.PORT PARAMS.PUBLISHED_PORT '3000' />
     <@service.VOLUME 'gitea-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
   </@swarm.SERVICE>
