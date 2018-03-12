@@ -1,3 +1,4 @@
+<@requirement.NAMESPACE 'clustercontrol' />
 <@requirement.CONS 'gitea' 'true' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='3000' type='port' />
 
@@ -14,5 +15,5 @@
     <@service.VOLUME 'gitea-volume-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECKER 'gitea-checker-${namespace}' 'http://gitea-${namespace}:3000' 'gitea-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'gitea-checker-${namespace}' 'http://gitea-${namespace}:3000' 'clustercontrol-net' />
 </@requirement.CONFORMS>
