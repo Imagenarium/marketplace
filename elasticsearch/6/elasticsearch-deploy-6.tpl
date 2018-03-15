@@ -6,7 +6,7 @@
 <@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
-<@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
+<@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
   <#assign ES_VERSION='6.2.2_1' />
@@ -31,13 +31,15 @@
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}' />
+  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+    <@service.ENV 'PROXY_PORTS' '9200' />
+  </@swarm.TASK_RUNNER>
   
   <#list "1,2,3"?split(",") as index>
     <@swarm.TASK 'es-master-${index}-${namespace}'>
       <@container.NETWORK 'es-net-${namespace}' />
       <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
-      <@container.VOLUME 'es-master-data-${index}-${namespace}' '/usr/share/elasticsearch/data' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
+      <@container.VOLUME 'es-master-data-${index}-${namespace}' '/usr/share/elasticsearch/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
@@ -53,6 +55,7 @@
 
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.CONS 'node.labels.es' 'master${index}' />
+      <@service.ENV 'PROXY_PORTS' '9200' />
     </@swarm.TASK_RUNNER>
   </#list>
 
