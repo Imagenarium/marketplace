@@ -4,8 +4,6 @@
 <@requirement.PARAM name='JENKINS_USER' value='admin' />
 <@requirement.PARAM name='JENKINS_PASSWORD' value='admin' type='password' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
-<@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
 <@requirement.PARAM name='USE_GLUSTER' value='false' type='boolean' />
 
 <@requirement.CONFORMS>
@@ -24,7 +22,7 @@
       <@container.ENV 'GLUSTER_PEERS' peers?join(" ") />
       <@container.ENV 'USE_GLUSTER' 'true' />
     <#else>
-      <@container.VOLUME 'jenkins-master-data-${namespace}' '/var/jenkins_home' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
+      <@container.VOLUME 'jenkins-master-volume-${namespace}' '/var/jenkins_home' />
     </#if>
     <@container.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@container.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
