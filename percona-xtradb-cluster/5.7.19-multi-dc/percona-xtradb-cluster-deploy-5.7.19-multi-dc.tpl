@@ -4,7 +4,7 @@
 
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
-<@requirement.PARAM name='NEW_CLUSTER' value='false' type='boolean' />
+<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='dc1,dc2,dc3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
@@ -27,7 +27,7 @@
   
   <@swarm.NETWORK name='percona-net-${namespace}' subnet='${RANDOM_NET_PREFIX_24}.0/24' driver=PARAMS.NETWORK_DRIVER />
 
-  <#if PARAMS.NEW_CLUSTER == 'true'>
+  <#if PARAMS.DELETE_DATA == 'true'>
     <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
       <@service.HOSTNAME 'percona-init-${namespace}' />
       <@service.NETWORK 'percona-net-${namespace}' />

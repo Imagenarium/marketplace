@@ -2,15 +2,13 @@
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='7878' type='number' />
 <@requirement.PARAM name='RUN_KAFKA_MANAGER' value='false' type='boolean' />
-<@requirement.PARAM name='NEW_CLUSTER' value='true' type='boolean' />
+<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' />
 <@requirement.PARAM name='KAFKA_MUTEX' value='11111' />
 <@requirement.PARAM name='ZOOKEEPER_MUTEX' value='11112' />
 <@requirement.PARAM name='KAFKA_MANAGER_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
-<@requirement.PARAM name='ZOOKEEPER_DATA_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='ZOOKEEPER_DATALOG_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='KAFKA_VOLUME_OPTS' value=' ' />
+<@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='kafka-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
@@ -26,14 +24,20 @@
   <@swarm.STORAGE 'swarmstorage-kafka-${namespace}' 'kafka-net-${namespace}' />
   
   <#list 1..3 as index>
+    <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
+      <@swarm.VOLUME_RM 'zookeeper-data-volume-${index}-${namespace}' />
+      <@swarm.VOLUME_RM 'zookeeper-datalog-volume-${index}-${namespace}' />
+    </#if>
+
     <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/zookeeper:3.4.10'>
       <@service.PORT_MUTEX PARAMS.ZOOKEEPER_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
-      <@service.VOLUME 'zookeeper-data-volume-${index}-${namespace}' '/data' PARAMS.VOLUME_DRIVER PARAMS.ZOOKEEPER_DATA_VOLUME_OPTS?trim />
-      <@service.VOLUME 'zookeeper-datalog-volume-${index}-${namespace}' '/datalog' PARAMS.VOLUME_DRIVER PARAMS.ZOOKEEPER_DATALOG_VOLUME_OPTS?trim />
-      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
+      <@service.VOLUME 'zookeeper-data-volume-${index}-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
+      <@service.VOLUME 'zookeeper-datalog-volume-${index}-${namespace}' '/datalog' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
+      <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
+      <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'ZOO_MY_ID' '${index}' />
       <@service.ENV 'JMXPORT' '9099' />
@@ -50,15 +54,20 @@
   </@docker.CONTAINER>
   
   <#list 1..3 as index>
+    <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
+      <@swarm.VOLUME_RM 'kafka-volume-${index}-${namespace}' />
+    </#if>
+
     <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/kafka:1.0.0_1'>
       <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
-      <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER PARAMS.KAFKA_VOLUME_OPTS?trim />
+      <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
       <@service.ENV 'NETWORK_NAME' 'kafka-net-${namespace}' />
-      <@service.ENV 'NEW_CLUSTER' PARAMS.NEW_CLUSTER />
+      <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
+      <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
       <@service.ENV 'KAFKA_LEADER_IMBALANCE_CHECK_INTERVAL_SECONDS' '10' />
       <@service.ENV 'KAFKA_BROKER_ID' '${index}' />
