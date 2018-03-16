@@ -2,8 +2,8 @@
   <@docker.CONTAINER_RM 'percona-node-checker-${namespace}' />
   <@swarm.SERVICE_RM 'percona-init-${namespace}' />
 
-  <#list "3,2,1"?split(",") as rack>
-    <@swarm.SERVICE_RM 'percona-master-rack${rack}-${namespace}' />
+  <#list "3,2,1"?split(",") as index>
+    <@swarm.SERVICE_RM 'percona-master-${index}-${namespace}' />
   </#list>
 
   <@swarm.SERVICE_RM 'percona-proxy-${namespace}' />

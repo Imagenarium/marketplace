@@ -1,18 +1,18 @@
-<@requirement.CONS 'percona' 'rack1' />
-<@requirement.CONS 'percona' 'rack2' />
-<@requirement.CONS 'percona' 'rack3' />
+<@requirement.CONS 'percona' '1' />
+<@requirement.CONS 'percona' '2' />
+<@requirement.CONS 'percona' '3' />
+
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
-<@requirement.PARAM name='ROOT_PASSWORD' value='root' />
+<@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
-<@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
+<@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.6' />
+  <#assign PERCONA_VERSION='5.7.21' />
   <#assign HAPROXY_VERSION='1.6.7' />
   
   <#macro checkNode nodeName>
@@ -37,21 +37,26 @@
     <@checkNode 'percona-init-${namespace}' />
   </#if>
 
-  <#list PARAMS.RUN_ORDER?split(",") as rack>
+  <#list PARAMS.RUN_ORDER?split(",") as index>
     <#assign nodes = ["percona-init-${namespace}"] />
 
-    <#list PARAMS.RUN_ORDER?split(",") as _rack>
-      <#if rack != _rack>
-        <#assign nodes += ["percona-master-rack${_rack}-${namespace}"] />
+    <#list PARAMS.RUN_ORDER?split(",") as _index>
+      <#if index != _index>
+        <#assign nodes += ["percona-${_index}-${namespace}"] />
       </#if>
     </#list>
+
+    <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
+      <@swarm.VOLUME_RM 'percona-data-volume-${index}-${namespace}' />
+      <@swarm.VOLUME_RM 'percona-log-volume-${index}-${namespace}' />
+    </#if>
     
-    <@swarm.SERVICE 'percona-master-rack${rack}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-      <@service.HOSTNAME 'percona-master-rack${rack}-${namespace}' />
+    <@swarm.SERVICE 'percona-${index}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+      <@service.HOSTNAME 'percona-${index}-${namespace}' />
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.CONS 'node.labels.percona' 'rack${rack}' />
-      <@service.VOLUME 'percona-master-data-volume-rack${rack}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
-      <@service.VOLUME 'percona-master-log-volume-rack${rack}-${namespace}' '/var/log' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
+      <@service.CONS 'node.labels.percona' '${index}' />
+      <@service.VOLUME 'percona-data-volume-${index}-${namespace}' '/var/lib/mysql' 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+      <@service.VOLUME 'percona-log-volume-${index}-${namespace}' '/var/log' 'volume-opt=size=1gb' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
       <@service.ENV 'TCP_PORTS' '3306' />
       <@service.ENV 'BALANCE' 'source' />
@@ -61,10 +66,9 @@
       <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
       <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
-      <@introspector.PERCONA />
     </@swarm.SERVICE>
     
-    <@checkNode 'percona-master-rack${rack}-${namespace}' />  
+    <@checkNode 'percona-${index}-${namespace}' />  
   </#list>
 
   <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
@@ -72,7 +76,6 @@
     <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
     <@node.MANAGER />
     <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
-    <@introspector.HAPROXY />
   </@swarm.SERVICE>
 
   <@swarm.SERVICE_RM 'percona-init-${namespace}' />
