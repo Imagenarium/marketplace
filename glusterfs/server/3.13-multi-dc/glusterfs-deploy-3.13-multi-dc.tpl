@@ -36,7 +36,7 @@
       </#if>
       <@container.ENV 'PEERS' peers?join(" ") />
       <@container.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
-      <@container.ENV 'VOLUMES' volumes?join(" ") />
+      <@container.ENV 'VOLUMES' '${volumes?join(" ")}' />
       <@container.ENV 'VOLUMES_COUNT' volumes?size />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
