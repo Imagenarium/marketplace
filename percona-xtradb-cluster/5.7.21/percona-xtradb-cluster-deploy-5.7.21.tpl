@@ -56,7 +56,6 @@
       <@service.NETWORK 'percona-net-${namespace}' />
       <@service.CONS 'node.labels.percona' '${index}' />
       <@service.VOLUME 'percona-data-volume-${index}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
-      <@service.VOLUME 'percona-log-volume-${index}-${namespace}' '/var/log' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
       <@service.ENV 'SERVICE_PORTS' '3306' />
       <@service.ENV 'TCP_PORTS' '3306' />
       <@service.ENV 'BALANCE' 'source' />
