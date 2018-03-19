@@ -15,7 +15,7 @@
     
   <#list "1,2,3"?split(",") as index>
     <#assign peers += ['glusterfs-${index}-${namespace}.1'] />
-    <#assign volumes += ['glusterfs-${index}-${namespace}.1:/gluster-data'] />
+    <#assign volumes += ['glusterfs-${index}-${namespace}.1:/var/lib/glusterd/data'] />
   </#list>
   
   <@swarm.STORAGE 'swarmstorage-glusterfs-${namespace}' 'glusterfs-net-${namespace}' />
@@ -23,14 +23,13 @@
   <#list "1,2,3"?split(",") as index>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
       <@swarm.VOLUME_RM 'glusterfs-data-volume-${index}-${namespace}' />
-      <@swarm.VOLUME_RM 'glusterfs-lib-volume-${index}-${namespace}' />
+      <@swarm.VOLUME_RM 'glusterfs-log-volume-${index}-${namespace}' />
     </#if>
 
     <@swarm.TASK 'glusterfs-${index}-${namespace}'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
-      <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/gluster-data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+      <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/var/lib/glusterd' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
       <@container.VOLUME 'glusterfs-log-volume-${index}-${namespace}' '/var/log/glusterfs' />
-      <@container.VOLUME 'glusterfs-lib-volume-${index}-${namespace}' '/var/lib/glusterd' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
       <#if index?number == 3>
       <@container.ENV 'BUILD_NODE' 'true' />
       </#if>
