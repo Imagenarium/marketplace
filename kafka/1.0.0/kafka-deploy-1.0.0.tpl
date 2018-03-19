@@ -25,17 +25,15 @@
   
   <#list 1..3 as index>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
-      <@swarm.VOLUME_RM 'zookeeper-data-volume-${index}-${namespace}' />
-      <@swarm.VOLUME_RM 'zookeeper-datalog-volume-${index}-${namespace}' />
+      <@swarm.VOLUME_RM 'zookeeper-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/zookeeper:3.4.10'>
+    <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/zookeeper:3.4.11'>
       <@service.PORT_MUTEX PARAMS.ZOOKEEPER_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
-      <@service.VOLUME 'zookeeper-data-volume-${index}-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
-      <@service.VOLUME 'zookeeper-datalog-volume-${index}-${namespace}' '/datalog' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
+      <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
@@ -45,7 +43,7 @@
     </@swarm.SERVICE>
   </#list>
   
-  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/zookeeper:3.4.10'>
+  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/zookeeper:3.4.11'>
     <@container.ENTRY '/zookeeper_checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
@@ -58,7 +56,7 @@
       <@swarm.VOLUME_RM 'kafka-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/kafka:1.0.0_1'>
+    <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/kafka:1.0.0'>
       <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
@@ -82,10 +80,11 @@
       <@service.ENV 'KAFKA_PROTOCOL_NAME' 'REPLICATION' />
       <@service.ENV 'KAFKA_ADVERTISED_PORT' '9092' />
       <@service.ENV 'KAFKA_PORT' '9093' />
+      <@service.ENV 'KAFKA_LOG_DIR' '/kafka' />
     </@swarm.SERVICE>
   </#list>
 
-  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/zookeeper:3.4.10'>
+  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/zookeeper:3.4.11'>
     <@container.ENTRY '/kafka_checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />

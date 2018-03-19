@@ -9,7 +9,7 @@
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
-  <#assign ES_VERSION='6.2.2_1' />
+  <#assign ES_VERSION='6.2.2' />
   <@swarm.NETWORK name='es-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
   <@swarm.STORAGE 'swarmstorage-es-${namespace}' 'es-net-${namespace}' />
