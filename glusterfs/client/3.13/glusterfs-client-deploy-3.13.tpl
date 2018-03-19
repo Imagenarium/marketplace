@@ -10,5 +10,5 @@
     <@container.ENV 'PEERS' peers?join(" ") />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'glusterfs-client-${namespace}' 'imagenarium/glusterfs-client:3.13u5' />
+  <@swarm.TASK_RUNNER 'glusterfs-client-${namespace}' 'imagenarium/glusterfs-client:3.13' />
 </@requirement.CONFORMS>

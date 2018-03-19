@@ -42,7 +42,7 @@
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-glusterfs-${namespace}' />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13u27'>
+    <@swarm.TASK_RUNNER 'glusterfs-${index}-${namespace}' 'imagenarium/glusterfs:3.13'>
       <@service.CONS 'node.labels.glusterfs' '${index}' />
     </@swarm.TASK_RUNNER>
   </#list>
