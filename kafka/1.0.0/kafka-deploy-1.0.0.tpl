@@ -33,7 +33,7 @@
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
-      <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
+      <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/zookeeper' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
