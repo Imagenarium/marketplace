@@ -6,14 +6,13 @@
 <@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='dc1,dc2,dc3' />
-<@requirement.PARAM name='ROOT_PASSWORD' value='root' />
+<@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
-<@requirement.PARAM name='DATA_VOLUME_OPTS' value=' ' />
-<@requirement.PARAM name='LOG_VOLUME_OPTS' value=' ' />
+<@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.19.6' />
+  <#assign PERCONA_VERSION='5.7.21' />
   <#assign HAPROXY_VERSION='1.6.7' />
   
   <#macro checkNode nodeName>
@@ -31,7 +30,6 @@
     <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}'>
       <@service.HOSTNAME 'percona-init-${namespace}' />
       <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
       <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     </@swarm.SERVICE>
@@ -42,24 +40,27 @@
   <#list PARAMS.RUN_ORDER?split(",") as orderedDc>  
     <@cloud.DATACENTER ; dc, index, isLast>
       <#if dc == orderedDc>
-        <@swarm.NETWORK name='percona-${dc}-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+        <@swarm.NETWORK name='percona-net-${dc}-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
         <#assign nodes = ["percona-init-${namespace}"] />
-   
+
         <@cloud.DATACENTER ; _dc, _index, _isLast>
           <#if dc != _dc>
-            <#assign nodes += ["percona-master-${_dc}-${namespace}"] />
+            <#assign nodes += ["percona-${_dc}-${namespace}"] />
           </#if>
         </@cloud.DATACENTER>
+
+        <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
+          <@swarm.VOLUME_RM 'percona-volume-${dc}-${namespace}' />
+        </#if>
     
-        <@swarm.SERVICE 'percona-master-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
-          <@service.HOSTNAME 'percona-master-${dc}-${namespace}' />
+        <@swarm.SERVICE 'percona-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+          <@service.HOSTNAME 'percona-${dc}-${namespace}' />
           <@service.NETWORK 'percona-net-${namespace}' />
-          <@service.NETWORK 'percona-${dc}-${namespace}' />
+          <@service.NETWORK 'percona-net-${dc}-${namespace}' />
           <@service.DC dc />
           <@service.CONS 'node.labels.percona' 'master' />
-          <@service.VOLUME 'percona-master-data-volume-${dc}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER PARAMS.DATA_VOLUME_OPTS?trim />
-          <@service.VOLUME 'percona-master-log-volume-${dc}-${namespace}' '/var/log' PARAMS.VOLUME_DRIVER PARAMS.LOG_VOLUME_OPTS?trim />
+          <@service.VOLUME 'percona-volume-${dc}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
           <@service.ENV 'SERVICE_PORTS' '3306' />
           <@service.ENV 'TCP_PORTS' '3306' />
           <@service.ENV 'BALANCE' 'source' />
@@ -70,21 +71,20 @@
           <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
           <@service.ENV 'GMCAST_SEGMENT' '${index}' />
           <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
-          <@introspector.PERCONA />
         </@swarm.SERVICE>
     
-        <@checkNode 'percona-master-${dc}-${namespace}' />
-  
+        <@checkNode 'percona-${dc}-${namespace}' />  
+
         <@swarm.SERVICE 'percona-proxy-${dc}-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
-          <@service.NETWORK 'percona-${dc}-${namespace}' />
+          <@service.NETWORK 'percona-net-${dc}-${namespace}' />
           <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
           <@node.MANAGER />
           <@service.DC dc />
           <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
-          <@introspector.HAPROXY />
         </@swarm.SERVICE>
       </#if>
     </@cloud.DATACENTER>
   </#list>  
+
   <@swarm.SERVICE_RM 'percona-init-${namespace}' />
 </@requirement.CONFORMS>
