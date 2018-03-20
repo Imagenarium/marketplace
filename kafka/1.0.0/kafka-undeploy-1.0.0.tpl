@@ -13,4 +13,5 @@
   <@swarm.SERVICE_RM 'nginx-kafka-manager-${namespace}' />
   
   <@swarm.NETWORK_RM 'kafka-net-${namespace}' />
+  <@swarm.NETWORK_RM 'es-net-${namespace}' />
 </@requirement.CONFORMS>

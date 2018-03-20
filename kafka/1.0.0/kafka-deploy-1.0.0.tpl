@@ -2,7 +2,8 @@
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='7878' type='number' />
 <@requirement.PARAM name='RUN_KAFKA_MANAGER' value='false' type='boolean' />
-<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' />
+<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
+<@requirement.PARAM name='ES_MONITORING' value='false' type='boolean' />
 <@requirement.PARAM name='KAFKA_MUTEX' value='11111' />
 <@requirement.PARAM name='ZOOKEEPER_MUTEX' value='11112' />
 <@requirement.PARAM name='KAFKA_MANAGER_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
@@ -12,6 +13,10 @@
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='kafka-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+
+  <#if PARAMS.ES_MONITORING == 'true'>
+    <@swarm.NETWORK name='es-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  </#if>
   
   <#assign zoo_servers = [] />
   <#assign zoo_connect = [] />
@@ -58,11 +63,18 @@
 
     <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/kafka:1.0.0'>
       <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
-      <@service.NETWORK 'kafka-net-${namespace}' />
+    
+      <#if PARAMS.ES_MONITORING == 'true'>
+        <@service.NETWORK 'kafka-net-${namespace}' />
+        <@service.ENV 'ELASTICSEARCH_URL' 'es-router-${namespace}:9200' />
+        <@service.ENV 'ES_MONITORING' 'true' />
+      </#if>
+
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
       <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+
       <@service.ENV 'NETWORK_NAME' 'kafka-net-${namespace}' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
