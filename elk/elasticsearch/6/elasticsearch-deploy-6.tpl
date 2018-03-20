@@ -22,11 +22,10 @@
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
     <@container.ENV 'bootstrap.memory_lock' 'true' />
     <@container.ENV 'network.bind_host' '0.0.0.0' />
-    <@container.ENV 'ES_JAVA_OPTS' '-Xms512m -Xmx512m -Des.enforce.bootstrap.checks=true' />
+    <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
     <@container.ENV 'node.name' 'es-router-${namespace}' />
     <@container.ENV 'node.master' 'false' />
     <@container.ENV 'node.data' 'false' />
-    <@container.ENV 'node.ingest' 'false' />
     <@container.ENV 'search.remote.connect' 'false' />
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
   </@swarm.TASK>
