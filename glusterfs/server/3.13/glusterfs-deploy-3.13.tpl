@@ -28,7 +28,7 @@
 
     <@swarm.TASK 'glusterfs-${index}-${namespace}'>
       <@container.NETWORK 'glusterfs-net-${namespace}' />
-      <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/var/lib/glusterd' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+      <@container.VOLUME 'glusterfs-data-volume-${index}-${namespace}' '/var/lib/glusterd' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
       <@container.VOLUME 'glusterfs-log-volume-${index}-${namespace}' '/var/log/glusterfs' />
       <#if index?number == 3>
       <@container.ENV 'BUILD_NODE' 'true' />
