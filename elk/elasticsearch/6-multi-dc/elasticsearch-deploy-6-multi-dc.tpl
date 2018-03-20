@@ -62,6 +62,7 @@
       <@service.DC dc />
       <@service.CONS 'node.labels.es' 'master' />
       <@service.ENV 'PROXY_PORTS' '9200' />
+      <@service.NETWORK 'es-net-${namespace}' />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 
@@ -94,6 +95,7 @@
     <@swarm.TASK_RUNNER 'es-worker-${dc}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.DC dc />
       <@service.CONS 'node.labels.es' 'worker' />
+      <@service.NETWORK 'es-net-${namespace}' />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 
