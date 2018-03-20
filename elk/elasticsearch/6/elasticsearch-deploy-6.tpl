@@ -30,10 +30,7 @@
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
-    <@service.ENV 'PROXY_PORTS' '9200' />
-    <@service.NETWORK 'es-net-${namespace}' />
-  </@swarm.TASK_RUNNER>
+  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}' />
   
   <#list "1,2,3"?split(",") as index>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
@@ -55,7 +52,7 @@
       <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
       <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
-      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
+      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}.1' />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
@@ -63,5 +60,5 @@
     </@swarm.TASK_RUNNER>
   </#list>
 
-  <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}.1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
 </@requirement.CONFORMS>
