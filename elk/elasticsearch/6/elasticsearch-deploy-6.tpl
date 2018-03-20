@@ -55,13 +55,11 @@
       <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
       <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
-      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}.1' />
+      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.CONS 'node.labels.es' 'master${index}' />
-      <@service.NETWORK 'es-net-${namespace}' />
-      <@service.ENV 'PROXY_PORTS' '9200' />
     </@swarm.TASK_RUNNER>
   </#list>
 
