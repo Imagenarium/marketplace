@@ -10,6 +10,7 @@
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
+<@requirement.PARAM name='GCACHE_SIZE' value='128M' />
 
 <@requirement.CONFORMS>
   <#assign PERCONA_VERSION='5.7.21' />
@@ -32,6 +33,7 @@
       <@service.NETWORK 'percona-net-${namespace}' />
       <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+      <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
     </@swarm.SERVICE>
   
     <@checkNode 'percona-init-${namespace}' />
@@ -63,6 +65,7 @@
       <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
       <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
       <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
+      <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
       <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
     </@swarm.SERVICE>
     
