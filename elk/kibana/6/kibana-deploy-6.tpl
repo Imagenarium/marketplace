@@ -13,7 +13,7 @@
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'WEB_USER' 'admin' />
-    <@service.ENV 'WEB_PASSWORD' PARAMS.KIBANA_PASSWORD />
+    <@service.ENV 'WEB_PASSWORD' PARAMS.KIBANA_PASSWORD 'single' />
     <@service.ENV 'APP_URL' 'http://kibana-${namespace}:5601' />
   </@swarm.SERVICE>
 
