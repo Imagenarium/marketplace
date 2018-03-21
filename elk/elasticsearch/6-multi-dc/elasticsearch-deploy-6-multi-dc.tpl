@@ -30,7 +30,10 @@
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}' />
+  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+    <@service.NETWORK 'es-net-${namespace}' />
+    <@service.ENV 'PROXY_PORTS' '9200' />
+  </@swarm.TASK_RUNNER>
   
   <@cloud.DATACENTER ; dc, index, isLast>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
@@ -95,7 +98,6 @@
     <@swarm.TASK_RUNNER 'es-worker-${dc}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.DC dc />
       <@service.CONS 'node.labels.es' 'worker' />
-      <@service.NETWORK 'es-net-${namespace}' />
     </@swarm.TASK_RUNNER>
   </@cloud.DATACENTER>
 

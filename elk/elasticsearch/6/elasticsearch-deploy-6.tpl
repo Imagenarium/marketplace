@@ -30,7 +30,10 @@
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}' />
+  <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+    <@service.ENV 'PROXY_PORTS' '9200' />
+    <@service.NETWORK 'es-net-${namespace}' />
+  </@swarm.TASK_RUNNER>
   
   <#list "1,2,3"?split(",") as index>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
