@@ -121,7 +121,7 @@
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' />
       <@service.ENV 'WEB_USER' 'admin' />
-      <@service.ENV 'WEB_PASSWORD' PARAMS.KAFKA_MANAGER_PASSWORD />
+      <@service.ENV 'WEB_PASSWORD' PARAMS.KAFKA_MANAGER_PASSWORD 'single' />
       <@service.ENV 'APP_URL' 'http://kafka-manager-${namespace}:9000' />
     </@swarm.SERVICE>
 
