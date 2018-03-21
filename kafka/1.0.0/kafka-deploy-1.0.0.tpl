@@ -75,6 +75,7 @@
       </#if>
 
       <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
+      <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
