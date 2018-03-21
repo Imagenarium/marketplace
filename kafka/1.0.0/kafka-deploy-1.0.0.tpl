@@ -8,7 +8,7 @@
 <@requirement.PARAM name='ZOOKEEPER_MUTEX' value='11112' />
 <@requirement.PARAM name='KAFKA_MANAGER_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
+<@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>

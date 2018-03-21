@@ -5,7 +5,7 @@
 <@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' />
+<@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>

@@ -5,8 +5,8 @@
 <@requirement.PARAM name='REGISTRY_PUBLISHED_PORT' value='4567' type='port' />
 <@requirement.PARAM name='HOSTNAME' value='gitlab-clustercontrol' type='string' />
 
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' values='overlay,weave:latest' type='select' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' values='local,vsphere' type='select' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' values='network_driver' />
+<@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 
