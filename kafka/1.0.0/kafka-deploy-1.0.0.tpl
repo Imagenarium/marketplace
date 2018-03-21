@@ -34,6 +34,12 @@
     </#if>
 
     <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/zookeeper:3.4.11'>
+      <#if PARAMS.ES_MONITORING == 'true'>
+        <@service.NETWORK 'es-net-${namespace}' />
+        <@service.ENV 'ELASTICSEARCH_URL' 'es-router-${namespace}:9200' />
+        <@service.ENV 'ES_MONITORING' 'true' />
+      </#if>
+
       <@service.PORT_MUTEX PARAMS.ZOOKEEPER_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
@@ -61,15 +67,14 @@
       <@swarm.VOLUME_RM 'kafka-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/kafka:1.0.0'>
-      <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
-    
+    <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/kafka:1.0.0'>    
       <#if PARAMS.ES_MONITORING == 'true'>
-        <@service.NETWORK 'kafka-net-${namespace}' />
+        <@service.NETWORK 'es-net-${namespace}' />
         <@service.ENV 'ELASTICSEARCH_URL' 'es-router-${namespace}:9200' />
         <@service.ENV 'ES_MONITORING' 'true' />
       </#if>
 
+      <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
