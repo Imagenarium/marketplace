@@ -43,7 +43,7 @@
     <@swarm.TASK 'es-master-${index}-${namespace}'>
       <@container.NETWORK 'es-net-${namespace}' />
       <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
-      <@container.VOLUME 'es-master-volume-${index}-${namespace}' '/usr/share/elasticsearch/data' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+      <@container.VOLUME 'es-master-volume-${index}-${namespace}' '/usr/share/elasticsearch/data' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />

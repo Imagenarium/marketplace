@@ -60,7 +60,7 @@
           <@service.NETWORK 'percona-net-${dc}-${namespace}' />
           <@service.DC dc />
           <@service.CONS 'node.labels.percona' 'master' />
-          <@service.VOLUME 'percona-volume-${dc}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+          <@service.VOLUME 'percona-volume-${dc}-${namespace}' '/var/lib/mysql' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
           <@service.ENV 'SERVICE_PORTS' '3306' />
           <@service.ENV 'TCP_PORTS' '3306' />
           <@service.ENV 'BALANCE' 'source' />

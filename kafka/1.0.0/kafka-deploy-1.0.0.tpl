@@ -44,7 +44,7 @@
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
-      <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/zookeeper' PARAMS.VOLUME_DRIVER 'volume-opt=size=1gb' />
+      <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/zookeeper' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, 1) />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
@@ -79,7 +79,7 @@
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' 'true' />
-      <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
+      <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
 
       <@service.ENV 'NETWORK_NAME' 'kafka-net-${namespace}' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
