@@ -3,7 +3,7 @@
 <@requirement.CONS 'percona' '3' />
 
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
-<@requirement.PARAM name='PUBLISHED_PORT' value='-1' type='number' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='3306' type='port' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
@@ -74,7 +74,7 @@
 
   <@swarm.SERVICE 'percona-proxy-${namespace}' 'dockercloud/haproxy:${HAPROXY_VERSION}'>
     <@service.NETWORK 'percona-net-${namespace}' />
-    <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
+    <@service.PORT PARAMS.PUBLISHED_PORT '3306' />
     <@node.MANAGER />
     <@service.ENV 'EXTRA_GLOBAL_SETTINGS' 'stats socket 0.0.0.0:14567' />
   </@swarm.SERVICE>
