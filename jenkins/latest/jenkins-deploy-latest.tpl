@@ -37,6 +37,7 @@
 
   <@swarm.SERVICE 'jenkins-slave-${namespace}' 'imagenarium/jenkins-slave:3.10'>
     <@service.SCALABLE />
+    <@service.REPLICAS '0' />
     <@service.PORT_MUTEX '13331' />
     <@service.NETWORK 'jenkins-net-${namespace}' />
     <@service.ENV 'JENKINS_MASTER' 'http://jenkins-master-${namespace}.1:8080' />
