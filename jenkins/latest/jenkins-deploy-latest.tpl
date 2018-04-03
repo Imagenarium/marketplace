@@ -24,6 +24,7 @@
     <#else>
       <@container.VOLUME 'jenkins-master-volume-${namespace}' '/var/jenkins_home' />
     </#if>
+    <@container.BIND '/root' '/root' />
     <@container.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@container.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.TASK>
@@ -40,6 +41,7 @@
     <@service.REPLICAS '0' />
     <@service.PORT_MUTEX '13331' />
     <@service.NETWORK 'jenkins-net-${namespace}' />
+    <@service.BIND '/root' '/root' />
     <@service.ENV 'JENKINS_MASTER' 'http://jenkins-master-${namespace}.1:8080' />
     <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@service.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
