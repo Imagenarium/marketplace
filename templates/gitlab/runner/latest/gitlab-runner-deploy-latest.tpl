@@ -2,7 +2,7 @@
 
 <@requirement.PARAM name='GITLAB_URL' value='https://gitlab.com' />
 <@requirement.PARAM name='RUNNER_TOKEN' value='' />
-<@requirement.PARAM name='RUNNER_EXECUTOR' value='shell' values='shell,docker' />
+<@requirement.PARAM name='RUNNER_EXECUTOR' value='shell' values='shell,docker' type='select' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='gitlab-net-${namespace}' />
