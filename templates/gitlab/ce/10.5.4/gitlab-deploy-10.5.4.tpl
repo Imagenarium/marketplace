@@ -13,7 +13,7 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='gitlab-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
-  <@swarm.SERVICE 'gitlab-${namespace}' 'gitlab/gitlab-ce:latest'>
+  <@swarm.SERVICE 'gitlab-${namespace}' 'imagenarium/gitlab-ce:latest'>
     <@service.CONS 'node.labels.gitlab' 'true' />
     <@service.NETWORK 'gitlab-net-${namespace}' />
     <@service.PORT PARAMS.HTTP_PUBLISHED_PORT PARAMS.HTTP_PUBLISHED_PORT />
