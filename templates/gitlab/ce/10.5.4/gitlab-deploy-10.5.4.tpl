@@ -23,7 +23,7 @@
     <@service.VOLUME 'gitlab-volume-${namespace}' '/etc/gitlab' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@service.VOLUME 'gitlab-volume-${namespace}' '/var/log/gitlab' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@service.VOLUME 'gitlab-volume-${namespace}' '/var/opt/gitlab' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
-    <@service.ENV 'GITLAB_OMNIBUS_CONFIG' "external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.HTTP_PUBLISHED_PORT}/'; registry_external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.REGISTRY_PUBLISHED_PORT}; redis['port'] = 6379; redis['bind'] = '0.0.0.0'; postgresql['listen_address'] = '0.0.0.0'; postgresql['port'] = 5432; postgresql['trust_auth_cidr_addresses'] = %w(127.0.0.1/24);gitlab_rails['redis_host'] = '127.0.0.1'; gitlab_rails['redis_port'] = 6379; gitlab_rails['db_adapter'] = 'postgresql'; gitlab_rails['db_encoding'] = 'utf8'; gitlab_rails['db_host'] = '127.0.0.1'; gitlab_rails['db_port'] = 5432 /'" />
+    <@service.ENV 'GITLAB_OMNIBUS_CONFIG' "external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.HTTP_PUBLISHED_PORT}/'; registry_external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.REGISTRY_PUBLISHED_PORT}/'; redis['port'] = 6379; redis['bind'] = '0.0.0.0'; postgresql['listen_address'] = '0.0.0.0'; postgresql['port'] = 5432; postgresql['trust_auth_cidr_addresses'] = %w(127.0.0.1/24);gitlab_rails['redis_host'] = '127.0.0.1'; gitlab_rails['redis_port'] = 6379; gitlab_rails['db_adapter'] = 'postgresql'; gitlab_rails['db_encoding'] = 'utf8'; gitlab_rails['db_host'] = '127.0.0.1'; gitlab_rails['db_port'] = 5432" />
   </@swarm.SERVICE>
 
 </@requirement.CONFORMS>
