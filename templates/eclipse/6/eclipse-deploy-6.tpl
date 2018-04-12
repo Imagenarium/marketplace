@@ -8,6 +8,7 @@
     <@service.VOLUME 'eclipse-volume-${namespace}' '/data' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'CHE_HOST' PARAMS.CHE_HOST />
+    <@service.ENV 'CHE_DOCKER_IP_EXTERNAL' PARAMS.CHE_HOST />
     <@service.CONS 'node.labels.eclipse' 'true' />
   </@swarm.SERVICE>
 </@requirement.CONFORMS>
