@@ -7,6 +7,7 @@
   <@swarm.TASK 'eclipse-${namespace}'>
     <@container.VOLUME 'eclipse-volume-${namespace}' '/data' />
     <@container.ENV 'CHE_HOST' PARAMS.CHE_HOST />
+    <@container.ENV 'CHE_DOCKER_IP_EXTERNAL' PARAMS.CHE_HOST />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'eclipse-${namespace}' 'eclipse/che-server:6.3.0'>
