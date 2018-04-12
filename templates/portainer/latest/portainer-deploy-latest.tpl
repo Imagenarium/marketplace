@@ -2,8 +2,11 @@
 <@requirement.NAMESPACE 'system' />
 
 <@requirement.CONFORMS>
+  <@swarm.NETWORK 'portainer-net-${namespace}' />
+
   <@swarm.SERVICE 'portainer-${namespace}' 'portainer/portainer:latest' 'replicated' '-H unix:///var/run/docker.sock'>
     <@node.MANAGER />
+    <@service.NETWORK 'portainer-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '9000' />
   </@swarm.SERVICE>
   

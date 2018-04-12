@@ -1,11 +1,11 @@
-<@requirement.CONS 'kafka' 'true' '3' />
+<@requirement.CONS 'kafka' '1' />
+<@requirement.CONS 'kafka' '2' />
+<@requirement.CONS 'kafka' '3' />
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='7878' type='number' />
 <@requirement.PARAM name='RUN_KAFKA_MANAGER' value='false' type='boolean' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='ES_MONITORING' value='false' type='boolean' />
-<@requirement.PARAM name='KAFKA_MUTEX' value='11111' />
-<@requirement.PARAM name='ZOOKEEPER_MUTEX' value='11112' />
 <@requirement.PARAM name='KAFKA_MANAGER_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
@@ -40,10 +40,9 @@
         <@service.ENV 'ES_MONITORING' 'true' />
       </#if>
 
-      <@service.PORT_MUTEX PARAMS.ZOOKEEPER_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
-      <@service.CONS 'node.labels.kafka' 'true' />
+      <@service.CONS 'node.labels.kafka' '${index}' />
       <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/zookeeper' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, 1) />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
@@ -74,11 +73,10 @@
         <@service.ENV 'ES_MONITORING' 'true' />
       </#if>
 
-      <@service.PORT_MUTEX PARAMS.KAFKA_MUTEX />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
-      <@service.CONS 'node.labels.kafka' 'true' />
+      <@service.CONS 'node.labels.kafka' '${index}' />
       <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
 
       <@service.ENV 'NETWORK_NAME' 'kafka-net-${namespace}' />
