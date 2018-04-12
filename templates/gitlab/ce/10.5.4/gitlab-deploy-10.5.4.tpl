@@ -21,7 +21,6 @@
     <@service.PORT PARAMS.SSH_PUBLISHED_PORT PARAMS.SSH_PUBLISHED_PORT />
     <@service.PORT PARAMS.REGISTRY_PUBLISHED_PORT PARAMS.REGISTRY_PUBLISHED_PORT />
     <@service.VOLUME 'gitlab-volume-config-${namespace}' '/etc/gitlab' PARAMS.VOLUME_DRIVER 'volume-opt=size=1mb' />
-    <@service.VOLUME 'gitlab-volume-${namespace}' '/var/log/gitlab' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@service.VOLUME 'gitlab-volume-${namespace}' '/var/opt/gitlab' PARAMS.VOLUME_DRIVER 'volume-opt=size=${PARAMS.VOLUME_SIZE_GB}gb' />
     <@service.ENV 'GITLAB_OMNIBUS_CONFIG' "external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.HTTP_PUBLISHED_PORT}/'; registry_external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.REGISTRY_PUBLISHED_PORT}/'" />
   </@swarm.SERVICE>
