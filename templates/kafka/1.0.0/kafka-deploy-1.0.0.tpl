@@ -92,12 +92,6 @@
       <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace} -Dcom.sun.management.jmxremote.rmi.port=9999 -Djava.net.preferIPv4Stack=true' />
       <@service.ENV 'JMX_PORT' '9999' />
       <@service.ENV 'KAFKA_LOG_DIR' '/kafka' />
-
-      <@service.ENV 'KAFKA_LISTENER_SECURITY_PROTOCOL_MAP' 'CLIENT:PLAINTEXT,REPLICATION:PLAINTEXT' />
-      <@service.ENV 'KAFKA_ADVERTISED_PROTOCOL_NAME' 'CLIENT' />
-      <@service.ENV 'KAFKA_PROTOCOL_NAME' 'REPLICATION' />
-      <@service.ENV 'KAFKA_ADVERTISED_PORT' '9092' />
-      <@service.ENV 'KAFKA_PORT' '9093' />
     </@swarm.SERVICE>
   </#list>
 
