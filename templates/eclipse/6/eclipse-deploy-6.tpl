@@ -12,5 +12,6 @@
   <@swarm.TASK_RUNNER 'eclipse-${namespace}' 'eclipse/che-server:6.3.0'>
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'PROXY_PORTS' '8080' />
+    <@service.CONS 'node.labels.eclipse' 'true' />
   </@swarm.TASK_RUNNER>
 </@requirement.CONFORMS>
