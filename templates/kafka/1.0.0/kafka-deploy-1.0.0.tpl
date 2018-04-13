@@ -3,7 +3,7 @@
 <@requirement.CONS 'kafka' '3' />
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='7878' type='port' />
-<@requirement.PARAM name='EXTERNAL_PORT' type='port' required='false' />
+<@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='RUN_KAFKA_MANAGER' value='false' type='boolean' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='ES_MONITORING' value='false' type='boolean' />
@@ -75,12 +75,13 @@
       </#if>
 
       <@service.NETWORK 'kafka-net-${namespace}' />
-      <@service.PORT PARAMS.EXTERNAL_PORT '9092' 'host' />
+      <@service.PORT PARAMS.PUBLISHED_PORT '9092' 'host' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' '${index}' />
       <@service.VOLUME 'kafka-volume-${index}-${namespace}' '/kafka' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
 
+      <@service.ENV 'EXTERNAL_PORT' PARAMS.PUBLISHED_PORT! />
       <@service.ENV 'NETWORK_NAME' 'kafka-net-${namespace}' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
