@@ -112,7 +112,7 @@
       <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
     </@swarm.SERVICE>
 
-    <@swarm.SERVICE 'nginx-kafka-manager-${namespace}' 'imagenarium/nginx-basic-auth:1.13.5.2'>
+    <@swarm.SERVICE 'nginx-kafka-manager-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' />
       <@service.ENV 'WEB_USER' 'admin' />

@@ -9,7 +9,7 @@
     <@service.ENV 'LOGGING_QUIET' 'true' />
   </@swarm.SERVICE>
 
-  <@swarm.SERVICE 'nginx-kibana-${namespace}' 'imagenarium/nginx-basic-auth:1.13.5.2'>
+  <@swarm.SERVICE 'nginx-kibana-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
     <@service.ENV 'WEB_USER' 'admin' />
