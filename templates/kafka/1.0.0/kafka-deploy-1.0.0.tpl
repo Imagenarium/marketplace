@@ -2,7 +2,8 @@
 <@requirement.CONS 'kafka' '2' />
 <@requirement.CONS 'kafka' '3' />
 
-<@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='7878' type='number' />
+<@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='7878' type='port' />
+<@requirement.PARAM name='EXTERNAL_PORT' type='port' required='false' />
 <@requirement.PARAM name='RUN_KAFKA_MANAGER' value='false' type='boolean' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='ES_MONITORING' value='false' type='boolean' />
@@ -74,6 +75,7 @@
       </#if>
 
       <@service.NETWORK 'kafka-net-${namespace}' />
+      <@service.PORT PARAMS.EXTERNAL_PORT '9092' 'host' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' '${index}' />

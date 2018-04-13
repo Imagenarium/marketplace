@@ -1,6 +1,6 @@
 <@requirement.CONS 'jenkins' 'master' />
 
-<@requirement.PARAM name='PUBLISHED_PORT' value='4444' type='number' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='4444' type='port' />
 <@requirement.PARAM name='JENKINS_USER' value='admin' />
 <@requirement.PARAM name='JENKINS_PASSWORD' value='admin' type='password' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />

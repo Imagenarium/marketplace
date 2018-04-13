@@ -3,7 +3,7 @@
 <@requirement.CONS 'percona' '3' />
 
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
-<@requirement.PARAM name='PUBLISHED_PORT' value='3306' type='port' required='false' />
+<@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
