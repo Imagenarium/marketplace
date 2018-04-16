@@ -24,4 +24,6 @@
     <@service.VOLUME 'gitlab-volume-${namespace}' '/var/opt/gitlab' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, 1) />
     <@service.ENV 'GITLAB_OMNIBUS_CONFIG' "external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.HTTP_PUBLISHED_PORT}/'; registry_external_url 'http://${PARAMS.HOSTNAME}:${PARAMS.REGISTRY_PUBLISHED_PORT}/'" />
   </@swarm.SERVICE>
+
+  <@docker.HTTP_CHECKER 'gitlab-checker-${namespace}' 'http://gitlab-${namespace}:${PARAMS.HTTP_PUBLISHED_PORT}' 'gitlab-net-${namespace}' />
 </@requirement.CONFORMS>
