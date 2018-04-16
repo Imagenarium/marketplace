@@ -16,6 +16,8 @@
     <#assign peers += ['glusterfs-${index}-${namespace}.1'] />
   </#list>
 
+  <@swarm.STORAGE 'swarmstorage-jenkins-${namespace}' 'jenkins-net-${namespace}' />
+
   <@swarm.TASK 'jenkins-master-${namespace}'>
     <@container.NETWORK 'jenkins-net-${namespace}' />
     <#if PARAMS.USE_GLUSTER == 'true'>
@@ -25,6 +27,7 @@
     <#else>
       <@container.VOLUME 'jenkins-master-volume-${namespace}' '/var/jenkins_home' />
     </#if>
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-jenkins-${namespace}' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@container.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
