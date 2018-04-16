@@ -1,3 +1,5 @@
+<@requirement.NAMESPACE 'clustercontrol' />
+
 <@requirement.CONS 'gitlab' 'true' />
 
 <@requirement.PARAM name='HTTP_PUBLISHED_PORT' value='8000' type='port' />
