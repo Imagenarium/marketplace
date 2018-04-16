@@ -1,6 +1,7 @@
 <@requirement.CONS 'jenkins' 'master' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' value='4444' type='port' />
+<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='JENKINS_USER' value='admin' />
 <@requirement.PARAM name='JENKINS_PASSWORD' value='admin' type='password' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
@@ -24,6 +25,7 @@
     <#else>
       <@container.VOLUME 'jenkins-master-volume-${namespace}' '/var/jenkins_home' />
     </#if>
+    <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
     <@container.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.TASK>
