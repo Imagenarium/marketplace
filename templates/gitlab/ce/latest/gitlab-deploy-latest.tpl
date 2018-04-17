@@ -20,6 +20,7 @@
     <@service.CONS 'node.labels.gitlab' 'true' />
     <@service.NETWORK 'gitlab-net-${namespace}' />
     <@service.NETWORK 'clustercontrol-net' />
+    <@service.PORT PARAMS.HTTP_PUBLISHED_PORT PARAMS.HTTP_PUBLISHED_PORT />
     <@service.PORT PARAMS.HTTPS_PUBLISHED_PORT PARAMS.HTTPS_PUBLISHED_PORT />
     <@service.PORT PARAMS.SSH_PUBLISHED_PORT PARAMS.SSH_PUBLISHED_PORT />
     <@service.PORT PARAMS.REGISTRY_PUBLISHED_PORT PARAMS.REGISTRY_PUBLISHED_PORT />
