@@ -2,7 +2,7 @@
 
 <@requirement.CONS 'gitlab' 'true' />
 
-<@requirement.PARAM name='HOSTNAME' value='imagenarium.space' />
+<@requirement.PARAM name='HOSTNAME' value='imagenarium.xyz' />
 <@requirement.PARAM name='HTTPS_PUBLISHED_PORT' value='4443' type='port' />
 <@requirement.PARAM name='REGISTRY_PUBLISHED_PORT' value='4567' type='port' />
 
