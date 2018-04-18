@@ -1,3 +1,5 @@
+<@requirement.NAMESPACE 'clustercontrol' />
+
 <@requirement.CONS 'jenkins' 'master' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' value='4444' type='port' />
