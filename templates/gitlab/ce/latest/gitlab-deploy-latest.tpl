@@ -21,7 +21,7 @@
     <@service.NETWORK 'clustercontrol-net' />
     <@service.PORT PARAMS.HTTPS_PUBLISHED_PORT PARAMS.HTTPS_PUBLISHED_PORT />
     <@service.PORT PARAMS.REGISTRY_PUBLISHED_PORT PARAMS.REGISTRY_PUBLISHED_PORT />
-    <@service.PORT '80' '80' /> <#-- for certbot -->
+    <@service.PORT '80' '80' 'host' /> <#-- for certbot -->
     <@service.VOLUME 'gitlab-volume-${namespace}' '/var/opt/gitlab' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
     <@service.VOLUME 'gitlab-etc-volume-${namespace}' '/etc/gitlab' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, 1) />
     <@service.ENV 'HOSTNAME' PARAMS.HOSTNAME />
