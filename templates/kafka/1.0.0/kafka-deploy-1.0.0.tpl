@@ -8,7 +8,7 @@
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='ES_MONITORING' value='false' type='boolean' />
 <@requirement.PARAM name='KAFKA_MANAGER_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
+<@requirement.PARAM name='NETWORK_DRIVER' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 

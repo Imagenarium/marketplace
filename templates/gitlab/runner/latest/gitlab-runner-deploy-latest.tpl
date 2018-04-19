@@ -2,7 +2,7 @@
 
 <@requirement.CONS 'gitlab-runner' 'true' />
 
-<@requirement.PARAM name='CI_SERVER_URL' value='https://gitlab.com' values='https://gitlab.com,http://gitlab-clustercontrol:8000' type='select' />
+<@requirement.PARAM name='CI_SERVER_URL' value='https://gitlab.com' />
 <@requirement.PARAM name='REGISTRATION_TOKEN' value='' />
 <@requirement.PARAM name='RUNNER_EXECUTOR' value='shell' values='shell,docker' type='select' />
 
