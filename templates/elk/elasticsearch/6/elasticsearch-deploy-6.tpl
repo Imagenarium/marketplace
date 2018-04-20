@@ -20,9 +20,9 @@
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
+    <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
     <@container.ENV 'bootstrap.memory_lock' 'true' />
     <@container.ENV 'network.bind_host' '0.0.0.0' />
-    <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
     <@container.ENV 'node.name' 'es-router-${namespace}' />
     <@container.ENV 'node.master' 'false' />
     <@container.ENV 'node.data' 'false' />
@@ -49,10 +49,10 @@
       <@container.ULIMIT 'memlock=-1:-1' />
       <@container.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
-      <@container.ENV 'bootstrap.memory_lock' 'true' />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
-      <@container.ENV 'network.bind_host' '0.0.0.0' />
       <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
+      <@container.ENV 'bootstrap.memory_lock' 'true' />
+      <@container.ENV 'network.bind_host' '0.0.0.0' />
       <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
       <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
       <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}.1' />

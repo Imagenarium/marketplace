@@ -11,14 +11,10 @@
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
-  <@swarm.NETWORK name='gitlab-net-${namespace}' />
-
   <@swarm.STORAGE 'swarmstorage-gitlab-${namespace}' 'gitlab-net-${namespace}' />
 
   <@swarm.SERVICE 'gitlab-${namespace}' 'imagenarium/gitlab-ce:rc'>
     <@service.CONS 'node.labels.gitlab' 'true' />
-    <@service.NETWORK 'gitlab-net-${namespace}' />
-    <@service.NETWORK 'clustercontrol-net' />
     <@service.PORT PARAMS.HTTPS_PUBLISHED_PORT PARAMS.HTTPS_PUBLISHED_PORT />
     <@service.PORT PARAMS.REGISTRY_PUBLISHED_PORT PARAMS.REGISTRY_PUBLISHED_PORT />
     <@service.PORT '80' '80' 'host' /> <#-- for certbot -->
