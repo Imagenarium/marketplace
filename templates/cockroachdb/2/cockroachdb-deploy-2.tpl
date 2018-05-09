@@ -3,7 +3,7 @@
 <@requirement.CONS 'cockroachdb' '3' />
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' value='8888' type='port' />
-<@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='26257' type='port' required='false' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
 <@requirement.PARAM name='NETWORK_DRIVER' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
