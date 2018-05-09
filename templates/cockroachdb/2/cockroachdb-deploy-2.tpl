@@ -24,7 +24,7 @@
       <@swarm.VOLUME_RM 'cockroach-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.1' 'start --join=${nodes?join(",")} --cache=.25 --max-sql-memory=.25 --logtostderr --insecure'>
+    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.1' 'replicated' 'start --join=${nodes?join(",")} --cache=.25 --max-sql-memory=.25 --logtostderr --insecure'>
       <@service.NETWORK 'cockroach-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
