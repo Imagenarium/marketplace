@@ -12,14 +12,16 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='cockroach-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
   
-  <#assign nodes = [] />
-  <#list 1..3 as index>
-    <#assign nodes += ['cockroachdb-${index}-${namespace}:26257'] />    
-  </#list>
- 
   <@swarm.STORAGE 'swarmstorage-cockroach-${namespace}' 'cockroach-net-${namespace}' />
   
-  <#list 1..3 as index>
+  <#list 1..3 as index>  
+    <#assign nodes = [] />
+    <#list 1..3 as _index>
+      <#if index != _index>
+        <#assign nodes += ['cockroachdb-${_index}-${namespace}:26257'] />    
+      </#if>
+    </#list>
+
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
       <@swarm.VOLUME_RM 'cockroach-volume-${index}-${namespace}' />
     </#if>
