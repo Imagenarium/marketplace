@@ -23,17 +23,11 @@
       </#if>
     </#list>
 
-    <#if PARAMS.DELETE_DATA == 'true' && index == 1>
-      <#assign joinFlag = '' />
-    <#else>
-      <#assign joinFlag = '--join=${nodes?join(",")}' />
-    </#if>
-
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
       <@swarm.VOLUME_RM 'cockroach-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.1' 'replicated' 'start ${joinFlag} --host 0.0.0.0 --cache=.25 --max-sql-memory=.25 --logtostderr --insecure'>
+    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.1' 'replicated' 'start --join=${nodes?join(",")} --host 0.0.0.0 --cache=.25 --max-sql-memory=.25 --logtostderr --insecure'>
       <@service.NETWORK 'cockroach-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
@@ -49,4 +43,11 @@
 
     <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080' 'cockroach-net-${namespace}' />
   </#list>
+
+  <#if PARAMS.DELETE_DATA>
+    <@docker.CONTAINER 'cockroachdb-cluster-initializer-${namespace}' 'cockroachdb/cockroach:v2.0.1' 'init --host=cockroachdb-1-${namespace} --insecure'>
+      <@container.NETWORK 'cockroach-net-${namespace}' />
+      <@container.EPHEMERAL />
+    </@docker.CONTAINER>
+  </#if>
 </@requirement.CONFORMS>
