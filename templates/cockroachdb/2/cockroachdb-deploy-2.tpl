@@ -44,7 +44,7 @@
     <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080' 'cockroach-net-${namespace}' />
   </#list>
 
-  <#if PARAMS.DELETE_DATA>
+  <#if PARAMS.DELETE_DATA == 'true'>
     <@docker.CONTAINER 'cockroachdb-cluster-initializer-${namespace}' 'cockroachdb/cockroach:v2.0.1' 'init --host=cockroachdb-1-${namespace} --insecure'>
       <@container.NETWORK 'cockroach-net-${namespace}' />
       <@container.EPHEMERAL />
