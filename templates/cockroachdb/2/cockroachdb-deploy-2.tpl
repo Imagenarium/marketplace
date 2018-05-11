@@ -34,11 +34,11 @@
       <@service.HOSTNAME 'cockroachdb-${index}-${namespace}' />      
       <@service.CONS 'node.labels.cockroachdb' '${index}' />
       <@service.VOLUME 'cockroach-volume-${index}-${namespace}' '/cockroach/cockroach-data' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, 1) />
+      <@service.STOP_GRACE_PERIOD '60s' />
       <@service.ENV 'NETWORK_NAME' 'cockroach-net-${namespace}' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cockroach-${namespace}' />
-      --stop-grace-period 60s \
     </@swarm.SERVICE>
 
     <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080' 'cockroach-net-${namespace}' />
