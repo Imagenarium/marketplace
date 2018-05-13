@@ -8,6 +8,7 @@
 <@requirement.PARAM name='NETWORK_DRIVER' type='network_driver' />
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
+<@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='cockroach-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
@@ -46,6 +47,11 @@
 
   <#if PARAMS.DELETE_DATA == 'true'>
     <@docker.CONTAINER 'cockroachdb-cluster-initializer-${namespace}' 'cockroachdb/cockroach:v2.0.1' 'init --host=cockroachdb-1-${namespace} --insecure'>
+      <@container.NETWORK 'cockroach-net-${namespace}' />
+      <@container.EPHEMERAL />
+    </@docker.CONTAINER>
+
+    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'cockroachdb/cockroach:v2.0.1' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
       <@container.NETWORK 'cockroach-net-${namespace}' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
