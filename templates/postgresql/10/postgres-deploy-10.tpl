@@ -1,6 +1,6 @@
 <@requirement.CONS 'postgres' 'true' />
 
-<@requirement.PARAM name='POSTGRES_PORT' value='5432' type='port' scope='global' />
+<@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' scope='global' />
@@ -28,7 +28,7 @@
     <@container.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
     <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-postgres-${namespace}' />
     <@service.ENV 'NEW_DB' PARAMS.DELETE_DATA />
-    <@service.PORT PARAMS.POSTGRES_PORT '5432' />
+    <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
   </@swarm.SERVICE>
 
   <@docker.CONTAINER 'postgres-checker-${namespace}' 'imagenarium/postgresql:10'>

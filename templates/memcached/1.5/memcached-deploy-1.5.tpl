@@ -1,6 +1,6 @@
 <@requirement.CONS 'memcached' 'true' />
 
-<@requirement.PARAM name='MEMCACHED_PORT' value='11211' type='port' scope='global' />
+<@requirement.PARAM name='MEMCACHED_PORT' type='port' required='fase' description='Specify memcached external port (for example 11211)' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 
 <@requirement.CONFORMS>

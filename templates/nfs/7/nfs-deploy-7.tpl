@@ -1,7 +1,6 @@
 <@requirement.CONS 'nfs' 'true' />
 
-<@requirement.PARAM name='NFS_PORT' value='2049' type='port' scope='global' />
-
+<@requirement.PARAM name='NFS_PORT' type='port' required='fase' description='Specify nfs external port (for example 2049)' />
 <@requirement.PARAM name='NETWORK_DRIVER' type='network_driver' scope='global' />
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' scope='global' />
 <@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' scope='global' />
