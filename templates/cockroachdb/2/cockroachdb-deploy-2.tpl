@@ -42,7 +42,7 @@
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cockroach-${namespace}' />
     </@swarm.SERVICE>
 
-    <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080' 'cockroach-net-${namespace}' />
+    <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health?ready=1' 'cockroach-net-${namespace}' />
   </#list>
 
   <#if PARAMS.DELETE_DATA == 'true'>
@@ -56,4 +56,8 @@
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
   </#if>
+
+  <#list 1..3 as index>
+    <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health?ready=1' 'cockroach-net-${namespace}' />
+  </#list>
 </@requirement.CONFORMS>
