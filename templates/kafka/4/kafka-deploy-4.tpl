@@ -50,6 +50,14 @@
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
+
+  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/cp-zookeeper:4.1.1'>
+    <@container.ENTRY '/checker.sh' />
+    <@container.NETWORK 'kafka-net-${namespace}' />
+    <@container.EPHEMERAL />
+    <@container.ENV 'ZOOKEEPER_CONNECT' zoo_connect?join(",") />
+    <@container.ENV 'EXPECTED_FOLLOWERS' '${zoo_connect?size - 1}' />
+  </@docker.CONTAINER>
     
   <#list 1..3 as index>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
@@ -86,14 +94,19 @@
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
 
+  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/cp-kafka:4.1.1'>
+    <@container.ENTRY '/checker.sh' />
+    <@container.NETWORK 'kafka-net-${namespace}' />
+    <@container.EPHEMERAL />
+    <@container.ENV 'ZOOKEEPER_CONNECT' zoo_connect?join(",") />
+    <@container.ENV 'EXPECTED_BROKERS' '${kafka_servers?size}' />
+  </@docker.CONTAINER>
+
   <@swarm.SERVICE 'kafka-rest-${namespace}' 'confluentinc/cp-kafka-rest:4.1.1'>
     <@service.PORT PARAMS.PUBLISHED_REST_PORT '8082' />
     <@service.ENV 'KAFKA_REST_ZOOKEEPER_CONNECT' zoo_connect?join(",") />
     <@service.ENV 'KAFKA_REST_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-rest-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
   </@swarm.SERVICE>
 
-  <@docker.CONTAINER 'kafka-rest-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub sr-ready kafka-rest-${namespace} 8082 600'>
-    <@container.NETWORK 'kafka-net-${namespace}' />
-    <@container.EPHEMERAL />
-  </@docker.CONTAINER>
+  <@docker.HTTP_CHECKER 'kafka-rest-checker-${namespace}' 'http://kafka-rest-${namespace}:8082' 'kafka-net-${namespace}' />
 </@requirement.CONFORMS>
