@@ -8,6 +8,8 @@
     <@swarm.SERVICE_RM 'zookeeper-${index}-${namespace}' />
   </#list>
 
+  <@swarm.SERVICE_RM 'kafka-rest-${namespace}' />
+
   <@swarm.SERVICE_RM 'swarmstorage-kafka-${namespace}' />
   
   <@swarm.NETWORK_RM 'kafka-net-${namespace}' />
