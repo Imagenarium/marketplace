@@ -76,7 +76,7 @@
     </@swarm.SERVICE>
   </#list>
 
-  <@docker.CONTAINER 'kafka-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub kafka-ready -b ${kafka_servers?join(",")} -z ${zoo_connect?join(",")} ${kafka_servers?size} 120'>
+  <@docker.CONTAINER 'kafka-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub kafka-ready -b ${kafka_servers?join(",")} -z ${zoo_connect?join(",")} ${kafka_servers?size} 600'>
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
@@ -87,7 +87,7 @@
     <@service.ENV 'KAFKA_REST_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-rest-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
   </@swarm.SERVICE>
 
-  <@docker.CONTAINER 'kafka-rest-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub sr-ready kafka-rest-${namespace} 8082 120'>
+  <@docker.CONTAINER 'kafka-rest-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub sr-ready kafka-rest-${namespace} 8082 600'>
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
