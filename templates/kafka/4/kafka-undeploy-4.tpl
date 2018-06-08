@@ -1,4 +1,5 @@
 <@requirement.CONFORMS>
+  <@docker.CONTAINER_RM 'zookeeper-checker-${namespace}' />
   <@docker.CONTAINER_RM 'kafka-checker-${namespace}' />
   <@docker.CONTAINER_RM 'kafka-rest-checker-${namespace}' />
   

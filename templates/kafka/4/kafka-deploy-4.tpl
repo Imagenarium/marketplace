@@ -42,9 +42,14 @@
       <@service.ENV 'ZOOKEEPER_SERVER_ID' '${index}' />
       <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=zookeeper-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
       <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.ZOOKEEPER_HEAP_OPTS />
-      <@service.ENV 'ZOOKEEPER_SERVERS' zoo_servers?join(" ") />
+      <@service.ENV 'ZOOKEEPER_SERVERS' zoo_servers?join(";") />
     </@swarm.SERVICE>
   </#list>
+
+  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub zk-ready ${zoo_connect?join(",")} 600'>
+    <@container.NETWORK 'kafka-net-${namespace}' />
+    <@container.EPHEMERAL />
+  </@docker.CONTAINER>
     
   <#list 1..3 as index>
     <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
