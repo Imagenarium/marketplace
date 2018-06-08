@@ -94,7 +94,7 @@
 
   <@swarm.SERVICE 'kafka-rest-${namespace}' 'confluentinc/cp-kafka-rest:4.1.1'>
     <@service.PORT PARAMS.PUBLISHED_REST_PORT '8082' />
-    <@container.NETWORK 'kafka-net-${namespace}' />
+    <@service.NETWORK 'kafka-net-${namespace}' />
     <@service.ENV 'KAFKA_REST_HOST_NAME' 'kafka-rest-${namespace}' />
     <@service.ENV 'KAFKA_REST_ZOOKEEPER_CONNECT' zoo_connect?join(",") />
     <@service.ENV 'KAFKA_REST_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-rest-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
