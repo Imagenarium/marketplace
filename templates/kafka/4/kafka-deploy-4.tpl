@@ -46,11 +46,6 @@
     </@swarm.SERVICE>
   </#list>
 
-  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub zk-ready ${zoo_connect?join(",")} 600'>
-    <@container.NETWORK 'kafka-net-${namespace}' />
-    <@container.EPHEMERAL />
-  </@docker.CONTAINER>
-
   <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/cp-zookeeper:4.1.1'>
     <@container.ENTRY '/checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
@@ -88,11 +83,6 @@
       <@service.ENV 'KAFKA_NUM_PARTITIONS' '128' />
     </@swarm.SERVICE>
   </#list>
-
-  <@docker.CONTAINER 'kafka-checker-${namespace}' 'confluentinc/cp-base:4.1.1' 'cub kafka-ready -b ${kafka_servers?join(",")} -z ${zoo_connect?join(",")} ${kafka_servers?size} 600'>
-    <@container.NETWORK 'kafka-net-${namespace}' />
-    <@container.EPHEMERAL />
-  </@docker.CONTAINER>
 
   <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/cp-kafka:4.1.1'>
     <@container.ENTRY '/checker.sh' />
