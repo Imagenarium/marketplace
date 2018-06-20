@@ -6,7 +6,7 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='memcached-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
-  <@swarm.SERVICE 'memcached-${namespace}' 'memcached:1.5-alpine' 'replicated' '-vv'>
+  <@swarm.SERVICE 'memcached-${namespace}' 'memcached:1.5-alpine' '-vv'>
     <@service.NETWORK 'memcached-net-${namespace}' />
     <@service.CONS 'node.labels.memcached' 'true' />
     <@service.PORT PARAMS.MEMCACHED_PORT '11211' />

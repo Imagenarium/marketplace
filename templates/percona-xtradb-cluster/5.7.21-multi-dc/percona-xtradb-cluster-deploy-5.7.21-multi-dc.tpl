@@ -56,7 +56,7 @@
           <@swarm.VOLUME_RM 'percona-volume-${dc}-${namespace}' />
         </#if>
     
-        <@swarm.SERVICE 'percona-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' 'replicated' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
+        <@swarm.SERVICE 'percona-${dc}-${namespace}' 'imagenarium/percona-master:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
           <@service.HOSTNAME 'percona-${dc}-${namespace}' />
           <@service.NETWORK 'percona-net-${namespace}' />
           <@service.NETWORK 'percona-net-${dc}-${namespace}' />

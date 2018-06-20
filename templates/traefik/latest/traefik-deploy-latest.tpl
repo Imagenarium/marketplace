@@ -4,8 +4,9 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'traefik-net-${namespace}' />
 
-  <@swarm.SERVICE 'traefik-${namespace}' 'traefik:latest' 'replicated' '--docker --docker.swarmMode --docker.watch --api'>
+  <@swarm.SERVICE 'traefik-${namespace}' 'traefik:latest' '--docker --docker.swarmMode --docker.watch --api'>
     <@node.MANAGER />
+    <@service.SCALABLE />
     <@service.NETWORK 'traefik-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PROXY_PORT '80' />
     <@service.PORT PARAMS.PUBLISHED_ADMIN_PORT '8080' />
