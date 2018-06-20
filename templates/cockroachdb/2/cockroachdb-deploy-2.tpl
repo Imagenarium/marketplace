@@ -9,6 +9,7 @@
 <@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
+<@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' />
 
 <@requirement.CONFORMS>
   <@swarm.NETWORK name='cockroach-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
@@ -28,7 +29,7 @@
       <@swarm.VOLUME_RM 'cockroach-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.1' 'replicated' 'start --join=${nodes?join(",")} --host 0.0.0.0 --cache=.25 --max-sql-memory=.25 --logtostderr --insecure'>
+    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.1' 'replicated' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
       <@service.NETWORK 'cockroach-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
