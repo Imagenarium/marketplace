@@ -4,9 +4,9 @@
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='PUBLISHED_REST_PORT' type='port' required='false' />
-<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
-<@requirement.PARAM name='NETWORK_DRIVER' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
+<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 <@requirement.PARAM name='ZOOKEEPER_HEAP_OPTS' value='-Xmx512M -Xms512M' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
@@ -79,6 +79,7 @@
       <@service.ENV 'KAFKA_AUTO_CREATE_TOPICS_ENABLE' 'false' />
       <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
       <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.KAFKA_HEAP_OPTS />
+      <@service.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
       <@service.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
       <@service.ENV 'KAFKA_NUM_PARTITIONS' '128' />
     </@swarm.SERVICE>

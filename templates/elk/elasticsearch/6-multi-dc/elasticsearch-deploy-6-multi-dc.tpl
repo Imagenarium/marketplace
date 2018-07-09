@@ -2,13 +2,14 @@
 <@requirement.CONS_HA 'es' 'master' />
 
 <@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' />
-<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' />
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' />
-<@requirement.PARAM name='VOLUME_DRIVER' type='volume_driver' />
+<@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify Elasticsearch external port (for example 9200)' />
+<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' scope='global' />
+<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
+<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
 <@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 
 <@requirement.CONFORMS>
-  <#assign ES_VERSION='6.2.2' />
+  <#assign ES_VERSION='6.3.0' />
   <@swarm.NETWORK name='es-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
   <@swarm.STORAGE 'swarmstorage-es-${namespace}' 'es-net-${namespace}' />
@@ -31,6 +32,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+    <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.ENV 'PROXY_PORTS' '9200' />
   </@swarm.TASK_RUNNER>
