@@ -1,5 +1,5 @@
 <@requirement.CONFORMS>
-  <@docker.REMOVE_HTTP_CHECKER 'kenkins-checker-${namespace}' />
+  <@docker.REMOVE_HTTP_CHECKER 'jenkins-checker-${namespace}' />
 
   <@swarm.SERVICE_RM 'swarmstorage-jenkins-${namespace}' />
   <@swarm.SERVICE_RM 'jenkins-master-${namespace}' />
