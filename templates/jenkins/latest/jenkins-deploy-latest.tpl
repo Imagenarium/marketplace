@@ -35,5 +35,5 @@
     <@service.ENV 'JENKINS_PASSWORD' PARAMS.JENKINS_PASSWORD />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECKER 'jenkins-checker-${namespace}' 'http://jenkins-master-${namespace}.1:8080' 'jenkins-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'jenkins-checker-${namespace}' 'http://jenkins-master-${namespace}:8080' 'jenkins-net-${namespace}' />
 </@requirement.CONFORMS>
