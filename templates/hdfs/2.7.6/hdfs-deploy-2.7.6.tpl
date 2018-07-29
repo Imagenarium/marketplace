@@ -34,8 +34,7 @@
   <@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hdfs-namenode:${HDFS_VERSION}'>
     <@service.CONS 'node.labels.hdfs-name' 'true' />
     <@service.PORT PARAMS.NAME_WEB_PORT '50070' />
-    <@service.ENV 'PROXY_PORTS' '50070' />
-    <@service.ENV 'PROXY_PORTS' '8020' />
+    <@service.ENV 'PROXY_PORTS' '50070,8020' />
     <@service.NETWORK 'hdfs-net-${namespace}' />
   </@swarm.TASK_RUNNER>
 
