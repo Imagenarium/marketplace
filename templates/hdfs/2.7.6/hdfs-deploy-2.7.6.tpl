@@ -25,6 +25,7 @@
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'NETWORK_NAME' 'hdfs-net-${namespace}' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hdfs-${namespace}' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
@@ -48,6 +49,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
+      <@container.ENV 'NETWORK_NAME' 'hdfs-net-${namespace}' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hdfs-${namespace}' />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
