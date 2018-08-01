@@ -59,7 +59,7 @@
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs-datanode:${HDFS_VERSION}'>
-      <@service.CONS 'node.labels.hdfs-data' index />
+      <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.PORT PARAMS.DATA_WEB_PORT '50075' 'host' />
       <@service.ENV 'PROXY_PORTS' '50075' />
       <@service.NETWORK 'hadoop-net-${namespace}' />
@@ -80,7 +80,7 @@
     <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/cp-zookeeper:4.1.1'>
       <@service.NETWORK 'hadoop-net-${namespace}' />
       <@service.DNSRR />
-      <@service.CONS 'node.labels.hdfs-data' index />
+      <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/var/lib/zookeeper/data' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-hadoop-${namespace}' />
