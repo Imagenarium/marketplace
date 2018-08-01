@@ -1,11 +1,14 @@
 <@requirement.CONFORMS>
   <@docker.REMOVE_HTTP_CHECKER 'hdfs-checker-${namespace}' />
+  <@docker.REMOVE_HTTP_CHECKER 'hbase-checker-${namespace}' />
   <@docker.CONTAINER_RM 'zookeeper-checker-${namespace}' />
 
   <@swarm.SERVICE_RM 'hdfs-name-${namespace}' />
+  <@swarm.SERVICE_RM 'hbase-master-${namespace}' />
 
   <#list 1..3 as index>
     <@swarm.SERVICE_RM 'hdfs-data-${index}-${namespace}' />
+    <@swarm.SERVICE_RM 'hbase-regionserver-${index}-${namespace}' />
   </#list>
 
   <#list 1..3 as index>
