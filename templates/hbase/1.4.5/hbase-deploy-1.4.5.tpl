@@ -143,7 +143,7 @@
 
     <@swarm.TASK_RUNNER 'hbase-regionserver-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
-      <@service.PORT PARAMS.MASTER_WEB_PORT '16030' 'host' />
+      <@service.PORT PARAMS.REGION_SERVER_WEB_PORT '16030' 'host' />
       <@service.ENV 'PROXY_PORTS' '16030' />
       <@service.NETWORK 'hadoop-net-${namespace}' />
     </@swarm.TASK_RUNNER>
