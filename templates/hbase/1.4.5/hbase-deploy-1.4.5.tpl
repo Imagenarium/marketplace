@@ -13,6 +13,8 @@
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 
+<@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
+
 <@requirement.PARAM name='ZOOKEEPER_PORT'         type='port' required='false' />
 <@requirement.PARAM name='NAME_WEB_PORT'          type='port' required='false' />
 <@requirement.PARAM name='DATA_WEB_PORT'          type='port' required='false' />
@@ -112,6 +114,7 @@
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
     <@container.ENV 'NETWORK_NAME' 'hadoop-net-${namespace}' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hadoop-${namespace}' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
@@ -135,7 +138,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
-      <@container.ENV 'EXTERNAL_PORT' PARAMS.HBASE_PUBLISHED_PORT! />
+      <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
       <@container.ENV 'NETWORK_NAME' 'hadoop-net-${namespace}' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hadoop-${namespace}' />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
