@@ -13,10 +13,11 @@
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 
-<@requirement.PARAM name='NAME_WEB_PORT'          type='port' required='false' description='Web admin name node port' />
-<@requirement.PARAM name='DATA_WEB_PORT'          type='port' required='false' description='Web admin data node port' />
-<@requirement.PARAM name='MASTER_WEB_PORT'        type='port' required='false' description='Web admin name node port' />
-<@requirement.PARAM name='REGION_SERVER_WEB_PORT' type='port' required='false' description='Web admin data node port' />
+<@requirement.PARAM name='ZOOKEEPER_PORT'         type='port' required='false' />
+<@requirement.PARAM name='NAME_WEB_PORT'          type='port' required='false' />
+<@requirement.PARAM name='DATA_WEB_PORT'          type='port' required='false' />
+<@requirement.PARAM name='MASTER_WEB_PORT'        type='port' required='false' />
+<@requirement.PARAM name='REGION_SERVER_WEB_PORT' type='port' required='false' />
 
 <@requirement.CONFORMS>
   <#assign HDFS_VERSION='2.7.6' />
@@ -85,6 +86,7 @@
   <#list 1..3 as index>
     <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/cp-zookeeper:4.1.1'>
       <@service.NETWORK 'hadoop-net-${namespace}' />
+      <@service.PORT PARAMS.ZOOKEEPER_PORT '2181' 'host' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/var/lib/zookeeper/data' />
@@ -133,6 +135,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
+      <@container.ENV 'EXTERNAL_PORT' PARAMS.HBASE_PUBLISHED_PORT! />
       <@container.ENV 'NETWORK_NAME' 'hadoop-net-${namespace}' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hadoop-${namespace}' />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
