@@ -14,12 +14,13 @@
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 
 <@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
+<@requirement.PARAM name='MASTER_EXTERNAL_PORT'       type='port' required='false' />
 
 <@requirement.PARAM name='ZOOKEEPER_PORT'         type='port' required='false' />
 <@requirement.PARAM name='NAME_WEB_PORT'          type='port' required='false' />
 <@requirement.PARAM name='DATA_WEB_PORT'          type='port' required='false' />
 <@requirement.PARAM name='MASTER_WEB_PORT'        type='port' required='false' />
-<@requirement.PARAM name='REGION_SERVER_WEB_PORT' type='port' required='false' />
+<@requirement.PARAM name='REGIONSERVER_WEB_PORT'  type='port' required='false' />
 
 <@requirement.CONFORMS>
   <#assign HDFS_VERSION='2.7.6' />
@@ -114,7 +115,7 @@
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
-    <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
+    <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT! />
     <@container.ENV 'NETWORK_NAME' 'hadoop-net-${namespace}' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hadoop-${namespace}' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
@@ -126,7 +127,8 @@
   <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master:${HBASE_VERSION}'>
     <@service.CONS 'node.labels.hdfs-name' 'true' />
     <@service.PORT PARAMS.MASTER_WEB_PORT '16010' />
-    <@service.ENV 'PROXY_PORTS' '16010' />
+    <@service.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
+    <@service.ENV 'PROXY_PORTS' '16010,${PARAMS.MASTER_EXTERNAL_PORT}' />
     <@service.NETWORK 'hadoop-net-${namespace}' />
   </@swarm.TASK_RUNNER>
 
@@ -150,7 +152,7 @@
 
     <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
-      <@service.PORT PARAMS.REGION_SERVER_WEB_PORT '16030' 'host' />
+      <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
       <@service.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
       <@service.ENV 'PROXY_PORTS' '16030,${PARAMS.REGIONSERVER_EXTERNAL_PORT}' />
       <@service.NETWORK 'hadoop-net-${namespace}' />
