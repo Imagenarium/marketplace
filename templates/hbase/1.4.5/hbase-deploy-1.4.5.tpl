@@ -138,7 +138,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
-      <@container.VOLUME 'hbase-regionserver-logvolume-${index}-${namespace}' '/opt/hbase-${HBASE_VERSION}/conf/logs' />
+      <@container.VOLUME 'hbase-regionserver-logvolume-${index}-${namespace}' '/opt/hbase-${HBASE_VERSION}/logs' />
       <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
       <@container.ENV 'NETWORK_NAME' 'hadoop-net-${namespace}' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hadoop-${namespace}' />
