@@ -128,7 +128,7 @@
   <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}:16010' 'hadoop-net-${namespace}' />
 
   <#list 1..3 as index>
-    <@swarm.TASK 'hbase-regionserver-${namespace}'>
+    <@swarm.TASK 'hbase-regionserver-${index}-${namespace}'>
       <@container.NETWORK 'hadoop-net-${namespace}' />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
@@ -141,13 +141,13 @@
       <@container.ENV 'ZOOKEEPER_SERVERS' zoo_hosts?join(",") />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'hbase-regionserver-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
+    <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.PORT PARAMS.REGION_SERVER_WEB_PORT '16030' 'host' />
       <@service.ENV 'PROXY_PORTS' '16030' />
       <@service.NETWORK 'hadoop-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
-    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${namespace}:16030' 'hadoop-net-${namespace}' />
+    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}:16030' 'hadoop-net-${namespace}' />
   </#list>
 </@requirement.CONFORMS>
