@@ -57,7 +57,7 @@
       <@container.ENV 'network.bind_host' '0.0.0.0' />
       <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
       <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
-      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}.1' />
+      <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}-1' />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
@@ -67,5 +67,5 @@
     </@swarm.TASK_RUNNER>
   </#list>
 
-  <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}.1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}-1:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
 </@requirement.CONFORMS>
