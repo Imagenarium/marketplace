@@ -9,7 +9,7 @@
 <@requirement.PARAM name='HBASE_REGIONSERVER_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='ZOOKEEPER_HEAP_OPTS'     value='-Xmx512M -Xms512M' />
 
-<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' scope='global' />
+<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 
