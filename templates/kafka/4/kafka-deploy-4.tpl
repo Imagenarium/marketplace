@@ -12,6 +12,8 @@
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
 <@requirement.CONFORMS>
+  <#assign CONFLUENT_VERSION='4.1.2' />
+
   <@swarm.NETWORK name='kafka-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
   
   <#assign zoo_servers = [] />
@@ -31,7 +33,7 @@
       <@swarm.VOLUME_RM 'zookeeper-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/cp-zookeeper:4.1.1'>
+    <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/cp-zookeeper:${CONFLUENT_VERSION}'>
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.kafka' '${index}' />
@@ -46,7 +48,7 @@
     </@swarm.SERVICE>
   </#list>
 
-  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/cp-zookeeper:4.1.1'>
+  <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/cp-zookeeper:${CONFLUENT_VERSION}'>
     <@container.ENTRY '/checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
@@ -59,7 +61,7 @@
       <@swarm.VOLUME_RM 'kafka-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/cp-kafka:4.1.1'>    
+    <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/cp-kafka:${CONFLUENT_VERSION}'>    
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_PORT '9092' 'host' />
       <@service.HOSTNAME 'kafka-${index}-${namespace}' />
@@ -85,7 +87,7 @@
     </@swarm.SERVICE>
   </#list>
 
-  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/cp-kafka:4.1.1'>
+  <@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/cp-kafka:${CONFLUENT_VERSION}'>
     <@container.ENTRY '/checker.sh' />
     <@container.NETWORK 'kafka-net-${namespace}' />
     <@container.EPHEMERAL />
@@ -94,7 +96,7 @@
   </@docker.CONTAINER>
 
   <#if PARAMS.PUBLISHED_REST_PORT?? && PARAMS.PUBLISHED_REST_PORT?has_content>
-    <@swarm.SERVICE 'kafka-rest-${namespace}' 'confluentinc/cp-kafka-rest:4.1.1'>
+    <@swarm.SERVICE 'kafka-rest-${namespace}' 'confluentinc/cp-kafka-rest:${CONFLUENT_VERSION}'>
       <@service.PORT PARAMS.PUBLISHED_REST_PORT '8082' />
       <@service.NETWORK 'kafka-net-${namespace}' />
       <@service.ENV 'KAFKA_REST_HOST_NAME' 'kafka-rest-${namespace}' />

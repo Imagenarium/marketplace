@@ -62,7 +62,6 @@
 
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.CONS 'node.labels.es' 'master${index}' />
-      <@service.ENV 'PROXY_PORTS' '9200' />
       <@service.NETWORK 'es-net-${namespace}' />
     </@swarm.TASK_RUNNER>
   </#list>

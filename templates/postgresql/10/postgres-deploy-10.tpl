@@ -19,19 +19,19 @@
     <@swarm.VOLUME_RM 'postgres-volume-${namespace}' />
   </#if>
 
-  <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:10'>
+  <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:10.4'>
     <@service.NETWORK 'postgres-net-${namespace}' />
+    <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
     <@service.VOLUME 'postgres-volume-${namespace}' '/var/lib/postgresql/data' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
     <@service.CONS 'node.labels.postgres' 'true' />
-    <@container.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
-    <@container.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
-    <@container.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
+    <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
+    <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
+    <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
     <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-postgres-${namespace}' />
-    <@service.ENV 'NEW_DB' PARAMS.DELETE_DATA />
-    <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
+    <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
   </@swarm.SERVICE>
 
-  <@docker.CONTAINER 'postgres-checker-${namespace}' 'imagenarium/postgresql:10'>
+  <@docker.CONTAINER 'postgres-checker-${namespace}' 'imagenarium/postgresql:10.4'>
     <@container.NETWORK 'postgres-net-${namespace}' />
     <@container.ENV 'PGHOST' 'postgres-${namespace}' />
     <@container.ENV 'PGUSER' PARAMS.POSTGRES_USER />

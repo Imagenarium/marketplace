@@ -12,6 +12,8 @@
 <@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' />
 
 <@requirement.CONFORMS>
+  <#assign COCKROACHDB_VERSION='2.0.4' />
+
   <@swarm.NETWORK name='cockroach-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
   
   <@swarm.STORAGE 'swarmstorage-cockroach-${namespace}' 'cockroach-net-${namespace}' />
@@ -29,7 +31,7 @@
       <@swarm.VOLUME_RM 'cockroach-volume-${index}-${namespace}' />
     </#if>
 
-    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:2.0.3' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
+    <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
       <@service.NETWORK 'cockroach-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
@@ -47,7 +49,7 @@
   </#list>
 
   <#if PARAMS.DELETE_DATA == 'true'>
-    <@docker.CONTAINER 'cockroachdb-cluster-initializer-${namespace}' 'cockroachdb/cockroach:v2.0.3' 'init --host=cockroachdb-1-${namespace} --insecure'>
+    <@docker.CONTAINER 'cockroachdb-cluster-initializer-${namespace}' 'cockroachdb/cockroach:v2.0.4' 'init --host=cockroachdb-1-${namespace} --insecure'>
       <@container.NETWORK 'cockroach-net-${namespace}' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
@@ -58,7 +60,7 @@
   </#list>
 
   <#if PARAMS.DELETE_DATA == 'true'>
-    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'cockroachdb/cockroach:v2.0.3' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
+    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'cockroachdb/cockroach:v2.0.4' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
       <@container.NETWORK 'cockroach-net-${namespace}' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
