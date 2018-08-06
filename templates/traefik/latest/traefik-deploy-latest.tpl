@@ -7,6 +7,7 @@
   <@swarm.SERVICE 'traefik-${namespace}' 'traefik:latest' '--docker --docker.swarmMode --docker.watch --api'>
     <@node.MANAGER />
     <@service.SCALABLE />
+    <@service.SINGLE_INSTANCE_PER_NODE />
     <@service.NETWORK 'traefik-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PROXY_PORT '80' />
     <@service.PORT PARAMS.PUBLISHED_ADMIN_PORT '8080' />
