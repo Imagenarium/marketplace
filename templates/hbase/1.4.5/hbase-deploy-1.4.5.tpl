@@ -15,6 +15,7 @@
 
 <@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
 <@requirement.PARAM name='MASTER_EXTERNAL_PORT'       type='port' required='false' />
+<@requirement.PARAM name='PHOENIX_EXTERNAL_PORT'      type='port' required='false' />
 
 <@requirement.PARAM name='ZOOKEEPER_PORT'         type='port' required='false' />
 <@requirement.PARAM name='NAME_WEB_PORT'          type='port' required='false' />
@@ -121,7 +122,7 @@
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
-    <@container.ENV 'ZOOKEEPER_SERVERS' zoo_hosts?join(",") />
+    <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master:${HBASE_VERSION}'>
@@ -147,7 +148,7 @@
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
       <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
-      <@container.ENV 'ZOOKEEPER_SERVERS' zoo_hosts?join(",") />
+      <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
     </@swarm.TASK>
 
     <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
@@ -160,4 +161,14 @@
 
     <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}:16030' 'hadoop-net-${namespace}' />
   </#list>
+
+  <@swarm.SERVICE 'phoenix-${namespace}' 'imagenarium/phoenix:4.14'>
+    <@service.SCALABLE />
+    <@service.SINGLE_INSTANCE_PER_NODE />
+    <@service.NETWORK 'hadoop-net-${namespace}' />
+    <@service.PORT PARAMS.PHOENIX_EXTERNAL_PORT '8765' />
+    <@service.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
+  </@swarm.SERVICE>
+  
+  <@docker.TCP_CHECKER 'phoenix-checker-${namespace}' 'phoenix-${namespace}:8765' 'hadoop-net-${namespace}' />
 </@requirement.CONFORMS>
