@@ -23,6 +23,8 @@
 <@requirement.PARAM name='MASTER_WEB_PORT'        type='port' required='false' />
 <@requirement.PARAM name='REGIONSERVER_WEB_PORT'  type='port' required='false' />
 
+<@requirement.PARAM name='HBASE_ADMIN_MODE' value='false' type='boolean' />
+
 <@requirement.CONFORMS>
   <#assign HDFS_VERSION='2.7.6' />
   <#assign HBASE_VERSION='1.4.5' />
@@ -123,9 +125,10 @@
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
+    <@container.ENV 'ADMIN_MODE' PARAMS.HBASE_ADMIN_MODE />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master:${HBASE_VERSION}'>
+  <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master-new:${HBASE_VERSION}'>
     <@service.CONS 'node.labels.hdfs-name' 'true' />
     <@service.PORT PARAMS.MASTER_WEB_PORT '16010' />
     <@service.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
@@ -133,7 +136,9 @@
     <@service.NETWORK 'hadoop-net-${namespace}' />
   </@swarm.TASK_RUNNER>
 
-  <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}:16010' 'hadoop-net-${namespace}' />
+  <#if PARAMS.HBASE_ADMIN_MODE == 'false'>
+    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}:16010' 'hadoop-net-${namespace}' />
+  </#if>
 
   <#list 1..3 as index>
     <@swarm.TASK 'hbase-regionserver-${index}-${namespace}'>
@@ -149,9 +154,10 @@
       <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
       <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
       <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
+      <@container.ENV 'ADMIN_MODE' PARAMS.HBASE_ADMIN_MODE />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
+    <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver-new:${HBASE_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
       <@service.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
@@ -159,7 +165,9 @@
       <@service.NETWORK 'hadoop-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
-    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}:16030' 'hadoop-net-${namespace}' />
+    <#if PARAMS.HBASE_ADMIN_MODE == 'false'>
+      <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}:16030' 'hadoop-net-${namespace}' />
+    </#if>
   </#list>
 
   <@swarm.SERVICE 'phoenix-${namespace}' 'imagenarium/phoenix:4.14'>
