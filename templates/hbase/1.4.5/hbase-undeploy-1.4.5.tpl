@@ -7,7 +7,5 @@
     <@swarm.SERVICE_RM 'hbase-regionserver-${index}-${namespace}' />
   </#list>
 
-  <@swarm.SERVICE_RM 'swarmstorage-hbase-${namespace}' />
-  
-  <@swarm.NETWORK_RM 'hadoop-net-${namespace}' />
+  <@swarm.SERVICE_RM 'swarmstorage-hbase-${namespace}' />  
 </@requirement.CONFORMS>

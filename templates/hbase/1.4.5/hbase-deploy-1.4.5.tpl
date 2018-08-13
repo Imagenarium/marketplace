@@ -53,7 +53,7 @@
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
   </@swarm.TASK_RUNNER>
 
-  <#if PARAMS.HBASE_ADMIN_MODE == 'false'>
+  <#if PARAMS.ADMIN_MODE == 'false'>
     <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}-1:16010' 'hadoop-net-${namespace}' />
   </#if>
 
@@ -82,7 +82,7 @@
       <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     </@swarm.TASK_RUNNER>
 
-    <#if PARAMS.HBASE_ADMIN_MODE == 'false'>
+    <#if PARAMS.ADMIN_MODE == 'false'>
       <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}-1:16030' 'hadoop-net-${namespace}' />
     </#if>
   </#list>
