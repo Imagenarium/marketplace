@@ -6,8 +6,9 @@
 <@requirement.PARAM name='HADOOP_NAMENODE_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HADOOP_DATANODE_OPTS' value='-Xms1G -Xmx1G' />
 
-<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
-<@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
+<@requirement.PARAM name='DELETE_DATA' value='true'  type='boolean' scope='global' />
+<@requirement.PARAM name='ADMIN_MODE'  value='false' type='boolean' />
+<@requirement.PARAM name='RUN_APP'     value='true'  type='boolean' />
 
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 
@@ -38,6 +39,7 @@
     <@service.PORT PARAMS.NAME_WEB_PORT '50070' />
     <@service.ENV 'PROXY_PORTS' '50070' />
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+    <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     <@service.NETWORK 'hadoop-net-${namespace}' />
   </@swarm.TASK_RUNNER>
 
@@ -61,6 +63,7 @@
       <@service.PORT PARAMS.DATA_WEB_PORT '50075' 'host' />
       <@service.ENV 'PROXY_PORTS' '50075' />
       <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+      <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
       <@service.NETWORK 'hadoop-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
