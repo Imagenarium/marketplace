@@ -29,7 +29,6 @@
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hdfs-${namespace}' />
     <@container.ENV 'IMAGENARIUM_DELETE_DATA' PARAMS.DELETE_DATA />
-    <@container.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
     <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
   </@swarm.TASK>
@@ -38,6 +37,7 @@
     <@service.CONS 'node.labels.hdfs-name' 'true' />
     <@service.PORT PARAMS.NAME_WEB_PORT '50070' />
     <@service.ENV 'PROXY_PORTS' '50070' />
+    <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@service.NETWORK 'hadoop-net-${namespace}' />
   </@swarm.TASK_RUNNER>
 
@@ -52,7 +52,6 @@
       <@container.ULIMIT 'memlock=-1:-1' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hdfs-${namespace}' />
       <@container.ENV 'IMAGENARIUM_DELETE_DATA' PARAMS.DELETE_DATA />
-      <@container.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
       <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
       <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
     </@swarm.TASK>
@@ -61,6 +60,7 @@
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.PORT PARAMS.DATA_WEB_PORT '50075' 'host' />
       <@service.ENV 'PROXY_PORTS' '50075' />
+      <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
       <@service.NETWORK 'hadoop-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
