@@ -40,10 +40,9 @@
     <@service.ENV 'PROXY_PORTS' '50070' />
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
-    <@service.NETWORK 'hadoop-net-${namespace}' />
   </@swarm.TASK_RUNNER>
 
-  <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-name-${namespace}:50070' 'hadoop-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-name-${namespace}-1:50070' 'hadoop-net-${namespace}' />
 
   <#list 1..3 as index>
     <@swarm.TASK 'hdfs-data-${index}-${namespace}'>
@@ -64,9 +63,8 @@
       <@service.ENV 'PROXY_PORTS' '50075' />
       <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
       <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
-      <@service.NETWORK 'hadoop-net-${namespace}' />
     </@swarm.TASK_RUNNER>
 
-    <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-data-${index}-${namespace}:50075' 'hadoop-net-${namespace}' />
+    <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-data-${index}-${namespace}-1:50075' 'hadoop-net-${namespace}' />
   </#list>
 </@requirement.CONFORMS>
