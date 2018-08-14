@@ -1,0 +1,29 @@
+﻿<group>
+  <id>phoenix</id>
+  <name>Phoenix</name>
+  <version>4</version>
+  <summary>Phoenix</summary>
+  <logo></logo>
+  <stacks>
+    <stack>
+      <id>hdfs</id>
+      <version>2.7.6</version>
+      <order>1</order>
+    </stack>
+    <stack>
+      <id>zookeeper</id>
+      <version>latest</version>
+      <order>2</order>
+    </stack>
+    <stack>
+      <id>hbase</id>
+      <version>1.4.5</version>
+      <order>3</order>
+    </stack>
+    <stack>
+      <id>phoenix</id>
+      <version>4.14</version>
+      <order>4</order>
+    </stack>
+  </stacks>
+</group>
