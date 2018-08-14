@@ -2,7 +2,7 @@
 <@requirement.CONS 'es' 'master2' />
 <@requirement.CONS 'es' 'master3' />
 
-<@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' />
+<@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' type='textarea' />
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify Elasticsearch external port (for example 9200)' />
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
