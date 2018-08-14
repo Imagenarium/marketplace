@@ -22,8 +22,6 @@
 <@requirement.CONFORMS>
   <#assign HBASE_VERSION='1.4.5' />
 
-  <@swarm.STORAGE 'swarmstorage-hbase-${namespace}' 'net-${namespace}' />
-
   <#assign zoo_hosts   = [] />
   
   <#list 1..3 as index>
@@ -36,7 +34,6 @@
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT! />
-    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hbase-${namespace}' />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
@@ -62,9 +59,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
-      <@container.VOLUME 'hbase-regionserver-logvolume-${index}-${namespace}' '/opt/hbase-${HBASE_VERSION}/logs' />
       <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
-      <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hbase-${namespace}' />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
       <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />

@@ -6,6 +6,4 @@
   <#list 1..3 as index>
     <@swarm.SERVICE_RM 'hbase-regionserver-${index}-${namespace}' />
   </#list>
-
-  <@swarm.SERVICE_RM 'swarmstorage-hbase-${namespace}' />  
 </@requirement.CONFORMS>
