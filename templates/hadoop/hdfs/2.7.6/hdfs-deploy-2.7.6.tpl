@@ -29,12 +29,12 @@
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hdfs-${namespace}' />
-    <@container.ENV 'IMAGENARIUM_DELETE_DATA' PARAMS.DELETE_DATA />
+    <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
     <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hdfs-namenode-new:${HDFS_VERSION}'>
+  <@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hdfs-namenode:${HDFS_VERSION}'>
     <@service.CONS 'node.labels.hdfs-name' 'true' />
     <@service.PORT PARAMS.NAME_WEB_PORT '50070' />
     <@service.ENV 'PROXY_PORTS' '50070' />
@@ -52,12 +52,12 @@
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hdfs-${namespace}' />
-      <@container.ENV 'IMAGENARIUM_DELETE_DATA' PARAMS.DELETE_DATA />
+      <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
       <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs-datanode-new:${HDFS_VERSION}'>
+    <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs-datanode:${HDFS_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.PORT PARAMS.DATA_WEB_PORT '50075' 'host' />
       <@service.ENV 'PROXY_PORTS' '50075' />

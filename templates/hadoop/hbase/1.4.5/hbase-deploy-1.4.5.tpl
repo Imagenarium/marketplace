@@ -37,13 +37,13 @@
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT! />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hbase-${namespace}' />
-    <@container.ENV 'IMAGENARIUM_DELETE_DATA' PARAMS.DELETE_DATA />
+    <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master-new:${HBASE_VERSION}'>
+  <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master:${HBASE_VERSION}'>
     <@service.CONS 'node.labels.hdfs-name' 'true' />
     <@service.PORT PARAMS.MASTER_WEB_PORT '16010' />
     <@service.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
@@ -65,13 +65,13 @@
       <@container.VOLUME 'hbase-regionserver-logvolume-${index}-${namespace}' '/opt/hbase-${HBASE_VERSION}/logs' />
       <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-hbase-${namespace}' />
-      <@container.ENV 'IMAGENARIUM_DELETE_DATA' PARAMS.DELETE_DATA />
+      <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
       <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
       <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
     </@swarm.TASK>
 
-    <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver-new:${HBASE_VERSION}'>
+    <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
       <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
       <@service.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
