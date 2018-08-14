@@ -12,7 +12,7 @@
     </stack>
     <stack>
       <id>zookeeper</id>
-      <version>latest</version>
+      <version>4</version>
       <order>2</order>
     </stack>
     <stack>

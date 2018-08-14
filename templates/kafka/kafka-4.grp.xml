@@ -1,0 +1,19 @@
+﻿<group>
+  <id>kafka</id>
+  <name>Kafka</name>
+  <version>4</version>
+  <summary>Kafka</summary>
+  <logo>Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds.</logo>
+  <stacks>
+    <stack>
+      <id>zookeeper</id>
+      <version>4</version>
+      <order>1</order>
+    </stack>
+    <stack>
+      <id>kafka</id>
+      <version>4</version>
+      <order>2</order>
+    </stack>
+  </stacks>
+</group>
