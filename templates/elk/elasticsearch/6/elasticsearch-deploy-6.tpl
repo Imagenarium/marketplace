@@ -4,10 +4,10 @@
 
 <@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' />
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify Elasticsearch external port (for example 9200)' />
-<@requirement.PARAM name='DELETE_DATA' value='false' type='boolean' scope='global' />
+<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
-<@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
+<@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
+<@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
   <#assign ES_VERSION='6.3.0' />
@@ -34,22 +34,19 @@
   <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
     <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
     <@service.ENV 'PROXY_PORTS' '9200' />
+    <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+    <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     <@service.NETWORK 'es-net-${namespace}' />
   </@swarm.TASK_RUNNER>
   
   <#list "1,2,3"?split(",") as index>
-    <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
-      <@swarm.VOLUME_RM 'es-master-volume-${index}-${namespace}' />
-    </#if>
-
     <@swarm.TASK 'es-master-${index}-${namespace}'>
       <@container.NETWORK 'es-net-${namespace}' />
       <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
-      <@container.VOLUME 'es-master-volume-${index}-${namespace}' '/usr/share/elasticsearch/data' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, PARAMS.VOLUME_SIZE_GB) />
+      <@container.VOLUME 'es-master-volume-${index}-${namespace}' '/usr/share/elasticsearch/data' />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
-      <@container.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage-es-${namespace}' />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
@@ -63,6 +60,8 @@
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.CONS 'node.labels.es' 'master${index}' />
       <@service.NETWORK 'es-net-${namespace}' />
+      <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+      <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     </@swarm.TASK_RUNNER>
   </#list>
 
