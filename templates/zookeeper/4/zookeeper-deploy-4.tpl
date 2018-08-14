@@ -6,6 +6,8 @@
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 <@requirement.PARAM name='ZOOKEEPER_PORT' type='port' required='false' />
+<@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
+<@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
   <#assign ZOOKEEPER_VERSION='4.1.2' />
@@ -31,6 +33,8 @@
       <@service.VOLUME 'zookeeper-volume-${index}-${namespace}' '/var/lib/zookeeper/data' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-zookeeper-${namespace}' />
+      <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+      <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
       <@service.ENV 'ZOOKEEPER_SERVER_ID' '${index}' />
       <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=zookeeper-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
       <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.ZOOKEEPER_HEAP_OPTS />

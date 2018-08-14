@@ -6,6 +6,8 @@
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
+<@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
+<@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
   <#assign KAFKA_VERSION='4.1.2' />
@@ -34,6 +36,8 @@
       <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-kafka-${namespace}' />
+      <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+      <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
       <@service.ENV 'KAFKA_LEADER_IMBALANCE_CHECK_INTERVAL_SECONDS' '10' />
       <@service.ENV 'KAFKA_BROKER_ID' '${index}' />
       <@service.ENV 'KAFKA_ZOOKEEPER_CONNECT' zoo_connect?join(",") />
