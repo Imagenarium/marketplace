@@ -18,12 +18,12 @@
 <@requirement.CONFORMS>
   <#assign HDFS_VERSION='2.7.6' />
 
-  <@swarm.NETWORK name='hadoop-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
-  <@swarm.STORAGE 'swarmstorage-hdfs-${namespace}' 'hadoop-net-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-hdfs-${namespace}' 'net-${namespace}' />
 
   <@swarm.TASK 'hdfs-name-${namespace}'>
-    <@container.NETWORK 'hadoop-net-${namespace}' />
+    <@container.NETWORK 'net-${namespace}' />
     <@container.VOLUME 'hdfs-name-volume-${namespace}' '/hadoop/dfs/name' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
@@ -42,11 +42,11 @@
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
   </@swarm.TASK_RUNNER>
 
-  <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-name-${namespace}-1:50070' 'hadoop-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-name-${namespace}-1:50070' 'net-${namespace}' />
 
   <#list 1..3 as index>
     <@swarm.TASK 'hdfs-data-${index}-${namespace}'>
-      <@container.NETWORK 'hadoop-net-${namespace}' />
+      <@container.NETWORK 'net-${namespace}' />
       <@container.VOLUME 'hdfs-data-${index}-volume-${namespace}' '/hadoop/dfs/data' />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
@@ -65,6 +65,6 @@
       <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     </@swarm.TASK_RUNNER>
 
-    <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-data-${index}-${namespace}-1:50075' 'hadoop-net-${namespace}' />
+    <@docker.HTTP_CHECKER 'hdfs-checker-${namespace}' 'http://hdfs-data-${index}-${namespace}-1:50075' 'net-${namespace}' />
   </#list>
 </@requirement.CONFORMS>

@@ -14,11 +14,10 @@
   </#list>
 
   <@swarm.SERVICE 'phoenix-${namespace}' 'imagenarium/phoenix:${PHOENIX_VERSION}'>
-    <@service.NETWORK 'hadoop-net-${namespace}' />
-    <@service.NETWORK 'zookeeper-net-${namespace}' />
+    <@service.NETWORK 'net-${namespace}' />  
     <@service.PORT PARAMS.PHOENIX_EXTERNAL_PORT '8765' />
     <@service.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
   </@swarm.SERVICE>
   
-  <@docker.TCP_CHECKER 'phoenix-checker-${namespace}' 'phoenix-${namespace}:8765' 'hadoop-net-${namespace}' />
+  <@docker.TCP_CHECKER 'phoenix-checker-${namespace}' 'phoenix-${namespace}:8765' 'net-${namespace}' />
 </@requirement.CONFORMS>

@@ -22,7 +22,7 @@
 <@requirement.CONFORMS>
   <#assign HBASE_VERSION='1.4.5' />
 
-  <@swarm.STORAGE 'swarmstorage-hbase-${namespace}' 'hadoop-net-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-hbase-${namespace}' 'net-${namespace}' />
 
   <#assign zoo_hosts   = [] />
   
@@ -31,8 +31,7 @@
   </#list>
   
   <@swarm.TASK 'hbase-master-${namespace}'>
-    <@container.NETWORK 'hadoop-net-${namespace}' />
-    <@container.NETWORK 'zookeeper-net-${namespace}' />
+    <@container.NETWORK 'net-${namespace}' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
@@ -54,13 +53,12 @@
   </@swarm.TASK_RUNNER>
 
   <#if PARAMS.ADMIN_MODE == 'false'>
-    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}-1:16010' 'hadoop-net-${namespace}' />
+    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}-1:16010' 'net-${namespace}' />
   </#if>
 
   <#list 1..3 as index>
     <@swarm.TASK 'hbase-regionserver-${index}-${namespace}'>
-      <@container.NETWORK 'hadoop-net-${namespace}' />
-      <@container.NETWORK 'zookeeper-net-${namespace}' />
+      <@container.NETWORK 'net-${namespace}' />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
@@ -83,7 +81,7 @@
     </@swarm.TASK_RUNNER>
 
     <#if PARAMS.ADMIN_MODE == 'false'>
-      <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}-1:16030' 'hadoop-net-${namespace}' />
+      <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}-1:16030' 'net-${namespace}' />
     </#if>
   </#list>
 </@requirement.CONFORMS>

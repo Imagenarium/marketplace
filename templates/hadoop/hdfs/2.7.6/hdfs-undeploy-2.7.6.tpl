@@ -9,5 +9,5 @@
 
   <@swarm.SERVICE_RM 'swarmstorage-hdfs-${namespace}' />
   
-  <@swarm.NETWORK_RM 'hadoop-net-${namespace}' />
+  <@swarm.NETWORK_RM 'net-${namespace}' />
 </@requirement.CONFORMS>

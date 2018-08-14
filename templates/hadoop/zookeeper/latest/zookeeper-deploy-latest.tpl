@@ -10,9 +10,9 @@
 <@requirement.CONFORMS>
   <#assign ZOOKEEPER_VERSION='4.1.2' />
 
-  <@swarm.NETWORK name='zookeeper-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
+  <@swarm.NETWORK name='net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
-  <@swarm.STORAGE 'swarmstorage-zookeeper-${namespace}' 'zookeeper-net-${namespace}' />
+  <@swarm.STORAGE 'swarmstorage-zookeeper-${namespace}' 'net-${namespace}' />
 
   <#assign zoo_servers = [] />
   <#assign zoo_connect = [] />
@@ -24,7 +24,7 @@
   
   <#list 1..3 as index>
     <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/cp-zookeeper:${ZOOKEEPER_VERSION}'>
-      <@service.NETWORK 'zookeeper-net-${namespace}' />
+      <@service.NETWORK 'net-${namespace}' />
       <@service.PORT PARAMS.ZOOKEEPER_PORT '2181' 'host' />
       <@service.DNSRR />
       <@service.CONS 'node.labels.zookeeper' '${index}' />
@@ -40,7 +40,7 @@
 
   <@docker.CONTAINER 'zookeeper-checker-${namespace}' 'imagenarium/cp-zookeeper:${ZOOKEEPER_VERSION}'>
     <@container.ENTRY '/checker.sh' />
-    <@container.NETWORK 'zookeeper-net-${namespace}' />
+    <@container.NETWORK 'net-${namespace}' />
     <@container.EPHEMERAL />
     <@container.ENV 'ZOOKEEPER_CONNECT' zoo_connect?join(",") />
     <@container.ENV 'EXPECTED_FOLLOWERS' '${zoo_connect?size - 1}' />

@@ -7,5 +7,5 @@
 
   <@swarm.SERVICE_RM 'swarmstorage-zookeeper-${namespace}' />
   
-  <@swarm.NETWORK_RM 'zookeeper-net-${namespace}' />
+  <@swarm.NETWORK_RM 'net-${namespace}' />
 </@requirement.CONFORMS>
