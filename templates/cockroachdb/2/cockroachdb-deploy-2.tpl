@@ -57,7 +57,7 @@
   </#list>
 
   <#if PARAMS.DELETE_DATA == 'true'>
-    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
+    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'cockroachdb/cockroach:v${COCKROACHDB_VERSION}' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
       <@container.NETWORK 'cockroach-net-${namespace}' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
