@@ -6,13 +6,11 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify CRDB external port (for example 26257)' />
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
-<@requirement.PARAM name='VOLUME_DRIVER' value='local' type='volume_driver' scope='global' />
-<@requirement.PARAM name='VOLUME_SIZE_GB' value='1' type='number' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
-<@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' />
+<@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' type='textarea' />
 
 <@requirement.CONFORMS>
-  <#assign COCKROACHDB_VERSION='2.0.4' />
+  <#assign COCKROACHDB_VERSION='2.0.5' />
 
   <@swarm.NETWORK name='cockroach-net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
   
@@ -27,22 +25,19 @@
       </#if>
     </#list>
 
-    <#if PARAMS.DELETE_DATA == 'true' && PARAMS.VOLUME_DRIVER != 'local'>
-      <@swarm.VOLUME_RM 'cockroach-volume-${index}-${namespace}' />
-    </#if>
-
     <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
       <@service.NETWORK 'cockroach-net-${namespace}' />
       <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
       <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
       <@service.HOSTNAME 'cockroachdb-${index}-${namespace}' />      
       <@service.CONS 'node.labels.cockroachdb' '${index}' />
-      <@service.VOLUME 'cockroach-volume-${index}-${namespace}' '/cockroach/cockroach-data' PARAMS.VOLUME_DRIVER docker.VOLUME_SIZE(PARAMS.VOLUME_DRIVER, 1) />
+      <@service.VOLUME 'cockroach-volume-${index}-${namespace}' '/cockroach/cockroach-data' />
       <@service.STOP_GRACE_PERIOD '60s' />
       <@service.ENV 'NETWORK_NAME' 'cockroach-net-${namespace}' />
       <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
-      <@service.ENV 'VOLUME_DRIVER' PARAMS.VOLUME_DRIVER />
       <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-cockroach-${namespace}' />
+      <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
+      <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     </@swarm.SERVICE>
 
     <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080' 'cockroach-net-${namespace}' />
@@ -60,7 +55,8 @@
   </#list>
 
   <#if PARAMS.DELETE_DATA == 'true'>
-    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'cockroachdb/cockroach:v2.0.4' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
+    <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}'>
+      <@container.ENTRY '/cockroach/cockroach.sh sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure ' />
       <@container.NETWORK 'cockroach-net-${namespace}' />
       <@container.EPHEMERAL />
     </@docker.CONTAINER>
