@@ -8,6 +8,8 @@
 <@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 <@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' type='textarea' />
+<@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
+<@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
   <#assign COCKROACHDB_VERSION='2.0.5' />
