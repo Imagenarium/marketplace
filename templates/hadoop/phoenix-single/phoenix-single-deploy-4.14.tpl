@@ -9,12 +9,12 @@
 
   <@swarm.NETWORK name='net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
 
-  <@swarm.SERVICE 'phoenix-${namespace}' imagenarium/phoenix-single:${PHOENIX_VERSION}>
+  <@swarm.SERVICE 'phoenix-${namespace}' 'imagenarium/phoenix-single:${PHOENIX_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
     <@service.CONS 'node.labels.phoenix-single' 'true' />
     <@service.PORT PARAMS.PHOENIX_EXTERNAL_PORT '8765' />
-  </@swarm.TASK>
+  </@swarm.SERVICE>
 
   <@docker.TCP_CHECKER 'phoenix-checker-${namespace}' 'phoenix-${namespace}:8765' 'net-${namespace}' />
 </@requirement.CONFORMS>
