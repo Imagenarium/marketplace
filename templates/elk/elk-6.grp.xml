@@ -8,17 +8,14 @@
     <stack>
       <id>elasticsearch</id>
       <version>6</version>
-      <order>1</order>
     </stack>
     <stack>
       <id>logstash</id>
       <version>6</version>
-      <order>2</order>
     </stack>
     <stack>
       <id>kibana</id>
       <version>6</version>
-      <order>3</order>
     </stack>
   </stacks>
 </group>
