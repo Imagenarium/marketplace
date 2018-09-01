@@ -33,4 +33,12 @@
       <@service.ENV 'ETCD_INITIAL_CLUSTER' etcd_servers?join(",") />
     </@swarm.SERVICE>
   </#list>
+
+  <@docker.CONTAINER 'etcd-checker-${namespace}' 'imagenarium/etcd:latest'>
+    <@container.ENTRY '/checker.sh' />
+    <@container.NETWORK 'net-${namespace}' />
+    <@container.EPHEMERAL />
+    <@container.ENV 'ETCD_HOST' 'etcd-1-${namespace}' />
+    <@container.ENV 'EXPECTED_MEMBERS' '${etcd_servers?size}' />
+  </@docker.CONTAINER>
 </@requirement.CONFORMS>
