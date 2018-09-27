@@ -2,9 +2,9 @@
 
 <@requirement.CONFORMS>
   <@swarm.TASK 'kibana-${namespace}'>
-    <@service.ENV 'SERVER_NAME' 'kibana' />
-    <@service.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}-1:9200' />
-    <@service.ENV 'LOGGING_QUIET' 'true' />
+    <@container.ENV 'SERVER_NAME' 'kibana' />
+    <@container.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}-1:9200' />
+    <@container.ENV 'LOGGING_QUIET' 'true' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'kibana-${namespace}' 'imagenarium/kibana:6.4.1' />
