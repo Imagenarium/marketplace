@@ -1,4 +1,4 @@
-<@requirement.CONS 'es' 'router' />
+<@requirement.CONS 'es-router' 'true' />
 <@requirement.CONS 'es' 'master1' />
 <@requirement.CONS 'es' 'master2' />
 <@requirement.CONS 'es' 'master3' />
