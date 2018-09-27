@@ -2,6 +2,7 @@
 
 <@requirement.CONFORMS>
   <@swarm.TASK 'kibana-${namespace}'>
+    <@container.HOST_NETWORK />
     <@container.ENV 'SERVER_NAME' 'kibana' />
     <@container.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}-1:9200' />
     <@container.ENV 'LOGGING_QUIET' 'true' />
