@@ -28,7 +28,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
-    <@service.CONS 'node.labels.es' 'router' />
+    <@service.CONS 'node.labels.es-router' 'true' />
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
   </@swarm.TASK_RUNNER>
