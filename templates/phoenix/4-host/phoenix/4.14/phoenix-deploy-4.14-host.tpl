@@ -11,6 +11,7 @@
 
   <@swarm.TASK 'phoenix-${namespace}' 'imagenarium/phoenix:${PHOENIX_VERSION}'>
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'phoenix-${namespace}' 'imagenarium/phoenix:${PHOENIX_VERSION}'>

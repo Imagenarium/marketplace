@@ -25,6 +25,7 @@
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
     <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT! />
     <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
@@ -48,6 +49,7 @@
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
+      <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
       <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
       <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
