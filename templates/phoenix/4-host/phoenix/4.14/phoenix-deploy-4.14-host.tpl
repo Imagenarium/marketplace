@@ -9,7 +9,7 @@
     <#assign zoo_hosts += ['zookeeper-${index}-${namespace}-1'] />
   </#list>
 
-  <@swarm.TASK 'phoenix-${namespace}' 'imagenarium/phoenix:${PHOENIX_VERSION}'>
+  <@swarm.TASK 'phoenix-${namespace}'>
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
   </@swarm.TASK>
