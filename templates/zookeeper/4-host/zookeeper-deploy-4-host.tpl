@@ -8,7 +8,7 @@
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign ZOOKEEPER_VERSION='4.1.2' />
+  <#assign ZOOKEEPER_VERSION='4.1.2_1' />
 
   <#assign zoo_servers = [] />
   <#assign zoo_connect = [] />
