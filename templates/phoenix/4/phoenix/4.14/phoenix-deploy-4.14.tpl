@@ -16,6 +16,7 @@
   <@swarm.SERVICE 'phoenix-${namespace}' 'imagenarium/phoenix:${PHOENIX_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />  
     <@service.PORT PARAMS.PHOENIX_EXTERNAL_PORT '8765' />
+    <@service.CONS 'node.labels.phoenix' 'true' />
     <@service.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
   </@swarm.SERVICE>
   
