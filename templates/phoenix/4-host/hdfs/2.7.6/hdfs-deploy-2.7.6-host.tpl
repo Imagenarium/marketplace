@@ -10,9 +10,6 @@
 <@requirement.PARAM name='ADMIN_MODE'  value='false' type='boolean' />
 <@requirement.PARAM name='RUN_APP'     value='true'  type='boolean' />
 
-<@requirement.PARAM name='NAME_WEB_PORT' type='port' required='false' />
-<@requirement.PARAM name='DATA_WEB_PORT' type='port' required='false' />
-
 <@requirement.CONFORMS>
   <#assign HDFS_VERSION='2.7.6' />
 
