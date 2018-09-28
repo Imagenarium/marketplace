@@ -10,6 +10,7 @@
   </#list>
 
   <@swarm.TASK 'phoenix-${namespace}'>
+    <@container.HOST_NETWORK />
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
   </@swarm.TASK>
