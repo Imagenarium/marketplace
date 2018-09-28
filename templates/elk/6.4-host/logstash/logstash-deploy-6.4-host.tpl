@@ -5,7 +5,6 @@
 <@requirement.CONFORMS>
   <@swarm.TASK 'logstash-${namespace}'>
     <@container.HOST_NETWORK />
-    <@container.HOSTNAME 'logstash-${namespace}' />
     <@container.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}-1:9200' />
     <@container.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
   </@swarm.TASK>

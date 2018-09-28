@@ -15,7 +15,7 @@
 
   <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'postgres-net-${namespace}' />
 
-  <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:10.4'>
+  <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:10.4' '-c max_connections=350'>
     <@service.NETWORK 'postgres-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
     <@service.VOLUME 'postgres-volume-${namespace}' '/var/lib/postgresql/data' />

@@ -20,6 +20,7 @@
     <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
     <@container.ENV 'bootstrap.memory_lock' 'true' />
     <@container.ENV 'network.bind_host' '0.0.0.0' />
+    <#--<@container.ENV 'network.publish_host' '' />-->
     <@container.ENV 'node.name' 'es-router-${namespace}' />
     <@container.ENV 'node.master' 'false' />
     <@container.ENV 'node.data' 'false' />
@@ -45,6 +46,7 @@
       <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
       <@container.ENV 'bootstrap.memory_lock' 'true' />
       <@container.ENV 'network.bind_host' '0.0.0.0' />
+      <#--<@container.ENV 'network.publish_host' '' />-->
       <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
       <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
       <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}-1' />
