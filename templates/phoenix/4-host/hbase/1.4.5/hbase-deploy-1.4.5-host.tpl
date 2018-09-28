@@ -8,19 +8,11 @@
 
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
 
-<@requirement.PARAM name='NETWORK_DRIVER' value='overlay' type='network_driver' scope='global' />
-
-<@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
-<@requirement.PARAM name='MASTER_EXTERNAL_PORT'       type='port' required='false' />
-
-<@requirement.PARAM name='MASTER_WEB_PORT'        type='port' required='false' />
-<@requirement.PARAM name='REGIONSERVER_WEB_PORT'  type='port' required='false' />
-
 <@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign HBASE_VERSION='1.4.5' />
+  <#assign HBASE_VERSION='1.4.5_1' />
 
   <#assign zoo_hosts   = [] />
   
@@ -29,7 +21,7 @@
   </#list>
   
   <@swarm.TASK 'hbase-master-${namespace}'>
-    <@container.NETWORK 'net-${namespace}' />
+    <@container.HOST_NETWORK />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
@@ -42,20 +34,17 @@
 
   <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase-master:${HBASE_VERSION}'>
     <@service.CONS 'node.labels.hdfs-name' 'true' />
-    <@service.PORT PARAMS.MASTER_WEB_PORT '16010' />
-    <@service.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
-    <@service.ENV 'PROXY_PORTS' '16010,${PARAMS.MASTER_EXTERNAL_PORT}' />
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
   </@swarm.TASK_RUNNER>
 
   <#if PARAMS.ADMIN_MODE == 'false'>
-    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}-1:16010' 'net-${namespace}' />
+    <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-master-${namespace}-1:16010' />
   </#if>
 
   <#list 1..3 as index>
     <@swarm.TASK 'hbase-regionserver-${index}-${namespace}'>
-      <@container.NETWORK 'net-${namespace}' />
+      <@container.HOST_NETWORK />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
       <@container.ULIMIT 'memlock=-1:-1' />
@@ -68,15 +57,12 @@
 
     <@swarm.TASK_RUNNER 'hbase-regionserver-${index}-${namespace}' 'imagenarium/hbase-regionserver:${HBASE_VERSION}'>
       <@service.CONS 'node.labels.hdfs-data' '${index}' />
-      <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
-      <@service.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
-      <@service.ENV 'PROXY_PORTS' '16030,${PARAMS.REGIONSERVER_EXTERNAL_PORT}' />
       <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
       <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     </@swarm.TASK_RUNNER>
 
     <#if PARAMS.ADMIN_MODE == 'false'>
-      <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}-1:16030' 'net-${namespace}' />
+      <@docker.HTTP_CHECKER 'hbase-checker-${namespace}' 'http://hbase-regionserver-${index}-${namespace}-1:16030' />
     </#if>
   </#list>
 </@requirement.CONFORMS>
