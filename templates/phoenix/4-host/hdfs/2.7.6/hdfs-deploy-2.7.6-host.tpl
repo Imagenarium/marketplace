@@ -14,6 +14,7 @@
   <#assign HDFS_VERSION='2.7.6' />
 
   <@swarm.TASK 'hdfs-name-${namespace}'>
+    <@container.HOST_NETWORK />
     <@container.VOLUME 'hdfs-name-volume-${namespace}' '/hadoop/dfs/name' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
@@ -34,6 +35,7 @@
 
   <#list 1..3 as index>
     <@swarm.TASK 'hdfs-data-${index}-${namespace}'>
+      <@container.HOST_NETWORK />
       <@container.VOLUME 'hdfs-data-${index}-volume-${namespace}' '/hadoop/dfs/data' />
       <@container.ULIMIT 'nofile=65536:65536' />
       <@container.ULIMIT 'nproc=4096:4096' />
