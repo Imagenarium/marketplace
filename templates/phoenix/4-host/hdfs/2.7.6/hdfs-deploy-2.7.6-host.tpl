@@ -11,7 +11,7 @@
 <@requirement.PARAM name='RUN_APP'     value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign HDFS_VERSION='2.7.6' />
+  <#assign HDFS_VERSION='2.7.6_1' />
 
   <@swarm.TASK 'hdfs-name-${namespace}'>
     <@container.HOST_NETWORK />
