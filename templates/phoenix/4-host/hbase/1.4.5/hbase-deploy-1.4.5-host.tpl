@@ -17,7 +17,7 @@
   <#assign zoo_hosts   = [] />
   
   <#list 1..3 as index>
-    <#assign zoo_hosts += ['zookeeper-${index}-${namespace}'] />
+    <#assign zoo_hosts += ['zookeeper-${index}-${namespace}-1'] />
   </#list>
   
   <@swarm.TASK 'hbase-master-${namespace}'>
