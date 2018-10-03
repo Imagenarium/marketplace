@@ -8,7 +8,7 @@
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign KAFKA_VERSION='4.1.2_1' />
+  <#assign KAFKA_VERSION='4.1.2_2' />
   
   <#assign zoo_connect = [] />
   <#assign kafka_servers = [] />
