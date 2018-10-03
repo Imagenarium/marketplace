@@ -13,5 +13,5 @@
     <@service.PORT PARAMS.PUBLISHED_ADMIN_PORT '8080' />
   </@swarm.SERVICE>
   
-  <@docker.HTTP_CHECKER 'traefik-checker-${namespace}' 'http://traefik-${namespace}:8080/dashboard/' 'traefik-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'traefik-checker-${namespace}' 'http://traefik-${namespace}1:8080/dashboard/' 'traefik-net-${namespace}' '60' />
 </@requirement.CONFORMS>
