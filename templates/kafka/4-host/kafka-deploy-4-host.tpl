@@ -30,7 +30,7 @@
       <@container.ENV 'KAFKA_MESSAGE_MAX_BYTES' '10485760' />
       <@container.ENV 'KAFKA_REPLICA_FETCH_MAX_BYTES' '10485760' />
       <@container.ENV 'KAFKA_AUTO_CREATE_TOPICS_ENABLE' 'false' />
-      <@container.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace}-1 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
+      <@container.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace}-1 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9998 -Dcom.sun.management.jmxremote.port=9998 -Djava.net.preferIPv4Stack=true' />
       <@container.ENV 'KAFKA_HEAP_OPTS' PARAMS.KAFKA_HEAP_OPTS />
       <@container.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
       <@container.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
