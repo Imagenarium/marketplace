@@ -10,7 +10,7 @@
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
 <@requirement.CONFORMS>
-  <#assign KAFKA_VERSION='4.1.2' />
+  <#assign KAFKA_VERSION='4.1.2_2' />
 
   <@swarm.NETWORK name='net-${namespace}' driver=PARAMS.NETWORK_DRIVER />
   
