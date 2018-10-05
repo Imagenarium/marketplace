@@ -1,5 +1,5 @@
 ﻿<group>
-  <id>elk</id>
+  <id>elk-host</id>
   <name>Elasticsearch, Logstash, Kibana</name>
   <version>6.4-host</version>
   <summary>The three products are designed for use as an integrated solution, referred to as the "Elastic Stack" (formerly the "ELK stack").</summary>
