@@ -15,7 +15,7 @@
 
   <@swarm.STORAGE 'swarmstorage-postgres-${namespace}' 'postgres-net-${namespace}' />
 
-  <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:10.4-data'>
+  <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:10.4-alpine-data'>
     <@service.NETWORK 'postgres-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
     <@service.VOLUME 'postgres-volume-${namespace}' '/var/lib/postgresql/data' />
@@ -29,7 +29,7 @@
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
   </@swarm.SERVICE>
 
-  <@docker.CONTAINER 'postgres-checker-${namespace}' 'imagenarium/postgresql:10.4-data'>
+  <@docker.CONTAINER 'postgres-checker-${namespace}' 'imagenarium/postgresql:10.4-alpine-data'>
     <@container.NETWORK 'postgres-net-${namespace}' />
     <@container.ENV 'PGHOST' 'postgres-${namespace}' />
     <@container.ENV 'PGUSER' PARAMS.POSTGRES_USER />
