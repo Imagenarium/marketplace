@@ -6,8 +6,6 @@
 <@requirement.PARAM name='HBASE_MASTER_OPTS'       value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HBASE_REGIONSERVER_OPTS' value='-Xms1G -Xmx1G' />
 
-<@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
-
 <@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 
@@ -27,7 +25,6 @@
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
     <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT! />
-    <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
@@ -51,7 +48,6 @@
       <@container.ULIMIT 'memlock=-1:-1' />
       <@container.ENV 'STORAGE_SERVICE' 'swarmstorage' />
       <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT! />
-      <@container.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
       <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
       <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
       <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
