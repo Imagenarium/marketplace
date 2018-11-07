@@ -25,7 +25,6 @@
     <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
     <@container.ENV 'bootstrap.memory_lock' 'true' />
     <@container.ENV 'network.bind_host' '0.0.0.0' />
-    <@container.ENV 'index.number_of_replicas' '0' />
     <@container.ENV 'node.name' 'es-${namespace}' />
   </@swarm.TASK>
 
