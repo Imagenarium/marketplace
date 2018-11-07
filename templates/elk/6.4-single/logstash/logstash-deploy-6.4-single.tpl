@@ -8,7 +8,7 @@
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.CONS 'node.labels.es' 'true' />
     <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}-1:9200' />
-    <@service.ENV 'NUMBERS_OF_REPLICAS' '0' />
+    <@service.ENV 'NUMBER_OF_REPLICAS' '0' />
     <@service.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
   </@swarm.SERVICE>
 
