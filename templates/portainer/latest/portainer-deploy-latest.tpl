@@ -4,7 +4,13 @@
 <@requirement.CONFORMS>
   <@swarm.NETWORK 'portainer-net-${namespace}' />
 
-  <@swarm.SERVICE 'portainer-${namespace}' 'portainer/portainer:latest' '-H unix:///var/run/docker.sock'>
+  <@swarm.SERVICE 'portainer-agent-${namespace}' 'portainer/agent:latest' '' 'global'>
+    <@service.NETWORK 'portainer-net-${namespace}' />
+    <@service.ENV 'AGENT_CLUSTER_ADDR' 'portainer-agent-${namespace}' />
+    <@service.BIND '/var/lib/docker/volumes' '/var/lib/docker/volumes' />
+  </@swarm.SERVICE>
+
+  <@swarm.SERVICE 'portainer-${namespace}' 'portainer/portainer:latest' '-H "tcp://tasks.portainer-agent-${namespace}:9001" --tlsskipverify'>
     <@node.MANAGER />
     <@service.NETWORK 'portainer-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '9000' />
