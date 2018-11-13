@@ -1,4 +1,4 @@
-<@requirement.CONS 'sitemanager2' 'true' />
+<@requirement.CONS 'percona' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
@@ -19,7 +19,7 @@
     <@service.HOSTNAME 'percona-${namespace}' />
     <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '3306' />
-    <@service.CONS 'node.labels.sitemanager2' 'true' />
+    <@service.CONS 'node.labels.percona' 'true' />
     <@service.VOLUME 'percona-volume-${namespace}' '/var/lib/mysql' />
     <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-percona-${namespace}' />
     <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
@@ -28,6 +28,17 @@
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
   </@swarm.SERVICE>
+
+  <@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
+    <@service.NETWORK 'net-${namespace}' />
+    <@service.PORT PARAMS.PMM_PUBLISHED_PORT '80' />
+    <@service.CONS 'node.labels.percona' 'true' />
+    <@service.VOLUME 'pmm-prometheus-${namespace}' '/opt/prometheus/data' />
+    <@service.VOLUME 'pmm-consul-${namespace}' '/opt/consul-data' />
+    <@service.VOLUME 'pmm-mysql-${namespace}' '/var/lib/mysql' />
+    <@service.VOLUME 'pmm-grafana-${namespace}' '/var/lib/grafana' />
+  </@swarm.SERVICE>
     
   <@docker.TCP_CHECKER 'percona-checker-${namespace}' 'percona-${namespace}:3306' 'net-${namespace}' />
+  <@docker.HTTP_CHECKER 'pmm-checker-${namespace}' 'pmm-${namespace}:80' 'net-${namespace}' />
 </@requirement.CONFORMS>
