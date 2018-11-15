@@ -19,7 +19,6 @@
   <@swarm.SERVICE 'percona-${namespace}' 'imagenarium/percona-server:${PERCONA_VERSION}' PARAMS.DB_PARAMS>
     <@service.HOSTNAME 'percona-${namespace}' />
     <@service.NETWORK 'net-${namespace}' />
-    <@service.DNSRR />
     <@service.PORT PARAMS.PUBLISHED_PORT '3306' />
     <@service.CONS 'node.labels.percona' 'true' />
     <@service.VOLUME 'percona-volume-${namespace}' '/var/lib/mysql' />
@@ -33,7 +32,6 @@
 
   <@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
     <@service.NETWORK 'net-${namespace}' />
-    <@service.DNSRR />
     <@service.PORT PARAMS.PMM_PUBLISHED_PORT '80' />
     <@service.CONS 'node.labels.percona' 'true' />
     <@service.VOLUME 'pmm-prometheus-${namespace}' '/opt/prometheus/data' />
