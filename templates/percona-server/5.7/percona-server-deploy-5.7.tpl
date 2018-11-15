@@ -10,7 +10,7 @@
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.23' />
+  <#assign PERCONA_VERSION='5.7.23_1' />
     
   <@swarm.NETWORK name='net-${namespace}' />
 
@@ -22,6 +22,7 @@
     <@service.PORT PARAMS.PUBLISHED_PORT '3306' />
     <@service.CONS 'node.labels.percona' 'true' />
     <@service.VOLUME 'percona-volume-${namespace}' '/var/lib/mysql' />
+    <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
     <@service.ENV 'STORAGE_SERVICE' 'swarmstorage-percona-${namespace}' />
     <@service.ENV 'DELETE_DATA' PARAMS.DELETE_DATA />
     <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
