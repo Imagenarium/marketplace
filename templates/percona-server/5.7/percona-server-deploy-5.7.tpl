@@ -3,7 +3,7 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='PMM_PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
-<@requirement.PARAM name='DB_PARAMS' value='--innodb-log-file-size=1G --innodb-buffer-pool-size=5G --innodb-flush-log-at-trx-commit=1 --sync-binlog=1 --query-cache-type=0 --log-output=file --slow-query-log=ON --long-query-time=0 --log-slow-rate-limit=100 --log-slow-rate-type=query --log-slow-verbosity=full --slow-query-log-always-write-time=1 --slow-query-log-use-global-control=all --innodb-monitor-enable=all --userstat=1' type='textarea' />
+<@requirement.PARAM name='DB_PARAMS' value='' type='textarea' />
 <@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
