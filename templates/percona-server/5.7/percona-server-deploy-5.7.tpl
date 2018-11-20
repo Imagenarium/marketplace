@@ -10,7 +10,7 @@
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 
 <@requirement.CONFORMS>
-  <#assign PERCONA_VERSION='5.7.23_1' />
+  <#assign PERCONA_VERSION='5.7.23_2' />
     
   <@swarm.NETWORK name='net-${namespace}' />
 
