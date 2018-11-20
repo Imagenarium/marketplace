@@ -3,7 +3,7 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='PMM_PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
-<@requirement.PARAM name='DB_PARAMS' value='' type='textarea' />
+<@requirement.PARAM name='DB_PARAMS' value='' required='false' type='textarea' />
 <@requirement.PARAM name='ADMIN_MODE' value='false' type='boolean' />
 <@requirement.PARAM name='RUN_APP'    value='true'  type='boolean' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
