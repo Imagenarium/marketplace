@@ -1,3 +1,5 @@
+<@requirement.CONSTRAINT 'percona' 'true' />
+
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='PMM_PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='DELETE_DATA' value='true' type='boolean' scope='global' />
