@@ -4,7 +4,7 @@
 
 <@swarm.SERVICE 'memcached-${namespace}' 'memcached:1.5-alpine' '-vv'>
   <@service.NETWORK 'memcached-net-${namespace}' />
-  <@service.CONSTRAINT 'node.labels.memcached' 'true' />
+  <@service.CONSTRAINT 'memcached' 'true' />
   <@service.PORT PARAMS.MEMCACHED_PORT '11211' />
 </@swarm.SERVICE>
 
