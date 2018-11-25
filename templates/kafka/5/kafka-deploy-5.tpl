@@ -5,7 +5,7 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
-<#assign KAFKA_VERSION='4.1.2_2' />
+<#assign KAFKA_VERSION='5' />
   
 <#assign zoo_connect = [] />
 <#assign kafka_servers = [] />
