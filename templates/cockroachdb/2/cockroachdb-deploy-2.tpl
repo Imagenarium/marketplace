@@ -28,7 +28,7 @@
     <@service.ENV 'NETWORK_NAME' 'cockroach-net-${namespace}' />
   </@swarm.SERVICE>
 
-  <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080' 'cockroach-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health' 'cockroach-net-${namespace}' />
 </#list>
 
 <#if PARAMS.DELETE_DATA == 'true'>
