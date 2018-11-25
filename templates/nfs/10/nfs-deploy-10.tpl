@@ -1,6 +1,6 @@
 <@requirement.CONSTRAINT 'nfs' 'true' />
 
-<@requirement.PARAM name='NFS_PORT' type='port' required='fase' description='Specify nfs external port (for example 2049)' />
+<@requirement.PARAM name='NFS_PORT' type='port' required='false' description='Specify nfs external port (for example 2049)' />
           
 <@swarm.TASK 'nfs-${namespace}'>
   <@container.NETWORK 'nfs-net-${namespace}' />
