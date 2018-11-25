@@ -21,7 +21,6 @@
 <@docker.HTTP_CHECKER 'pmm-checker-${namespace}' 'http://pmm-${namespace}:80/graph' 'net-${namespace}' />
 
 <@swarm.SERVICE 'percona-${namespace}' 'imagenarium/percona-server:${PERCONA_VERSION}' PARAMS.DB_PARAMS>
-  <@service.HOSTNAME 'percona-${namespace}' />
   <@service.NETWORK 'net-${namespace}' />
   <@service.PORT PARAMS.PUBLISHED_PORT '3306' />
   <@service.CONSTRAINT 'percona' 'true' />

@@ -19,7 +19,6 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'nfs-${namespace}' 'imagenarium/nfs:7'>
-    <@service.NETWORK 'nfs-net-${namespace}' />
     <@service.CONS 'node.labels.nfs' 'true' />
     <@service.ENV 'PROXY_PORTS' '2049' />
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />

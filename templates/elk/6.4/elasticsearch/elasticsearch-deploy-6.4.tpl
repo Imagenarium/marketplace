@@ -37,7 +37,6 @@
     <@service.ENV 'PROXY_PORTS' '9200' />
     <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
     <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
-    <@service.NETWORK 'es-net-${namespace}' />
   </@swarm.TASK_RUNNER>
   
   <#list "1,2,3"?split(",") as index>
@@ -60,7 +59,6 @@
 
     <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
       <@service.CONS 'node.labels.es' 'master${index}' />
-      <@service.NETWORK 'es-net-${namespace}' />
       <@service.ENV 'IMAGENARIUM_ADMIN_MODE' PARAMS.ADMIN_MODE />
       <@service.ENV 'IMAGENARIUM_RUN_APP' PARAMS.RUN_APP />
     </@swarm.TASK_RUNNER>
