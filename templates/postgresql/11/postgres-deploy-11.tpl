@@ -26,7 +26,7 @@
   <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
   <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
   <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
-  <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
+  <@service.ENV 'NETWORK_NAME' 'postgres-net-${namespace}' />
 </@swarm.SERVICE>
 
 <@docker.TCP_CHECKER 'postgres-checker-${namespace}' 'postgres-${namespace}:5432' 'postgres-net-${namespace}' />
