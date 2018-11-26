@@ -1,0 +1,1 @@
+<@swarm.SERVICE_RM 'netdata-${namespace}' />
