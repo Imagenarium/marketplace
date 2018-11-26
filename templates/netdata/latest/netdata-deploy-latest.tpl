@@ -4,7 +4,7 @@
 <@requirement.PARAM name='ADMIN_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
           
 <@swarm.TASK 'netdata-${namespace}'>
-  <@service.PORT PARAMS.PUBLISHED_PORT '19999' />
+  <@container.PORT PARAMS.PUBLISHED_PORT '19999' />
   <@container.NETWORK 'netdata-net-${namespace}' />
   <@container.BIND '/etc/group' '/host/etc/group' />
   <@container.BIND '/proc' '/host/proc' />
