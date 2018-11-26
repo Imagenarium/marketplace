@@ -1,6 +1,7 @@
 <@requirement.CONSTRAINT 'postgres' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
+<@requirement.PARAM name='PMM_PUBLISHED_PORT' type='port' required='false' />
 
 <@requirement.PARAM name='POSTGRES_USER' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
