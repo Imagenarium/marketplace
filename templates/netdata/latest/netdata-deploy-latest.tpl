@@ -13,7 +13,7 @@
 
 <@swarm.TASK_RUNNER 'netdata-${namespace}' 'imagenarium/netdata:latest' '' 'global' />
 
-<@swarm.SERVICE 'nginx-netdata-${namespace}' 'imagenarium/nginx-basic-auth:latest' 'global'>
+<@swarm.SERVICE 'nginx-netdata-${namespace}' 'imagenarium/nginx-basic-auth:latest' '' 'global'>
   <@service.NETWORK 'netdata-net-${namespace}' />
   <@service.PORT PARAMS.PUBLISHED_PORT '8080' 'host' />
   <@service.ENV 'WEB_USER' 'admin' />
