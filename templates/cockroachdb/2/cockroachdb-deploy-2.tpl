@@ -3,6 +3,7 @@
 <@requirement.CONSTRAINT 'cockroachdb' '3' />
 
 <@requirement.PARAM name='PUBLISHED_MANAGER_PORT' type='port' required='false' description='Specify admin external port (for example 5556)' />
+<@requirement.PARAM name='MANAGER_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify CRDB external port (for example 26257)' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 <@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' type='textarea' />
@@ -21,11 +22,19 @@
   <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
     <@service.NETWORK 'cockroach-net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
-    <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
     <@service.CONSTRAINT 'cockroachdb' '${index}' />
     <@service.VOLUME '/cockroach/cockroach-data' />
     <@service.STOP_GRACE_PERIOD '60s' />
     <@service.ENV 'NETWORK_NAME' 'cockroach-net-${namespace}' />
+  </@swarm.SERVICE>
+
+  <@swarm.SERVICE 'nginx-cockroachdb-${index}-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
+    <@service.NETWORK 'cockroach-net-${namespace}' />
+    <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
+    <@service.CONSTRAINT 'cockroachdb' '${index}' />
+    <@service.ENV 'WEB_USER' 'admin' />
+    <@service.ENV 'WEB_PASSWORD' PARAMS.MANAGER_PASSWORD 'single' />
+    <@service.ENV 'APP_URL' 'http://cockroachdb-${index}-${namespace}:8080' />
   </@swarm.SERVICE>
 
   <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health' 'cockroach-net-${namespace}' />
