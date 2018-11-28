@@ -13,7 +13,7 @@
 
 <@swarm.TASK 'hdfs-name-${namespace}'>
   <@container.NETWORK 'net-${namespace}' />
-  <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' 'host' />
+  <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' />
   <@container.VOLUME '/hadoop/dfs/name' />
   <@container.ULIMIT 'nofile=65536:65536' />
   <@container.ULIMIT 'nproc=4096:4096' />
@@ -31,7 +31,7 @@
 <#list 1..3 as index>
   <@swarm.TASK 'hbase-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
-    <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' 'host' />
+    <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' />
     <@container.VOLUME '/hadoop/dfs/data' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
