@@ -20,6 +20,7 @@
   <@container.ULIMIT 'memlock=-1:-1' />
   <@container.ENV 'NAME_NODE' 'true' />
   <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
+  <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
