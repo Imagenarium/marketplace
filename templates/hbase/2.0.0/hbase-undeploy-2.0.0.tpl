@@ -1,4 +1,4 @@
-<@docker.REMOVE_HTTP_CHECKER 'hdfs-checker-${namespace}' />
+<@docker.REMOVE_HTTP_CHECKER 'checker-${namespace}' />
 
 <@swarm.SERVICE_RM 'hdfs-name-${namespace}' />
 <@swarm.SERVICE_RM 'hbase-master-${namespace}' />
