@@ -3,12 +3,6 @@
 <@requirement.CONSTRAINT 'hbase-region' '2' />
 <@requirement.CONSTRAINT 'hbase-region' '3' />
 
-<@requirement.PARAM name='HADOOP_NAMENODE_OPTS' value='-Xms1G -Xmx1G' />
-<@requirement.PARAM name='HADOOP_SECONDARYNAMENODE_OPTS' value='-Xms1G -Xmx1G' />
-<@requirement.PARAM name='HADOOP_DATANODE_OPTS' value='-Xms1G -Xmx1G' />
-<@requirement.PARAM name='HDFS_NAME_WEB_PORT' type='port' required='false' />
-<@requirement.PARAM name='HDFS_DATA_WEB_PORT' type='port' required='false' />
-
 <@requirement.PARAM name='HBASE_MASTER_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HBASE_REGIONSERVER_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
@@ -23,24 +17,6 @@
 <#list 1..3 as index>
   <#assign zoo_hosts += ['zookeeper-${index}-${namespace}'] />
 </#list>
-
-<@swarm.TASK 'hdfs-name-${namespace}'>
-  <@container.NETWORK 'net-${namespace}' />
-  <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' />
-  <@container.VOLUME '/hadoop/dfs/name' />
-  <@container.ULIMIT 'nofile=65536:65536' />
-  <@container.ULIMIT 'nproc=4096:4096' />
-  <@container.ULIMIT 'memlock=-1:-1' />
-  <@container.ENV 'NAME_NODE' 'true' />
-  <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
-  <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
-</@swarm.TASK>
-
-<@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
-  <@service.CONSTRAINT 'hbase-master' 'true' />
-</@swarm.TASK_RUNNER>
-
-<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hdfs-name-${namespace}-1:50070' 'net-${namespace}' />
 
 <@swarm.TASK 'hbase-master-${namespace}'>
   <@container.NETWORK 'net-${namespace}' />
@@ -64,20 +40,14 @@
 <#list 1..3 as index>
   <@swarm.TASK 'hbase-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
-    <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' />
     <@container.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' />
-    <@container.VOLUME '/hadoop/dfs/data' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
-    <@container.ENV 'DATA_NODE' 'true' />
     <@container.ENV 'REGION_NODE' 'true' />
-    <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
     <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
-    <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
     <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
-    <@container.ENV 'HDFS_CONF_dfs_datanode_max_transfer_threads' '4096' />
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
   </@swarm.TASK>
 
@@ -85,6 +55,5 @@
     <@service.CONSTRAINT 'hbase-region' '${index}' />
   </@swarm.TASK_RUNNER>
 
-  <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hbase-${index}-${namespace}-1:50075' 'net-${namespace}' />
   <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hbase-${index}-${namespace}-1:16030' 'net-${namespace}' />
 </#list>
