@@ -41,6 +41,8 @@
   <@swarm.TASK 'hbase-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' />
+    <@container.BIND '/var/run/hadoop' '/var/run/hadoop' />
+    <@container.IPC 'container:hdfs-${index}-${namespace}-1' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />

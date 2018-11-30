@@ -39,6 +39,8 @@
   <@swarm.TASK 'hdfs-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' />
+    <@container.BIND '/var/run/hadoop' '/var/run/hadoop' />
+    <@container.IPC 'shareable' />
     <@container.VOLUME '/hadoop/dfs/data' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
