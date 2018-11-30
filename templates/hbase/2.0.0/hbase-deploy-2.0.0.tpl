@@ -42,7 +42,7 @@
   <@swarm.TASK 'hbase-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' />
-    <@container.PORT REGIONSERVER_EXTERNAL_PORT REGIONSERVER_EXTERNAL_PORT />
+    <@container.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT />
     <@container.BIND '/var/run' '/var/run/hadoop' />
     <@container.IPC 'container:hdfs-${index}-${namespace}-1' />
     <@container.ULIMIT 'nofile=65536:65536' />
