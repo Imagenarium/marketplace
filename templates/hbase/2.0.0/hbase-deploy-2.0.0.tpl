@@ -5,8 +5,8 @@
 
 <@requirement.PARAM name='HBASE_MASTER_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HBASE_REGIONSERVER_OPTS' value='-Xms1G -Xmx1G' />
-<@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
 <@requirement.PARAM name='MASTER_EXTERNAL_PORT' type='port' required='false' />
+<@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
 <@requirement.PARAM name='MASTER_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='REGIONSERVER_WEB_PORT' type='port' required='false' />
 
