@@ -32,9 +32,8 @@
   <@service.ENV 'GF_USERS_ALLOW_SIGN_UP' 'false' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'alertmanager-${namespace}' 'imagenarium/swarmprom-alertmanager:v0.14.0' '--config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager'>
+<@swarm.SERVICE 'alertmanager-${namespace}' 'stefanprodan/swarmprom-alertmanager:v0.14.0' '--config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.VOLUME '/alertmanager' />
   <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
 </@swarm.SERVICE>
