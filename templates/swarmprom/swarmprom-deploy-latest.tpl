@@ -1,4 +1,4 @@
-<@requirement.namespace 'swarmprom' />
+<@requirement.NAMESPACE 'swarmprom' />
 
 <@requirement.PARAM name='ADMIN_USER' value='admin' />
 <@requirement.PARAM name='ADMIN_PASSWORD' value='admin' />
