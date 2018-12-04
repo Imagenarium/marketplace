@@ -70,4 +70,4 @@
 </@swarm.SERVICE>
 
 <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:3000/login' 'net-${namespace}' />
-<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:9090' 'net-${namespace}' />
+<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://${PARAMS.ADMIN_USER}:${PARAMS.ADMIN_PASSWORD}@caddy-${namespace}:9090' 'net-${namespace}' />
