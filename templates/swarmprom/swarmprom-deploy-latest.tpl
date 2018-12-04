@@ -71,4 +71,4 @@
   <@node.MANAGER />
 </@swarm.SERVICE>
 
-<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:3000' 'net-${namespace}' />
+<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:3000/login' 'net-${namespace}' />
