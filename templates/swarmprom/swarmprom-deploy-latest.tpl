@@ -3,8 +3,8 @@
 <@requirement.PARAM name='ADMIN_USER' value='admin' />
 <@requirement.PARAM name='ADMIN_PASSWORD' value='admin' />
 
-<@requirement.PARAM name='GRAFANA_PUBLISHED_PORT'        value='3000' type='port' />
-<@requirement.PARAM name='ALERTDASHBOARD_PUBLISHED_PORT' value='9094' type='port' />
+<@requirement.PARAM name='GRAFANA_PUBLISHED_PORT'        value='3000'   type='port' />
+<@requirement.PARAM name='ALERTDASHBOARD_PUBLISHED_PORT' value='9094'   type='port' />
 <@requirement.PARAM name='PROMETHEUS_PUBLISHED_PORT'   required='false' type='port' />
 <@requirement.PARAM name='ALERTMANAGER_PUBLISHED_PORT' required='false' type='port' />
 
@@ -32,7 +32,7 @@
   <@service.ENV 'GF_USERS_ALLOW_SIGN_UP' 'false' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'alertmanager-${namespace}' 'stefanprodan/swarmprom-alertmanager:v0.14.0' '--config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager'>
+<@swarm.SERVICE 'alertmanager-${namespace}' 'prom/alertmanager:v0.15.3'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
