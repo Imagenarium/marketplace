@@ -23,7 +23,7 @@
 <@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/swarmprom-grafana:5.3.4'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.VOLUME '/var/lib/grafana' />
-  <@service.CONSTRAINT 'swarmprom' />
+  <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
   <@service.ENV 'GF_SECURITY_ADMIN_USER' 'PARAMS.ADMIN_USER' />
   <@service.ENV 'GF_SECURITY_ADMIN_PASSWORD' 'PARAMS.ADMIN_PASSWORD' />
@@ -33,7 +33,7 @@
 <@swarm.SERVICE 'alertmanager-${namespace}' 'imagenarium/swarmprom-alertmanager:v0.14.0' '--config.file=/etc/alertmanager/alertmanager.yml --storage.path=/alertmanager'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.VOLUME '/alertmanager' />
-  <@service.CONSTRAINT 'swarmprom' />
+  <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
 </@swarm.SERVICE>
 
@@ -54,7 +54,7 @@
 <@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/swarmprom-prometheus:v2.5.0' '--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention=24h'>
   <@service.NETWORK 'net-${namespace}' />  
   <@service.VOLUME '/prometheus' />
-  <@service.CONSTRAINT 'swarmprom' />
+  <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
 </@swarm.SERVICE>
 
@@ -68,3 +68,5 @@
   <@service.ENV 'ADMIN_PASSWORD' 'PARAMS.ADMIN_PASSWORD' />
   <@node.MANAGER />
 </@swarm.SERVICE>
+
+<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:3000' 'net-${namespace}' />

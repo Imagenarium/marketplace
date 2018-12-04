@@ -1,3 +1,5 @@
+<@docker.REMOVE_HTTP_CHECKER 'checker-${namespace}' />
+
 <@swarm.SERVICE_RM 'dockerd-exporter-${namespace}' />
 <@swarm.SERVICE_RM 'cadvisor-${namespace}' />
 <@swarm.SERVICE_RM 'grafana-${namespace}' />
