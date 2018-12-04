@@ -24,7 +24,7 @@
 
 <@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/swarmprom-grafana:5.3.4'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.VOLUME '/var/lib/grafana' />
+  <@service.ANONYMOUS_VOLUME '/var/lib/grafana' />
   <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
   <@service.ENV 'GF_SECURITY_ADMIN_USER' 'PARAMS.ADMIN_USER' />
@@ -53,8 +53,7 @@
 </@swarm.SERVICE>
 
 <@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/swarmprom-prometheus:v2.5.0' '--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention=24h'>
-  <@service.NETWORK 'net-${namespace}' />  
-  <@service.VOLUME '/prometheus' />
+  <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
 </@swarm.SERVICE>
@@ -71,3 +70,4 @@
 </@swarm.SERVICE>
 
 <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:3000/login' 'net-${namespace}' />
+<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:9090' 'net-${namespace}' />
