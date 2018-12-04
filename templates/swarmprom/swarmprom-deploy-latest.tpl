@@ -43,11 +43,9 @@
   <@service.ENV 'ALERTMANAGER_URIS' 'default:http://alertmanager-${namespace}:9093' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'node-exporter-${namespace}' 'stefanprodan/swarmprom-node-exporter:v0.16.0' "'--path.sysfs=/host/sys --path.procfs=/host/proc --collector.textfile.directory=/etc/node-exporter/ --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/) --no-collector.ipvs'" 'global'>
+<@swarm.SERVICE 'node-exporter-${namespace}' 'stefanprodan/swarmprom-node-exporter:v0.16.0' "'--path.rootfs /rootfs --collector.textfile.directory=/etc/node-exporter/ --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/) --no-collector.ipvs'" 'global'>
   <@service.NETWORK 'net-${namespace}' />  
   <@service.ENV 'NODE_ID' '{{.Node.ID}}' />
-  <@service.BIND '/proc' '/host/proc' />
-  <@service.BIND '/sys' '/host/sys' />
   <@service.BIND '/' '/rootfs' />
   <@service.BIND '/etc/hostname' '/etc/nodename' />
 </@swarm.SERVICE>
@@ -70,4 +68,4 @@
 </@swarm.SERVICE>
 
 <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://caddy-${namespace}:3000/login' 'net-${namespace}' />
-<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://${PARAMS.ADMIN_USER}:${PARAMS.ADMIN_PASSWORD}@caddy-${namespace}:9090' 'net-${namespace}' />
+<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://${PARAMS.ADMIN_USER}:${PARAMS.ADMIN_PASSWORD}@caddy-${namespace}:9090/metrics' 'net-${namespace}' />
