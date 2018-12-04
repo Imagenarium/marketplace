@@ -43,7 +43,7 @@
   <@service.ENV 'ALERTMANAGER_URIS' 'default:http://alertmanager-${namespace}:9093' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'node-exporter-${namespace}' 'stefanprodan/swarmprom-node-exporter:v0.16.0' "'--path.rootfs /rootfs --collector.textfile.directory=/etc/node-exporter/ --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/) --no-collector.ipvs'" 'global'>
+<@swarm.SERVICE 'node-exporter-${namespace}' 'imagenarium/swarmprom-node-exporter:v0.17.0' '--path.rootfs /rootfs --collector.textfile.directory=/etc/node-exporter/' 'global'>
   <@service.NETWORK 'net-${namespace}' />  
   <@service.ENV 'NODE_ID' '{{.Node.ID}}' />
   <@service.BIND '/' '/rootfs' />
