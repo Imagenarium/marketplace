@@ -50,7 +50,7 @@
   <@service.BIND '/etc/hostname' '/etc/nodename' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/swarmprom-prometheus:v2.5.0' '--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention=24h'>
+<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/swarmprom-prometheus:v2.5.0' '--storage.tsdb.retention=24h'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'swarmprom' 'true' />
   <@node.MANAGER />
