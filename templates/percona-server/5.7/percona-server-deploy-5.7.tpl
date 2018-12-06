@@ -16,9 +16,8 @@
   <@service.VOLUME '/opt/consul-data' />
   <@service.VOLUME '/var/lib/mysql' />
   <@service.VOLUME '/var/lib/grafana' />
+  <@service.CHECK_PATH ':80/graph' />
 </@swarm.SERVICE>
-
-<@docker.HTTP_CHECKER 'pmm-checker-${namespace}' 'http://pmm-${namespace}:80/graph' 'net-${namespace}' />
 
 <@swarm.SERVICE 'percona-${namespace}' 'imagenarium/percona-server:${PERCONA_VERSION}' PARAMS.DB_PARAMS>
   <@service.NETWORK 'net-${namespace}' />
@@ -28,6 +27,5 @@
   <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
   <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
   <@service.ENV 'MYSQL_DATABASE' PARAMS.DEFAULT_DB_NAME />
+  <@service.CHECK_PORT '3306' />
 </@swarm.SERVICE>
-    
-<@docker.TCP_CHECKER 'percona-checker-${namespace}' 'percona-${namespace}:3306' 'net-${namespace}' />
