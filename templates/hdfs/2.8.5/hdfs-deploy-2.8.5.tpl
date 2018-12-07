@@ -27,13 +27,12 @@
   <@container.ENV 'NAME_NODE' 'true' />
   <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
   <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
+  <@container.CHECK_PATH ':50070' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
   <@service.CONSTRAINT 'hbase-master' 'true' />
 </@swarm.TASK_RUNNER>
-
-<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hdfs-name-${namespace}-1:50070' 'net-${namespace}' />
 
 <#list 1..3 as index>
   <@swarm.TASK 'hdfs-${index}-${namespace}'>
@@ -49,11 +48,10 @@
     <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
     <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
     <@container.ENV 'HDFS_CONF_dfs_datanode_max_transfer_threads' '4096' />
+    <@container.CHECK_PATH ':50075' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
     <@service.CONSTRAINT 'hbase-region' '${index}' />
   </@swarm.TASK_RUNNER>
-
-  <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hdfs-${index}-${namespace}-1:50075' 'net-${namespace}' />
 </#list>

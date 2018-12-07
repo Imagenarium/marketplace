@@ -30,13 +30,12 @@
   <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
   <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
   <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
+  <@container.CHECK_PATH ':16010' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'hbase-master-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
   <@service.CONSTRAINT 'hbase-master' 'true' />
 </@swarm.TASK_RUNNER>
-
-<@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hbase-master-${namespace}-1:16010' 'net-${namespace}' />
 
 <#list 1..3 as index>
   <@swarm.TASK 'hbase-${index}-${namespace}'>
@@ -53,11 +52,10 @@
     <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
     <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
     <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
+    <@container.CHECK_PATH ':16030' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
     <@service.CONSTRAINT 'hbase-region' '${index}' />
   </@swarm.TASK_RUNNER>
-
-  <@docker.HTTP_CHECKER 'checker-${namespace}' 'http://hbase-${index}-${namespace}-1:16030' 'net-${namespace}' />
 </#list>
