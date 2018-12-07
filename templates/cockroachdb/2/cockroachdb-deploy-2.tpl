@@ -26,6 +26,7 @@
     <@service.VOLUME '/cockroach/cockroach-data' />
     <@service.STOP_GRACE_PERIOD '60s' />
     <@service.ENV 'NETWORK_NAME' 'cockroach-net-${namespace}' />
+    <@service.CHECK_PATH ':8080/health' />
   </@swarm.SERVICE>
 
   <@swarm.SERVICE 'nginx-cockroachdb-${index}-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
@@ -36,8 +37,6 @@
     <@service.ENV 'WEB_PASSWORD' PARAMS.MANAGER_PASSWORD 'single' />
     <@service.ENV 'APP_URL' 'http://cockroachdb-${index}-${namespace}:8080' />
   </@swarm.SERVICE>
-
-  <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health' 'cockroach-net-${namespace}' />
 </#list>
 
 <#if PARAMS.DELETE_DATA == 'true'>
@@ -48,7 +47,7 @@
 </#if>
 
 <#list 1..3 as index>
-  <@docker.HTTP_CHECKER 'cockroach-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health?ready=1' 'cockroach-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'cluster-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health?ready=1' 'cockroach-net-${namespace}' />
 </#list>
 
 <#if PARAMS.DELETE_DATA == 'true'>
