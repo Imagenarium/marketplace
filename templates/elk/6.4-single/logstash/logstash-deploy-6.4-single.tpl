@@ -8,7 +8,5 @@
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}-1:9200' />
   <@service.ENV 'NUMBER_OF_REPLICAS' '0' />
   <@service.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
+  <@service.CHECK_PATH ':9600' />
 </@swarm.SERVICE>
-
-<@docker.HTTP_CHECKER 'logstash-checker-${namespace}' 'http://logstash-${namespace}:9600' 'es-net-${namespace}' />
-
