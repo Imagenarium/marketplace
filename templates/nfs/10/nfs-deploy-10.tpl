@@ -5,6 +5,7 @@
 <@swarm.TASK 'nfs-${namespace}'>
   <@container.NETWORK 'nfs-net-${namespace}' />
   <@container.VOLUME '/data' />
+  <@container.CHECK_PORT '2049' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'nfs-${namespace}' 'imagenarium/nfs:10'>

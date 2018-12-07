@@ -15,9 +15,8 @@
   <@service.VOLUME '/opt/consul-data' />
   <@service.VOLUME '/var/lib/mysql' />
   <@service.VOLUME '/var/lib/grafana' />
+  <@service.CHECK_PATH ':80/graph' />
 </@swarm.SERVICE>
-
-<@docker.HTTP_CHECKER 'pmm-checker-${namespace}' 'http://pmm-${namespace}:80/graph' 'postgres-net-${namespace}' />
 
 <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:11.1'>
   <@service.NETWORK 'postgres-net-${namespace}' />
@@ -28,6 +27,5 @@
   <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
   <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
   <@service.ENV 'NETWORK_NAME' 'postgres-net-${namespace}' />
+  <@service.CHECK_PORT '5432' />
 </@swarm.SERVICE>
-
-<@docker.TCP_CHECKER 'postgres-checker-${namespace}' 'postgres-${namespace}:5432' 'postgres-net-${namespace}' />

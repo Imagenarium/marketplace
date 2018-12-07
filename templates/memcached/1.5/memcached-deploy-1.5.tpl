@@ -6,10 +6,5 @@
   <@service.NETWORK 'memcached-net-${namespace}' />
   <@service.CONSTRAINT 'memcached' 'true' />
   <@service.PORT PARAMS.MEMCACHED_PORT '11211' />
+  <@service.CHECK_PORT '11211' />
 </@swarm.SERVICE>
-
-<@docker.CONTAINER 'memcached-checker-${namespace}' 'imagenarium/memcachedchecker:latest'>
-  <@container.NETWORK 'memcached-net-${namespace}' />
-  <@container.ENV 'HOST' 'memcached-${namespace}' />
-  <@container.EPHEMERAL />
-</@docker.CONTAINER>

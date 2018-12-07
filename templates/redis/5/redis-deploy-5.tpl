@@ -10,11 +10,5 @@
   <@service.PORT PARAMS.PUBLISHED_PORT '6379' />
   <@service.VOLUME '/data' />
   <@service.CONSTRAINT 'redis' 'true' />
+  <@service.CHECK_PORT '6379' />
 </@swarm.SERVICE>
-
-<@docker.CONTAINER 'redis-checker-${namespace}' 'imagenarium/redis:4.0'>
-  <@container.NETWORK 'redis-net-${namespace}' />
-  <@container.ENV 'REDIS_HOST' 'redis-${namespace}' />
-  <@container.ENTRY '/checkdb.sh' />
-  <@container.EPHEMERAL />
-</@docker.CONTAINER>

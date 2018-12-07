@@ -9,6 +9,7 @@
   <@container.BIND '/proc' '/host/proc' />
   <@container.BIND '/sys' '/host/sys' />
   --security-opt apparmor=unconfined \
+  <@container.CHECK_PORT '8080' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'netdata-${namespace}' 'imagenarium/netdata:latest' '' 'global' />
