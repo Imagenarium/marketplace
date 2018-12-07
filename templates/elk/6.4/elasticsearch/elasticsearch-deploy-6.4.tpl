@@ -21,6 +21,7 @@
   <@container.ENV 'node.data' 'false' />
   <@container.ENV 'search.remote.connect' 'false' />
   <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
+  <@container.CHECK_PORT '9200' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
@@ -42,6 +43,7 @@
     <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
     <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}-1' />
+    <@container.CHECK_PORT '9200' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
