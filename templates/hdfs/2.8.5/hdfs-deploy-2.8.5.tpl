@@ -1,4 +1,5 @@
-<@requirement.CONSTRAINT 'hbase-master' 'true' />
+<@requirement.CONSTRAINT 'hdfs-name-primary' 'true' />
+<@requirement.CONSTRAINT 'hdfs-name-secondary' 'true' />
 <@requirement.CONSTRAINT 'hbase-region' '1' />
 <@requirement.CONSTRAINT 'hbase-region' '2' />
 <@requirement.CONSTRAINT 'hbase-region' '3' />
@@ -31,7 +32,7 @@
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
-  <@service.CONSTRAINT 'hbase-master' 'true' />
+  <@service.CONSTRAINT 'hdfs-name-primary' 'true' />
 </@swarm.TASK_RUNNER>
 
 <#list 1..3 as index>
