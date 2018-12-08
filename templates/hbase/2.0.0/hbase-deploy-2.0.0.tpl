@@ -1,9 +1,10 @@
 <@requirement.CONSTRAINT 'hbase-master' '1' />
 <@requirement.CONSTRAINT 'hbase-master' '2' />
 <@requirement.CONSTRAINT 'hbase-master' '3' />
-<@requirement.CONSTRAINT 'hbase-region' '1' />
-<@requirement.CONSTRAINT 'hbase-region' '2' />
-<@requirement.CONSTRAINT 'hbase-region' '3' />
+
+<@requirement.CONSTRAINT 'hdfs-data' '1' />
+<@requirement.CONSTRAINT 'hdfs-data' '2' />
+<@requirement.CONSTRAINT 'hdfs-data' '3' />
 
 <@requirement.PARAM name='HBASE_MASTER_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HBASE_REGIONSERVER_OPTS' value='-Xms1G -Xmx1G' />
@@ -60,6 +61,6 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-region-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
-    <@service.CONSTRAINT 'hbase-region' '${index}' />
+    <@service.CONSTRAINT 'hdfs-data' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>

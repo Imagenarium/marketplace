@@ -1,11 +1,15 @@
-<@requirement.CONSTRAINT 'hdfs-name-primary' 'true' />
-<@requirement.CONSTRAINT 'hdfs-name-secondary' 'true' />
-<@requirement.CONSTRAINT 'hbase-region' '1' />
-<@requirement.CONSTRAINT 'hbase-region' '2' />
-<@requirement.CONSTRAINT 'hbase-region' '3' />
+<@requirement.CONSTRAINT 'hdfs-name' '1' />
+<@requirement.CONSTRAINT 'hdfs-name' '2' />
+
+<@requirement.CONSTRAINT 'hdfs-journal' '1' />
+<@requirement.CONSTRAINT 'hdfs-journal' '2' />
+<@requirement.CONSTRAINT 'hdfs-journal' '3' />
+
+<@requirement.CONSTRAINT 'hdfs-data' '1' />
+<@requirement.CONSTRAINT 'hdfs-data' '2' />
+<@requirement.CONSTRAINT 'hdfs-data' '3' />
 
 <@requirement.PARAM name='HADOOP_NAMENODE_OPTS' value='-Xms1G -Xmx1G' />
-<@requirement.PARAM name='HADOOP_SECONDARYNAMENODE_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HADOOP_DATANODE_OPTS' value='-Xms1G -Xmx1G' />
 <@requirement.PARAM name='HDFS_NAME_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='HDFS_DATA_WEB_PORT' type='port' required='false' />
@@ -18,25 +22,42 @@
   <#assign zoo_hosts += ['zookeeper-${index}-${namespace}'] />
 </#list>
 
-<@swarm.TASK 'hdfs-name-${namespace}'>
-  <@container.NETWORK 'net-${namespace}' />
-  <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' />
-  <@container.VOLUME '/hadoop/dfs/name' />
-  <@container.ULIMIT 'nofile=65536:65536' />
-  <@container.ULIMIT 'nproc=4096:4096' />
-  <@container.ULIMIT 'memlock=-1:-1' />
-  <@container.ENV 'NAME_NODE' 'true' />
-  <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
-  <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
-  <@container.CHECK_PATH ':50070' />
-</@swarm.TASK>
+<#list 1..3 as index>
+  <@swarm.TASK 'hdfs-journal-${index}-${namespace}'>
+    <@container.NETWORK 'net-${namespace}' />
+    <@container.VOLUME '/hadoop/dfs/data' />
+    <@container.ULIMIT 'nofile=65536:65536' />
+    <@container.ULIMIT 'nproc=4096:4096' />
+    <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'JOURNAL_NODE' 'true' />
+    <@container.CHECK_PORT '8485' />
+  </@swarm.TASK>
 
-<@swarm.TASK_RUNNER 'hdfs-name-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
-  <@service.CONSTRAINT 'hdfs-name-primary' 'true' />
-</@swarm.TASK_RUNNER>
+  <@swarm.TASK_RUNNER 'hdfs-journal-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.CONSTRAINT 'hdfs-journal' '${index}' />
+  </@swarm.TASK_RUNNER>
+</#list>
+
+<#list 1..2 as index>
+  <@swarm.TASK 'hdfs-name-${index}-${namespace}'>
+    <@container.NETWORK 'net-${namespace}' />
+    <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' />
+    <@container.VOLUME '/hadoop/dfs/name' />
+    <@container.ULIMIT 'nofile=65536:65536' />
+    <@container.ULIMIT 'nproc=4096:4096' />
+    <@container.ULIMIT 'memlock=-1:-1' />
+    <@container.ENV 'NAME_NODE' 'true' />
+    <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
+    <@container.CHECK_PATH ':50070' />
+  </@swarm.TASK>
+
+  <@swarm.TASK_RUNNER 'hdfs-name-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.CONSTRAINT 'hdfs-name' '${index}' />
+  </@swarm.TASK_RUNNER>
+</#list>
 
 <#list 1..3 as index>
-  <@swarm.TASK 'hdfs-${index}-${namespace}'>
+  <@swarm.TASK 'hdfs-data-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' />
     <@container.BIND '/var/run' '/var/run/hadoop' />
@@ -47,12 +68,11 @@
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'DATA_NODE' 'true' />
     <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
-    <@container.ENV 'CORE_CONF_fs_defaultFS' 'hdfs://hdfs-name-${namespace}-1:8020' />
     <@container.ENV 'HDFS_CONF_dfs_datanode_max_transfer_threads' '4096' />
     <@container.CHECK_PATH ':50075' />
   </@swarm.TASK>
 
-  <@swarm.TASK_RUNNER 'hdfs-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
-    <@service.CONSTRAINT 'hbase-region' '${index}' />
+  <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.CONSTRAINT 'hdfs-data' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>
