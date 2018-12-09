@@ -15,12 +15,6 @@
 
 <#assign HBASE_VERSION='2.0.0' />
 
-<#assign zoo_hosts = [] />
-  
-<#list 1..3 as index>
-  <#assign zoo_hosts += ['zookeeper-${index}-${namespace}'] />
-</#list>
-
 <#list 1..3 as index>
   <@swarm.TASK 'hbase-master-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
@@ -32,8 +26,6 @@
     <@container.ENV 'MASTER_NODE' 'true' />
     <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
-    <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
-    <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
     <@container.CHECK_PATH ':16010' />
   </@swarm.TASK>
 
@@ -55,8 +47,6 @@
     <@container.ENV 'REGION_NODE' 'true' />
     <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
     <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
-    <@container.ENV 'HDFS_HOST' 'hdfs-name-${namespace}-1' />
-    <@container.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
     <@container.CHECK_PATH ':16030' />
   </@swarm.TASK>
 

@@ -16,12 +16,6 @@
 
 <#assign HDFS_VERSION='2.8.5' />
 
-<#assign zoo_hosts   = [] />
-  
-<#list 1..3 as index>
-  <#assign zoo_hosts += ['zookeeper-${index}-${namespace}'] />
-</#list>
-
 <#list 1..3 as index>
   <@swarm.TASK 'hdfs-journal-${index}-${namespace}'>
     <@container.NETWORK 'net-${namespace}' />
