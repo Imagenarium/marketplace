@@ -40,7 +40,7 @@
     <@container.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' />
     <@container.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT />
     <@container.BIND '/var/run' '/var/run/hadoop' />
-    <@container.IPC 'container:hdfs-${index}-${namespace}-1' />
+    <@container.IPC 'container:hdfs-data-${index}-${namespace}-1' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
