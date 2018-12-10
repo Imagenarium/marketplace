@@ -36,7 +36,7 @@
   <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana:5.3.4'>
+<@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana:5.4.0'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.PORT GRAFANA_PUBLISHED_PORT '3000' />
   <@service.ANONYMOUS_VOLUME '/var/lib/grafana' />
