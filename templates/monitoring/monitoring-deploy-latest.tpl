@@ -26,7 +26,7 @@
 
 <@swarm.SERVICE 'alertmanager-${namespace}' 'prom/alertmanager:v0.15.3'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.PORT ALERTDASHBOARD_PUBLISHED_PORT '9094' />
+  <@service.PORT PARAMS.ALERTDASHBOARD_PUBLISHED_PORT '9094' />
   <@service.CONSTRAINT 'monitoring' 'true' />
 </@swarm.SERVICE>
 
@@ -38,7 +38,7 @@
 
 <@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana:5.4.0'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.PORT GRAFANA_PUBLISHED_PORT '3000' />
+  <@service.PORT PARAMS.GRAFANA_PUBLISHED_PORT '3000' />
   <@service.ANONYMOUS_VOLUME '/var/lib/grafana' />
   <@service.CONSTRAINT 'monitoring' 'true' />
   <@service.ENV 'GF_SECURITY_ADMIN_USER' PARAMS.ADMIN_USER />
