@@ -3,6 +3,7 @@
 <@requirement.PARAM name='GRAFANA_ADMIN_USER' value='admin' />
 <@requirement.PARAM name='GRAFANA_ADMIN_PASSWORD' value='admin' />
 <@requirement.PARAM name='GRAFANA_PUBLISHED_PORT' value='3000' type='port' />
+<@requirement.PARAM name='PROMETHEUS_PUBLISHED_PORT' value='9090' type='port' />
 
 <@swarm.SERVICE 'kafka-exporter-${namespace}' 'danielqsj/kafka-exporter' '--kafka.server=kafka-1-${namespace}:9092 --kafka.server=kafka-2-${namespace}:9092 --kafka.server=kafka-3-${namespace}:9092'>
   <@service.NETWORK 'net-${namespace}' />
@@ -11,6 +12,7 @@
 
 <@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus-kafka:v2.5.0' '--storage.tsdb.retention=24h'>
   <@service.NETWORK 'net-${namespace}' />
+  <@service.PORT PARAMS.PROMETHEUS_PUBLISHED_PORT '9090' />
   <@service.CONSTRAINT 'kafka' '1' />
   <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
