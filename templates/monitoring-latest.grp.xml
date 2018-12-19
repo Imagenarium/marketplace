@@ -19,16 +19,16 @@
       <version>6.4-single</version>
     </stack>
     <stack>
-      <id>grafana</id>
-      <version>5.4</version>
-    </stack>
-    <stack>
       <id>logdog</id>
       <version>latest</version>
     </stack>
     <stack>
       <id>swarmview</id>
       <version>latest</version>
+    </stack>
+    <stack>
+      <id>grafana</id>
+      <version>5.4</version>
     </stack>
   </stacks>
 </group>
