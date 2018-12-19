@@ -1,3 +1,3 @@
-<@swarm.SERVICE 'swarmview-${namespace}' 'imagenarium/swarmview:0.1' '' 'global'>
+<@swarm.SERVICE 'swarmview-${namespace}' 'imagenarium/swarmview:latest-master' '' 'global'>
   <@service.NETWORK 'es-net-${namespace}' />
 </@swarm.SERVICE>
