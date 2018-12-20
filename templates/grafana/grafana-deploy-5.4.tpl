@@ -7,7 +7,7 @@
 
 <@requirement.CONSTRAINT 'monitoring' 'true' />
 
-<@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana:5.4.0'>
+<@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana-es:5.4.0'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.PORT PARAMS.GRAFANA_PUBLISHED_PORT '3000' />

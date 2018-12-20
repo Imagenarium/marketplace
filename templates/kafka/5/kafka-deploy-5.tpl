@@ -45,3 +45,10 @@
   <@container.ENV 'ZOOKEEPER_CONNECT' zoo_connect?join(",") />
   <@container.ENV 'EXPECTED_BROKERS' '${kafka_servers?size}' />
 </@docker.CONTAINER>
+
+<@swarm.SERVICE 'kafka-manager-${namespace}' 'hlebalbau/kafka-manager:latest' '-Dpidfile.path=/dev/null'>
+  <@service.NETWORK 'net-${namespace}' />
+  <@service.PORT PARAMS.MANAGER_PUBLISHED_PORT '9000' 'host' />
+  <@service.ENV 'ZK_HOSTS' 'zoo_connect?join(",")' />
+  <@service.CHECK_PORT '9000' />
+</@swarm.SERVICE>

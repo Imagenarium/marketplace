@@ -4,4 +4,6 @@
   <@swarm.SERVICE_RM 'kafka-${index}-${namespace}' />  
 </#list>
 
+<@swarm.SERVICE_RM 'kafka-manager-${namespace}' />
+
 <@swarm.NETWORK_RM 'net-${namespace}' />
