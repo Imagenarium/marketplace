@@ -19,14 +19,11 @@
   </@docker.CONTAINER>
 </#macro>
   
-<@swarm.NETWORK name='percona-net-${namespace}' subnet='${RANDOM_NET_PREFIX_24}.0/24' />
-
 <#if PARAMS.DELETE_DATA == 'true'>
   <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}'>
     <@service.NETWORK 'percona-net-${namespace}' />
-    <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
+    <@service.CONSTRAINT 'percona' '1' />
     <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-    <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
   </@swarm.SERVICE>
   
   <@checkNode 'percona-init-${namespace}' />
@@ -49,7 +46,6 @@
     <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
     <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
     <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
-    <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
   </@swarm.SERVICE>
     
   <@checkNode 'percona-${index}-${namespace}' />  
