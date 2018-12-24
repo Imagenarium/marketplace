@@ -20,12 +20,11 @@
 </#macro>
   
 <#if PARAMS.DELETE_DATA == 'true'>
-  <@swarm.SERVICE 'percona-init-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}'>
-    <@service.NETWORK 'percona-net-${namespace}' />
-    <@service.CONSTRAINT 'percona' '1' />
-    <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-    <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
-  </@swarm.SERVICE>
+  <@docker.CONTAINER 'percona-init-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}'>
+    <@container.NETWORK 'percona-net-${namespace}' />
+    <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+    <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+  </@docker.CONTAINER>
   
   <@checkNode 'percona-init-${namespace}' />
 </#if>
@@ -53,4 +52,4 @@
   <@checkNode 'percona-${index}-${namespace}' />  
 </#list>
 
-<@swarm.SERVICE_RM 'percona-init-${namespace}' />
+<@docker.CONTAINER_RM 'percona-init-${namespace}' />
