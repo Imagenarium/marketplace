@@ -24,6 +24,7 @@
     <@service.NETWORK 'percona-net-${namespace}' />
     <@service.CONSTRAINT 'percona' '1' />
     <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+    <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
   </@swarm.SERVICE>
   
   <@checkNode 'percona-init-${namespace}' />
@@ -42,6 +43,7 @@
     <@service.NETWORK 'percona-net-${namespace}' />
     <@service.CONSTRAINT 'percona' '${index}' />
     <@service.VOLUME '/var/lib/mysql' />
+    <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
     <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
     <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
