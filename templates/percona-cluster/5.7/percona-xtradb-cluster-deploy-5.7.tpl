@@ -43,17 +43,16 @@
     
   <@swarm.SERVICE 'percona-${index}-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}' '--wsrep_slave_threads=${PARAMS.WSREP_SLAVE_THREADS}'>
     <@service.NETWORK 'percona-net-${namespace}' />
-      <@service.CONSTRAINT 'percona' '${index}' />
-      <@service.VOLUME '/var/lib/mysql' />
-      <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-      <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
-      <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
-      <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
-      <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
-    </@swarm.SERVICE>
+    <@service.CONSTRAINT 'percona' '${index}' />
+    <@service.VOLUME '/var/lib/mysql' />
+    <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+    <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
+    <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
+    <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
+    <@service.ENV 'NET_PREFIX' RANDOM_NET_PREFIX_24 />
+  </@swarm.SERVICE>
     
-    <@checkNode 'percona-${index}-${namespace}' />  
-  </#list>
+  <@checkNode 'percona-${index}-${namespace}' />  
+</#list>
 
-  <@swarm.SERVICE_RM 'percona-init-${namespace}' />
-</@requirement.CONFORMS>
+<@swarm.SERVICE_RM 'percona-init-${namespace}' />
