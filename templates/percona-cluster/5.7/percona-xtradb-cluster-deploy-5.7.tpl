@@ -24,6 +24,7 @@
     <@container.NETWORK 'percona-net-${namespace}' />
     <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+    <@container.DAEMON />
   </@docker.CONTAINER>
   
   <@checkNode 'percona-init-${namespace}' />
