@@ -53,6 +53,8 @@
   <@checkNode 'percona-${index}-${namespace}' />  
 </#list>
 
+<@docker.CONTAINER_RM 'percona-init-${namespace}' />
+
 <@swarm.SERVICE 'proxysql-${namespace}' 'imagenarium/proxysql'>
   <@service.NETWORK 'percona-net-${namespace}' />
   <@service.ENV 'MYSQL_HOST' 'percona-1-${namespace}' />
@@ -60,5 +62,3 @@
   <@service.CHECK_PORT '6032' />
   <@service.CHECK_PORT '6033' />
 </@swarm.SERVICE>
-
-<@docker.CONTAINER_RM 'percona-init-${namespace}' />
