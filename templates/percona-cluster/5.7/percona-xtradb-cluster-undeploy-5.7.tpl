@@ -6,4 +6,6 @@
   <@swarm.SERVICE_RM 'percona-${index}-${namespace}' />
 </#list>
 
+<@swarm.SERVICE_RM 'proxysql-${namespace}' />
+
 <@swarm.NETWORK_RM 'percona-net-${namespace}' />
