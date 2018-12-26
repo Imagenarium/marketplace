@@ -57,7 +57,8 @@
   <@service.NETWORK 'percona-net-${namespace}' />
   <@service.ENV 'MYSQL_HOST' 'percona-1-${namespace}' />
   <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
-  <@service.CHECK_PORT '3306' />
+  <@service.CHECK_PORT '6032' />
+  <@service.CHECK_PORT '6033' />
 </@swarm.SERVICE>
 
 <@docker.CONTAINER_RM 'percona-init-${namespace}' />
