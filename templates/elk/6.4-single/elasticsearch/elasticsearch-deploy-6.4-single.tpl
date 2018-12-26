@@ -16,7 +16,7 @@
   <@container.ENV 'bootstrap.memory_lock' 'true' />
   <@container.ENV 'network.bind_host' '0.0.0.0' />
   <@container.ENV 'node.name' 'es-${namespace}' />
-  <@container.CHECK_PATH ':9200/_cluster/health?wait_for_status=green&timeout=99999s' />
+  <#--<@container.CHECK_PATH ':9200/_cluster/health?wait_for_status=green&timeout=99999s' />-->
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
