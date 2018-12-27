@@ -37,7 +37,7 @@
   <@service.PORT PARAMS.PMM_PUBLISHED_PORT '8080' />
   <@service.ENV 'WEB_USER' 'admin' />
   <@service.ENV 'WEB_PASSWORD' PARAMS.PMM_PASSWORD 'single' />
-  <@service.ENV 'APP_URL' 'http://pmm-${namespace}:80' />
+  <@service.ENV 'APP_URL' 'http://pmm-${namespace}/graph:80' />
 </@swarm.SERVICE>
   
 <#if PARAMS.DELETE_DATA == 'true'>
