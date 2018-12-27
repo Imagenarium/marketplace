@@ -3,6 +3,8 @@
 <@requirement.CONSTRAINT 'percona' '3' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify mysql external port (for example 3306)' />
+<@requirement.PARAM name='PMM_PUBLISHED_PORT' type='port' required='false' />
+<@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
 <@requirement.PARAM name='GCACHE_SIZE' value='128M' />
@@ -34,6 +36,7 @@
   <@docker.CONTAINER 'percona-init-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}'>
     <@container.NETWORK 'percona-net-${namespace}' />
     <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+    <@container.ENV 'MYSQL_DATABASE' PARAMS.DEFAULT_DB_NAME />
     <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
     <@container.DAEMON />
   </@docker.CONTAINER>
