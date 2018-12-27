@@ -8,6 +8,5 @@
 
 <@swarm.SERVICE_RM 'proxysql-${namespace}' />
 <@swarm.SERVICE_RM 'pmm-${namespace}' />
-<@swarm.SERVICE_RM 'nginx-pmm-${namespace}' />
 
 <@swarm.NETWORK_RM 'percona-net-${namespace}' />

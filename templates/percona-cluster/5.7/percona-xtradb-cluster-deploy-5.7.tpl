@@ -4,7 +4,8 @@
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify mysql external port (for example 3306)' />
 <@requirement.PARAM name='PMM_PUBLISHED_PORT' value='3380' type='port' required='false' />
-<@requirement.PARAM name='PMM_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
+<@requirement.PARAM name='PMM_USER' value='admin' />
+<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 <@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
@@ -24,20 +25,15 @@
 
 <@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
   <@service.NETWORK 'percona-net-${namespace}' />
+  <@service.PORT PARAMS.PMM_PUBLISHED_PORT '80' />
   <@service.CONSTRAINT 'percona' '1' />
   <@service.VOLUME '/opt/prometheus/data' />
   <@service.VOLUME '/opt/consul-data' />
   <@service.VOLUME '/var/lib/mysql' />
   <@service.VOLUME '/var/lib/grafana' />
+  <@service.ENV 'SERVER_USER' PARAMS.PMM_USER />
+  <@service.ENV 'SERVER_PASSWORD' PARAMS.PMM_PASSWORD />
   <@service.CHECK_PATH ':80/graph' />
-</@swarm.SERVICE>
-
-<@swarm.SERVICE 'nginx-pmm-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
-  <@service.NETWORK 'percona-net-${namespace}' />
-  <@service.PORT PARAMS.PMM_PUBLISHED_PORT '8080' />
-  <@service.ENV 'WEB_USER' 'admin' />
-  <@service.ENV 'WEB_PASSWORD' PARAMS.PMM_PASSWORD 'single' />
-  <@service.ENV 'APP_URL' 'http://pmm-${namespace}/graph:80' />
 </@swarm.SERVICE>
   
 <#if PARAMS.DELETE_DATA == 'true'>
