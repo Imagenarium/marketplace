@@ -18,6 +18,17 @@
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
 </#macro>
+
+<@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
+  <@service.NETWORK 'percona-net-${namespace}' />
+  <@service.PORT PARAMS.PMM_PUBLISHED_PORT '80' />
+  <@service.CONSTRAINT 'percona' '1' />
+  <@service.VOLUME '/opt/prometheus/data' />
+  <@service.VOLUME '/opt/consul-data' />
+  <@service.VOLUME '/var/lib/mysql' />
+  <@service.VOLUME '/var/lib/grafana' />
+  <@service.CHECK_PATH ':80/graph' />
+</@swarm.SERVICE>
   
 <#if PARAMS.DELETE_DATA == 'true'>
   <@docker.CONTAINER 'percona-init-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}'>
