@@ -71,6 +71,7 @@
 
 <@swarm.SERVICE 'proxysql-${namespace}' 'imagenarium/proxysql'>
   <@service.NETWORK 'percona-net-${namespace}' />
+  <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
   <@service.ENV 'MYSQL_HOST' 'percona-1-${namespace}' />
   <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
   <@service.CHECK_PORT '6032' />
