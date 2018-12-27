@@ -33,7 +33,7 @@
   <@service.VOLUME '/var/lib/grafana' />
   <@service.ENV 'SERVER_USER' PARAMS.PMM_USER />
   <@service.ENV 'SERVER_PASSWORD' PARAMS.PMM_PASSWORD />
-  <@service.CHECK_PATH ':80/graph' />
+  <@service.CHECK_PORT '80' />
 </@swarm.SERVICE>
   
 <#if PARAMS.DELETE_DATA == 'true'>
@@ -66,6 +66,8 @@
     <@service.ENV 'CLUSTER_JOIN' nodes?join(",") />
     <@service.ENV 'XTRABACKUP_USE_MEMORY' '128M' />
     <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
+    <@service.ENV 'PMM_USER' PARAMS.PMM_USER />
+    <@service.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
   </@swarm.SERVICE>
     
   <@checkNode 'percona-${index}-${namespace}' />  
@@ -78,6 +80,8 @@
   <@service.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
   <@service.ENV 'MYSQL_HOST' 'percona-1-${namespace}' />
   <@service.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
+  <@service.ENV 'PMM_USER' PARAMS.PMM_USER />
+  <@service.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
   <@service.CHECK_PORT '6032' />
   <@service.CHECK_PORT '6033' />
 </@swarm.SERVICE>
