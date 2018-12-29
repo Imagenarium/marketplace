@@ -9,7 +9,7 @@
   <@service.PORT PARAMS.PUBLISHED_PORT '5984' />
   <@service.VOLUME '/opt/couchdb/data' />
   <@service.CONSTRAINT 'couchdb' 'true' />
-  <@service.ENV 'COUCHDB_USER' PARMAS.USER />
-  <@service.ENV 'COUCHDB_PASSWORD' PARMAS.PASSWORD />
+  <@service.ENV 'COUCHDB_USER' PARAMS.USER />
+  <@service.ENV 'COUCHDB_PASSWORD' PARAMS.PASSWORD />
   <@service.CHECK_PORT '5984' />
 </@swarm.SERVICE>
