@@ -11,7 +11,6 @@
 
 <@swarm.SERVICE 'swarmpit-agent-${namespace}' 'swarmpit/agent:latest' '' 'global'>
   <@service.NETWORK 'swarmpit-net-${namespace}' />
-  <@service.CONSTRAINT 'swarmpit' 'true' />
   <@service.ENV 'DOCKER_API_VERSION' '1.35' />
 </@swarm.SERVICE>
 
