@@ -4,7 +4,7 @@
 <@requirement.PARAM name='USER' value='admin' />
 <@requirement.PARAM name='PASSWORD' value='admin' type='password' />
 
-<@swarm.SERVICE 'couchdb-${namespace}' 'imagenarium/couchdb:2.3' />
+<@swarm.SERVICE 'couchdb-${namespace}' 'imagenarium/couchdb:2.3'>
   <@service.NETWORK 'couchdb-net-${namespace}' />
   <@service.PORT PARAMS.PUBLISHED_PORT '5984' />
   <@service.VOLUME '/opt/couchdb/data' />
