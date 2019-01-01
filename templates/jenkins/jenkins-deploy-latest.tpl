@@ -9,6 +9,7 @@
 <@swarm.SERVICE 'jenkins-${namespace}' 'imagenarium/jenkins:latest'>
   <@service.VOLUME '/var/jenkins_home' />
   <@service.NETWORK 'jenkins-net-${namespace}' />
+  <@service.DNSRR />
   <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
   <@service.CONSTRAINT 'jenkins' 'master' />
   <@service.ENV 'JENKINS_USER' PARAMS.JENKINS_USER />
