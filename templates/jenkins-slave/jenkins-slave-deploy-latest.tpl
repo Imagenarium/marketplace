@@ -12,7 +12,6 @@
   <@service.SCALABLE />
   <@service.SINGLE_INSTANCE_PER_NODE />
   <@service.NETWORK 'jenkins-net-${namespace}' />
-  <@service.DNSRR />
   <@service.CONSTRAINT 'jenkins' 'slave' />
   <@service.ENV 'JENKINS_MASTER' 'http://jenkins-${namespace}:8080' />
   <@service.ENV 'JAVA_OPTS' PARAMS.JAVA_OPTS />
