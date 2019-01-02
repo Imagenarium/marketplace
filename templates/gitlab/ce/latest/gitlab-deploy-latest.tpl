@@ -4,7 +4,7 @@
 
 <@requirement.PARAM name='HOSTNAME' value='' />
 <@requirement.PARAM name='PUBLISHED_PORT' value='8088' type='port' />
-<@requirement.PARAM name='REGISTRY_PUBLISHED_PORT' value='5555' type='port' />
+<@requirement.PARAM name='REGISTRY_PUBLISHED_PORT' value='5050' type='port' />
 
 <@swarm.SERVICE 'gitlab-${namespace}' 'imagenarium/gitlab-ce'>
   <@service.CONSTRAINT 'gitlab' 'true' />
