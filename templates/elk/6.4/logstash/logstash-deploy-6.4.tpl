@@ -5,7 +5,7 @@
 <@swarm.SERVICE 'logstash-${namespace}' 'imagenarium/logstash:6.4.0'>
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.CONSTRAINT 'logstash' 'true' />
-  <@service.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}-1:9200' />
+  <@service.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}:9200' />
   <@service.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
   <@service.CHECK_PATH ':9600' />
 </@swarm.SERVICE>

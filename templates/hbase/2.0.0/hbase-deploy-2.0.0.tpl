@@ -13,11 +13,10 @@
 <@requirement.PARAM name='MASTER_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='REGIONSERVER_WEB_PORT' type='port' required='false' />
 
-<#assign HBASE_VERSION='2.0.0' />
+<#assign HBASE_VERSION='2.0.0_1' />
 
 <#list 1..3 as index>
   <@swarm.TASK 'hbase-master-${index}-${namespace}'>
-    <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.MASTER_WEB_PORT '16010' />
     <@container.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT />
     <@container.ULIMIT 'nofile=65536:65536' />
@@ -30,13 +29,13 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-master-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
+    <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hbase-master' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>
 
 <#list 1..3 as index>
   <@swarm.TASK 'hbase-region-${index}-${namespace}'>
-    <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' />
     <@container.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT />
     <@container.BIND '/var/run' '/var/run/hadoop' />
@@ -51,6 +50,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-region-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
+    <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>

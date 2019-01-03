@@ -12,7 +12,7 @@
 <@swarm.SERVICE 'kibana-${namespace}' 'imagenarium/kibana:6.4.1'>
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.ENV 'SERVER_NAME' 'kibana' />
-  <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}-1:9200' />
+  <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}:9200' />
   <@service.ENV 'LOGGING_QUIET' 'true' />
   <@service.CHECK_PATH ':5601' />
 </@swarm.SERVICE>

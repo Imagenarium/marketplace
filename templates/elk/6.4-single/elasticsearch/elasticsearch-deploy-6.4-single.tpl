@@ -6,7 +6,6 @@
 <#assign ES_VERSION='6.4.0' />
   
 <@swarm.TASK 'es-${namespace}'>
-  <@container.NETWORK 'es-net-${namespace}' />
   <@container.VOLUME '/usr/share/elasticsearch/data' />
   <@container.ULIMIT 'nofile=65536:65536' />
   <@container.ULIMIT 'nproc=4096:4096' />
@@ -20,5 +19,6 @@
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+  <@service.NETWORK 'es-net-${namespace}' />
   <@service.CONSTRAINT 'es' 'true' />
 </@swarm.TASK_RUNNER>

@@ -14,11 +14,10 @@
 <@requirement.PARAM name='HDFS_NAME_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='HDFS_DATA_WEB_PORT' type='port' required='false' />
 
-<#assign HDFS_VERSION='2.8.5' />
+<#assign HDFS_VERSION='2.8.5_1' />
 
 <#list 1..3 as index>
   <@swarm.TASK 'hdfs-journal-${index}-${namespace}'>
-    <@container.NETWORK 'net-${namespace}' />
     <@container.VOLUME '/hadoop/dfs/data' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
@@ -28,13 +27,13 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-journal-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-journal' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>
 
 <#list 1..2 as index>
   <@swarm.TASK 'hdfs-name-${index}-${namespace}'>
-    <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' />
     <@container.VOLUME '/hadoop/dfs/name' />
     <@container.ULIMIT 'nofile=65536:65536' />
@@ -46,13 +45,13 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-name-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-name' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>
 
 <#list 1..3 as index>
   <@swarm.TASK 'hdfs-data-${index}-${namespace}'>
-    <@container.NETWORK 'net-${namespace}' />
     <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' />
     <@container.BIND '/var/run' '/var/run/hadoop' />
     <@container.IPC 'shareable' />
@@ -67,6 +66,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
   </@swarm.TASK_RUNNER>
 </#list>

@@ -4,7 +4,6 @@
 <@requirement.PARAM name='ADMIN_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
           
 <@swarm.TASK 'netdata-${namespace}'>
-  <@container.NETWORK 'netdata-net-${namespace}' />
   <@container.BIND '/etc/group' '/host/etc/group' />
   <@container.BIND '/proc' '/host/proc' />
   <@container.BIND '/sys' '/host/sys' />
