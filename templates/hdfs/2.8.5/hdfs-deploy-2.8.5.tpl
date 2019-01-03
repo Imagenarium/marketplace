@@ -34,7 +34,6 @@
 
 <#list 1..2 as index>
   <@swarm.TASK 'hdfs-name-${index}-${namespace}'>
-    <@container.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' />
     <@container.VOLUME '/hadoop/dfs/name' />
     <@container.ULIMIT 'nofile=65536:65536' />
     <@container.ULIMIT 'nproc=4096:4096' />
@@ -47,12 +46,12 @@
   <@swarm.TASK_RUNNER 'hdfs-name-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-name' '${index}' />
+    <@service.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' 'host' />
   </@swarm.TASK_RUNNER>
 </#list>
 
 <#list 1..3 as index>
   <@swarm.TASK 'hdfs-data-${index}-${namespace}'>
-    <@container.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' />
     <@container.BIND '/var/run' '/var/run/hadoop' />
     <@container.IPC 'shareable' />
     <@container.VOLUME '/hadoop/dfs/data' />
@@ -68,5 +67,6 @@
   <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
+    <@service.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' 'host' />
   </@swarm.TASK_RUNNER>
 </#list>

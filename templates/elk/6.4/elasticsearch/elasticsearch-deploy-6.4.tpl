@@ -26,7 +26,7 @@
 <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
-  <@service.ENV 'PROXY_PORTS' '9200' />
+  <@service.CONSTRAINT 'es' 'master1' />
 </@swarm.TASK_RUNNER>
   
 <#list "1,2,3"?split(",") as index>

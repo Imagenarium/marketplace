@@ -20,5 +20,6 @@
 
 <@swarm.TASK_RUNNER 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
   <@service.NETWORK 'es-net-${namespace}' />
+  <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
   <@service.CONSTRAINT 'es' 'true' />
 </@swarm.TASK_RUNNER>
