@@ -23,7 +23,6 @@
     <@container.ENV 'MASTER_NODE' 'true' />
     <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT />
     <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
-    <@container.CHECK_PATH ':16010' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-master-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
@@ -31,6 +30,7 @@
     <@service.CONSTRAINT 'hbase-master' '${index}' />
     <@service.PORT PARAMS.MASTER_WEB_PORT '16010' 'host' />
     <@service.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
+    <@service.CHECK_PATH ':16010' />
   </@swarm.TASK_RUNNER>
 </#list>
 
@@ -44,7 +44,6 @@
     <@container.ENV 'REGION_NODE' 'true' />
     <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
     <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
-    <@container.CHECK_PATH ':16030' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-region-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
@@ -52,5 +51,6 @@
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
     <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
     <@service.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
+    <@service.CHECK_PATH ':16030' />
   </@swarm.TASK_RUNNER>
 </#list>
