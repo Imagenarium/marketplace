@@ -23,12 +23,12 @@
     <@container.ULIMIT 'nproc=4096:4096' />
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'JOURNAL_NODE' 'true' />
-    <@container.CHECK_PORT '8485' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-journal-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-journal' '${index}' />
+    <@service.CHECK_PORT '8485' />
   </@swarm.TASK_RUNNER>
 </#list>
 
@@ -40,13 +40,13 @@
     <@container.ULIMIT 'memlock=-1:-1' />
     <@container.ENV 'NAME_NODE' 'true' />
     <@container.ENV 'HADOOP_NAMENODE_OPTS' PARAMS.HADOOP_NAMENODE_OPTS />
-    <@container.CHECK_PATH ':50070' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-name-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-name' '${index}' />
     <@service.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' 'host' />
+    <@service.CHECK_PATH ':50070' />
   </@swarm.TASK_RUNNER>
 </#list>
 
@@ -61,12 +61,12 @@
     <@container.ENV 'DATA_NODE' 'true' />
     <@container.ENV 'HADOOP_DATANODE_OPTS' PARAMS.HADOOP_DATANODE_OPTS />
     <@container.ENV 'HDFS_CONF_dfs_datanode_max_transfer_threads' '4096' />
-    <@container.CHECK_PATH ':50075' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
     <@service.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' 'host' />
+    <@service.CHECK_PATH ':50075' />
   </@swarm.TASK_RUNNER>
 </#list>

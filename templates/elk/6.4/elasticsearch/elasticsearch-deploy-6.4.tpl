@@ -20,13 +20,13 @@
   <@container.ENV 'node.data' 'false' />
   <@container.ENV 'search.remote.connect' 'false' />
   <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
-  <@container.CHECK_PORT '9200' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
   <@service.CONSTRAINT 'es' 'master1' />
+  <@service.CHECK_PORT '9200' />
 </@swarm.TASK_RUNNER>
   
 <#list "1,2,3"?split(",") as index>
@@ -42,12 +42,12 @@
     <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
     <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
     <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
-    <@container.CHECK_PORT '9200' />
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
     <@service.NETWORK 'es-net-${namespace}' />
     <@service.CONSTRAINT 'es' 'master${index}' />
+    <@service.CHECK_PORT '9200' />
   </@swarm.TASK_RUNNER>
 </#list>
 
