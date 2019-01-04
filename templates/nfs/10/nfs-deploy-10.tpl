@@ -4,11 +4,11 @@
           
 <@swarm.TASK 'nfs-${namespace}'>
   <@container.VOLUME '/data' />
-  <@container.CHECK_PORT '2049' />
 </@swarm.TASK>
 
 <@swarm.TASK_RUNNER 'nfs-${namespace}' 'imagenarium/nfs:10'>
   <@service.NETWORK 'nfs-net-${namespace}' />
   <@service.CONSTRAINT 'nfs' 'true' />
   <@service.PORT PARAMS.NFS_PORT '2049' />
+  <@service.CHECK_PORT '2049' />
 </@swarm.TASK_RUNNER>
