@@ -43,6 +43,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-name-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.DNSRR />
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-name' '${index}' />
     <@service.PORT PARAMS.HDFS_NAME_WEB_PORT '50070' 'host' />
@@ -64,6 +65,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hdfs-data-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
+    <@service.DNSRR />
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
     <@service.PORT PARAMS.HDFS_DATA_WEB_PORT '50075' 'host' />

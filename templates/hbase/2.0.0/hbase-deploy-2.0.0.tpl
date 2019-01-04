@@ -26,6 +26,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-master-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
+    <@service.DNSRR />
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hbase-master' '${index}' />
     <@service.PORT PARAMS.MASTER_WEB_PORT '16010' 'host' />
@@ -47,6 +48,7 @@
   </@swarm.TASK>
 
   <@swarm.TASK_RUNNER 'hbase-region-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
+    <@service.DNSRR />
     <@service.NETWORK 'net-${namespace}' />
     <@service.CONSTRAINT 'hdfs-data' '${index}' />
     <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
