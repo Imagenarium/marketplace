@@ -2,13 +2,10 @@
 
 <@requirement.PARAM name='NFS_PORT' type='port' required='false' description='Specify nfs external port (for example 2049)' />
           
-<@swarm.TASK 'nfs-${namespace}'>
-  <@container.VOLUME '/data' />
-</@swarm.TASK>
-
-<@swarm.TASK_RUNNER 'nfs-${namespace}' 'imagenarium/nfs:10'>
-  <@service.NETWORK 'nfs-net-${namespace}' />
-  <@service.CONSTRAINT 'nfs' 'true' />
-  <@service.PORT PARAMS.NFS_PORT '2049' />
-  <@service.CHECK_PORT '2049' />
-</@swarm.TASK_RUNNER>
+<@img.TASK 'nfs-${namespace}' 'imagenarium/nfs:10'>
+  <@img.VOLUME '/data' />
+  <@img.NETWORK 'nfs-net-${namespace}' />
+  <@img.CONSTRAINT 'nfs' 'true' />
+  <@img.PORT PARAMS.NFS_PORT '2049' />
+  <@img.CHECK_PORT '2049' />
+</@img.TASK>
