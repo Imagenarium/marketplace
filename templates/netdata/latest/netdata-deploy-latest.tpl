@@ -7,11 +7,13 @@
   <@img.BIND '/etc/group' '/host/etc/group' />
   <@img.BIND '/proc' '/host/proc' />
   <@img.BIND '/sys' '/host/sys' />
+  <@img.NETWORK 'netdata-net-${namespace}' />
   <@img.CUSTOM '--security-opt apparmor=unconfined' />
 </@img.TASK>
 
 <@img.TASK 'nginx-netdata-${namespace}' 'imagenarium/nginx-basic-auth:latest' '' 'global'>
   <@img.PORT PARAMS.PUBLISHED_PORT '8080' 'host' />
+  <@img.NETWORK 'netdata-net-${namespace}' />
   <@img.ENV 'WEB_USER' 'admin' />
   <@img.ENV 'WEB_PASSWORD' PARAMS.ADMIN_PASSWORD 'single' />
   <@img.ENV 'APP_URL' 'http://netdata-${namespace}-{{.Node.ID}}:19999' />
