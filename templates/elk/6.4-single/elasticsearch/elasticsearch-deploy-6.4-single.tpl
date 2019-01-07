@@ -5,21 +5,18 @@
 
 <#assign ES_VERSION='6.4.0' />
   
-<@swarm.TASK 'es-${namespace}'>
-  <@container.VOLUME '/usr/share/elasticsearch/data' />
-  <@container.ULIMIT 'nofile=65536:65536' />
-  <@container.ULIMIT 'nproc=4096:4096' />
-  <@container.ULIMIT 'memlock=-1:-1' />
-  <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
-  <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
-  <@container.ENV 'bootstrap.memory_lock' 'true' />
-  <@container.ENV 'network.bind_host' '0.0.0.0' />
-  <@container.ENV 'node.name' 'es-${namespace}' />
-</@swarm.TASK>
-
-<@swarm.TASK_RUNNER 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
-  <@service.NETWORK 'es-net-${namespace}' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
-  <@service.CONSTRAINT 'es' 'true' />
-  <@service.CHECK_PATH ':9200/_cluster/health?wait_for_status=green&timeout=99999s' />
-</@swarm.TASK_RUNNER>
+<@img.TASK 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+  <@img.VOLUME '/usr/share/elasticsearch/data' />
+  <@img.NETWORK 'es-net-${namespace}' />
+  <@img.PORT PARAMS.PUBLISHED_PORT '9200' />
+  <@img.CONSTRAINT 'es' 'true' />
+  <@img.ULIMIT 'nofile=65536:65536' />
+  <@img.ULIMIT 'nproc=4096:4096' />
+  <@img.ULIMIT 'memlock=-1:-1' />
+  <@img.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
+  <@img.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
+  <@img.ENV 'bootstrap.memory_lock' 'true' />
+  <@img.ENV 'network.bind_host' '0.0.0.0' />
+  <@img.ENV 'node.name' 'es-${namespace}' />
+  <@img.CHECK_PATH ':9200/_cluster/health?wait_for_status=green&timeout=99999s' />
+</@img.TASK>

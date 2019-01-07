@@ -1,2 +1,2 @@
-<@swarm.SERVICE_RM 'es-${namespace}' />
-<@swarm.NETWORK_RM 'es-net-${namespace}' />
+<@img.REMOVE 'es-${namespace}' />
+<@img.REMOVE 'es-net-${namespace}' />
