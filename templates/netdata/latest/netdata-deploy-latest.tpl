@@ -7,6 +7,7 @@
   <@img.BIND '/etc/group' '/host/etc/group' />
   <@img.BIND '/proc' '/host/proc' />
   <@img.BIND '/sys' '/host/sys' />
+  <@img.CUSTOM '--security-opt apparmor=unconfined' />
 </@img.TASK>
 
 <@img.TASK 'nginx-netdata-${namespace}' 'imagenarium/nginx-basic-auth:latest' '' 'global'>
