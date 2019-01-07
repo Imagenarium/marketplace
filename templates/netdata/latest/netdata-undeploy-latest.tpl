@@ -1,2 +1,2 @@
-<@swarm.SERVICE_RM 'netdata-${namespace}' />
-<@swarm.SERVICE_RM 'nginx-netdata-${namespace}' />
+<@img.REMOVE 'netdata-${namespace}' />
+<@img.REMOVE 'nginx-netdata-${namespace}' />
