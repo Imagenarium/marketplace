@@ -15,6 +15,6 @@
   <@img.PORT PARAMS.PUBLISHED_PORT '8080' 'host' />
   <@img.NETWORK 'netdata-net-${namespace}' />
   <@img.ENV 'WEB_USER' 'admin' />
-  <@img.ENV 'WEB_PASSWORD' PARAMS.ADMIN_PASSWORD 'single' />
+  <@img.ENV 'WEB_PASSWORD' PARAMS.ADMIN_PASSWORD />
   <@img.ENV 'APP_URL' 'http://netdata-${namespace}-{{.Node.ID}}:19999' />
 </@img.TASK>
