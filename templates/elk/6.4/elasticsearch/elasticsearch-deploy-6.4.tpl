@@ -7,48 +7,42 @@
 
 <#assign ES_VERSION='6.4.0' />
 
-<@swarm.TASK 'es-router-${namespace}'>
-  <@container.ULIMIT 'nofile=65536:65536' />
-  <@container.ULIMIT 'nproc=4096:4096' />
-  <@container.ULIMIT 'memlock=-1:-1' />
-  <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
-  <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
-  <@container.ENV 'bootstrap.memory_lock' 'true' />
-  <@container.ENV 'network.bind_host' '0.0.0.0' />
-  <@container.ENV 'node.name' 'es-router-${namespace}' />
-  <@container.ENV 'node.master' 'false' />
-  <@container.ENV 'node.data' 'false' />
-  <@container.ENV 'search.remote.connect' 'false' />
-  <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
-</@swarm.TASK>
-
-<@swarm.TASK_RUNNER 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
-  <@service.NETWORK 'es-net-${namespace}' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '9200' />
-  <@service.CONSTRAINT 'es' 'master1' />
-  <@service.CHECK_PORT '9200' />
-</@swarm.TASK_RUNNER>
+<@img.TASK 'es-router-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+  <@img.ULIMIT 'nofile=65536:65536' />
+  <@img.ULIMIT 'nproc=4096:4096' />
+  <@img.ULIMIT 'memlock=-1:-1' />
+  <@img.NETWORK 'es-net-${namespace}' />
+  <@img.CONSTRAINT 'es' 'master1' />
+  <@img.PORT PARAMS.PUBLISHED_PORT '9200' />
+  <@img.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
+  <@img.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
+  <@img.ENV 'bootstrap.memory_lock' 'true' />
+  <@img.ENV 'network.bind_host' '0.0.0.0' />
+  <@img.ENV 'node.name' 'es-router-${namespace}' />
+  <@img.ENV 'node.master' 'false' />
+  <@img.ENV 'node.data' 'false' />
+  <@img.ENV 'search.remote.connect' 'false' />
+  <@img.ENV 'discovery.zen.minimum_master_nodes' '2' />
+  <@img.CHECK_PORT '9200' />
+</@img.TASK>
   
 <#list "1,2,3"?split(",") as index>
-  <@swarm.TASK 'es-master-${index}-${namespace}'>
-    <@container.VOLUME '/usr/share/elasticsearch/data' />
-    <@container.ULIMIT 'nofile=65536:65536' />
-    <@container.ULIMIT 'nproc=4096:4096' />
-    <@container.ULIMIT 'memlock=-1:-1' />
-    <@container.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
-    <@container.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
-    <@container.ENV 'bootstrap.memory_lock' 'true' />
-    <@container.ENV 'network.bind_host' '0.0.0.0' />
-    <@container.ENV 'node.name' 'es-master-${index}-${namespace}' />
-    <@container.ENV 'discovery.zen.minimum_master_nodes' '2' />
-    <@container.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
-  </@swarm.TASK>
-
-  <@swarm.TASK_RUNNER 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
-    <@service.NETWORK 'es-net-${namespace}' />
-    <@service.CONSTRAINT 'es' 'master${index}' />
-    <@service.CHECK_PORT '9200' />
-  </@swarm.TASK_RUNNER>
+  <@img.TASK 'es-master-${index}-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
+    <@img.VOLUME '/usr/share/elasticsearch/data' />
+    <@img.NETWORK 'es-net-${namespace}' />
+    <@img.CONSTRAINT 'es' 'master${index}' />
+    <@img.ULIMIT 'nofile=65536:65536' />
+    <@img.ULIMIT 'nproc=4096:4096' />
+    <@img.ULIMIT 'memlock=-1:-1' />
+    <@img.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
+    <@img.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
+    <@img.ENV 'bootstrap.memory_lock' 'true' />
+    <@img.ENV 'network.bind_host' '0.0.0.0' />
+    <@img.ENV 'node.name' 'es-master-${index}-${namespace}' />
+    <@img.ENV 'discovery.zen.minimum_master_nodes' '2' />
+    <@img.ENV 'discovery.zen.ping.unicast.hosts' 'es-router-${namespace}' />
+    <@img.CHECK_PORT '9200' />
+  </@img.TASK>
 </#list>
 
 <@docker.HTTP_CHECKER 'es-checker-${namespace}' 'http://es-router-${namespace}:9200/_cluster/health?wait_for_status=green&timeout=99999s' 'es-net-${namespace}' />
