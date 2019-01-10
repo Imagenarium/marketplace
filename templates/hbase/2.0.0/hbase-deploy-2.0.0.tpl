@@ -16,43 +16,37 @@
 <#assign HBASE_VERSION='2.0.0_1' />
 
 <#list 1..3 as index>
-  <@swarm.TASK 'hbase-master-${index}-${namespace}'>
-    <@container.ULIMIT 'nofile=65536:65536' />
-    <@container.ULIMIT 'nproc=4096:4096' />
-    <@container.ULIMIT 'memlock=-1:-1' />
-    <@container.ENV 'MASTER_NODE' 'true' />
-    <@container.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT />
-    <@container.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
-  </@swarm.TASK>
-
-  <@swarm.TASK_RUNNER 'hbase-master-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
-    <@service.DNSRR />
-    <@service.NETWORK 'net-${namespace}' />
-    <@service.CONSTRAINT 'hbase-master' '${index}' />
-    <@service.PORT PARAMS.MASTER_WEB_PORT '16010' 'host' />
-    <@service.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
-    <@service.CHECK_PATH ':16010' />
-  </@swarm.TASK_RUNNER>
+  <@img.TASK 'hbase-master-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
+    <@img.ULIMIT 'nofile=65536:65536' />
+    <@img.ULIMIT 'nproc=4096:4096' />
+    <@img.ULIMIT 'memlock=-1:-1' />
+    <@img.ENV 'MASTER_NODE' 'true' />
+    <@img.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT />
+    <@img.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
+    <@img.DNSRR />
+    <@img.NETWORK 'net-${namespace}' />
+    <@img.CONSTRAINT 'hbase-master' '${index}' />
+    <@img.PORT PARAMS.MASTER_WEB_PORT '16010' 'host' />
+    <@img.PORT PARAMS.MASTER_EXTERNAL_PORT PARAMS.MASTER_EXTERNAL_PORT 'host' />
+    <@img.CHECK_PATH ':16010' />
+  </@img.TASK>
 </#list>
 
 <#list 1..3 as index>
-  <@swarm.TASK 'hbase-region-${index}-${namespace}'>
-    <@container.BIND '/var/run' '/var/run/hadoop' />
-    <@container.IPC 'container:hdfs-data-${index}-${namespace}-1' />
-    <@container.ULIMIT 'nofile=65536:65536' />
-    <@container.ULIMIT 'nproc=4096:4096' />
-    <@container.ULIMIT 'memlock=-1:-1' />
-    <@container.ENV 'REGION_NODE' 'true' />
-    <@container.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
-    <@container.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
-  </@swarm.TASK>
-
-  <@swarm.TASK_RUNNER 'hbase-region-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
-    <@service.DNSRR />
-    <@service.NETWORK 'net-${namespace}' />
-    <@service.CONSTRAINT 'hdfs-data' '${index}' />
-    <@service.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
-    <@service.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
-    <@service.CHECK_PATH ':16030' />
-  </@swarm.TASK_RUNNER>
+  <@img.TASK 'hbase-region-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
+    <@img.BIND '/var/run' '/var/run/hadoop' />
+    <@img.IPC 'container:hdfs-data-${index}-${namespace}-1' />
+    <@img.ULIMIT 'nofile=65536:65536' />
+    <@img.ULIMIT 'nproc=4096:4096' />
+    <@img.ULIMIT 'memlock=-1:-1' />
+    <@img.ENV 'REGION_NODE' 'true' />
+    <@img.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
+    <@img.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
+    <@img.DNSRR />
+    <@img.NETWORK 'net-${namespace}' />
+    <@img.CONSTRAINT 'hdfs-data' '${index}' />
+    <@img.PORT PARAMS.REGIONSERVER_WEB_PORT '16030' 'host' />
+    <@img.PORT PARAMS.REGIONSERVER_EXTERNAL_PORT PARAMS.REGIONSERVER_EXTERNAL_PORT 'host' />
+    <@img.CHECK_PATH ':16030' />
+  </@img.TASK>
 </#list>

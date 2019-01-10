@@ -1,4 +1,4 @@
-<@requirement.CONSTRAINT 'es' 'true' />
+<@requirement.CONSTRAINT 'es-single' 'true' />
 
 <@requirement.PARAM name='ES_JAVA_OPTS' value='-Xms1G -Xmx1G -Des.enforce.bootstrap.checks=true' type='textarea' />
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify Elasticsearch external port (for example 9200)' />
@@ -9,7 +9,7 @@
   <@img.VOLUME '/usr/share/elasticsearch/data' />
   <@img.NETWORK 'es-net-${namespace}' />
   <@img.PORT PARAMS.PUBLISHED_PORT '9200' />
-  <@img.CONSTRAINT 'es' 'true' />
+  <@img.CONSTRAINT 'es-single' 'true' />
   <@img.ULIMIT 'nofile=65536:65536' />
   <@img.ULIMIT 'nproc=4096:4096' />
   <@img.ULIMIT 'memlock=-1:-1' />
