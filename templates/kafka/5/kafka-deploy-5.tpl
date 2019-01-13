@@ -50,6 +50,7 @@
 <@swarm.SERVICE 'kafka-manager-${namespace}' 'hlebalbau/kafka-manager:latest' '-Dpidfile.path=/dev/null -Dapplication.home=/kafka-manager'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.PORT PARAMS.MANAGER_PUBLISHED_PORT '9000' />
+  <@service.CONSTRAINT 'kafka' '1' />
   <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
   <@service.CHECK_PORT '9000' />
 </@swarm.SERVICE>
