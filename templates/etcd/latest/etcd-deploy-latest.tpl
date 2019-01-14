@@ -1,6 +1,4 @@
-<@requirement.CONSTRAINT 'etcd' '1' />
-<@requirement.CONSTRAINT 'etcd' '2' />
-<@requirement.CONSTRAINT 'etcd' '3' />
+<@requirement.CONSTRAINT 'etcd' 'true' '3' />
 
 <@requirement.PARAM name='ETCD_PORT' type='port' required='false' />
 
@@ -15,7 +13,8 @@
     <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.ETCD_PORT '2379' 'host' />
     <@service.DNSRR />
-    <@service.CONSTRAINT 'etcd' '${index}' />
+    <@service.CONSTRAINT 'etcd' 'true' />
+    <@service.SINGLE_INSTANCE_PER_NODE 'etcd' />
     <@service.VOLUME '/data' />
     <@service.ENV 'ETCD_INITIAL_CLUSTER' etcd_servers?join(",") />
   </@swarm.SERVICE>
