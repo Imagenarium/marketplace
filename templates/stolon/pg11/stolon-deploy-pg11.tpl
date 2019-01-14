@@ -33,6 +33,7 @@
     <@service.CONSTRAINT 'keeper' 'true' />
     <@service.SINGLE_INSTANCE_PER_NODE 'keeper' />
     <@service.ENV 'ROLE' 'KEEPER' />
+    <@service.ENV 'KEEPER_ID' '${index}' />
     <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
     <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
     <@service.CHECK_PORT '5432' />
