@@ -5,7 +5,7 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
 <@requirement.PARAM name='POSTGRES_USER' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
-<@requirement.PARAM name='POSTGRES_PARAMS' value='"max_connections":"1000"' />
+<@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\"' />
 
 <@swarm.SERVICE 'stolon-sentinel-${namespace}' 'imagenarium/stolon:pg11'>
   <@service.NETWORK 'net-${namespace}' />
@@ -17,6 +17,14 @@
   <@service.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS 'single' />
   <@service.CHECK_PORT '8585' />
 </@swarm.SERVICE>
+
+<#if PARAMS.DELETE_DATA == 'true'>
+  <@docker.CONTAINER 'stolon-sentinel-${namespace}' 'imagenarium/stolon:pg11'>
+    <@container.NETWORK 'net-${namespace}' />
+    <@container.ENV 'ROLE' 'INIT' />
+    <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
+  </@swarm.SERVICE>
+</#if>
 
 <#list 1..2 as index>
   <@swarm.SERVICE 'stolon-keeper-${namespace}' 'imagenarium/stolon:pg11'>

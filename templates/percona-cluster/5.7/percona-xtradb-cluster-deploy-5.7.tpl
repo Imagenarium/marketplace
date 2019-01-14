@@ -42,6 +42,7 @@
     <@container.ENV 'MYSQL_ROOT_PASSWORD' PARAMS.ROOT_PASSWORD />
     <@container.ENV 'MYSQL_DATABASE' PARAMS.DEFAULT_DB_NAME />
     <@container.ENV 'NETWORK_NAME' 'percona-net-${namespace}' />
+    <@container.EPHEMERAL />
     <@container.DAEMON />
   </@docker.CONTAINER>
   
