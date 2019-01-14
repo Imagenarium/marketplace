@@ -1,5 +1,8 @@
-<@requirement.CONSTRAINT 'sentinel' 'true' '3' />
-<@requirement.CONSTRAINT 'keeper' 'true' '2' />
+<@requirement.CONSTRAINT 'sentinel' '1' />
+<@requirement.CONSTRAINT 'sentinel' '2' />
+<@requirement.CONSTRAINT 'sentinel' '3' />
+<@requirement.CONSTRAINT 'keeper' '1' />
+<@requirement.CONSTRAINT 'keeper' '2' />
 <@requirement.CONSTRAINT 'proxy' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
@@ -19,8 +22,7 @@
 <#list 1..3 as index>
   <@swarm.SERVICE 'stolon-sentinel-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@service.NETWORK 'net-${namespace}' />
-    <@service.CONSTRAINT 'sentinel' 'true' />
-    <@service.SINGLE_INSTANCE_PER_NODE 'sentinel' />
+    <@service.CONSTRAINT 'sentinel' '${index}' />
     <@service.ENV 'ROLE' 'SENTINEL' />
     <@service.CHECK_PORT '8585' />
   </@swarm.SERVICE>
@@ -30,8 +32,7 @@
   <@swarm.SERVICE 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.VOLUME '/var/lib/postgresql/data' />
-    <@service.CONSTRAINT 'keeper' 'true' />
-    <@service.SINGLE_INSTANCE_PER_NODE 'keeper' />
+    <@service.CONSTRAINT 'keeper' '${index}' />
     <@service.ENV 'ROLE' 'KEEPER' />
     <@service.ENV 'KEEPER_ID' '${index}' />
     <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
