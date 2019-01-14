@@ -5,7 +5,6 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
 <@requirement.PARAM name='POSTGRES_USER' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
-<@requirement.PARAM name='POSTGRES_DB' value='testdb' />
 <@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\"' />
 
 <#if PARAMS.DELETE_DATA == 'true'>
@@ -38,7 +37,6 @@
     <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
     <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
     <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
-    <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
     <@service.CHECK_PORT '5432' />
   </@swarm.SERVICE>
 </#list>
