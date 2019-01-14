@@ -7,19 +7,18 @@
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\"' />
 
-<@swarm.SERVICE 'stolon-sentinel-${namespace}' 'imagenarium/stolon:pg11'>
-  <@service.NETWORK 'net-${namespace}' />
-  <@service.CONSTRAINT 'sentinel' 'true' />
-  <@service.SCALABLE />
-  <@service.REPLICAS '3' />
-  <@service.SINGLE_INSTANCE_PER_NODE />
-  <@service.ENV 'ROLE' 'SENTINEL' />
-  <@service.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS 'single' />
-  <@service.CHECK_PORT '8585' />
-</@swarm.SERVICE>
+<#list 1..3 as index>
+  <@swarm.SERVICE 'stolon-sentinel-${index}-${namespace}' 'imagenarium/stolon:pg11'>
+    <@service.NETWORK 'net-${namespace}' />
+    <@service.CONSTRAINT 'sentinel' 'true' />
+    <@service.SINGLE_INSTANCE_PER_NODE 'sentinel' />
+    <@service.ENV 'ROLE' 'SENTINEL' />
+    <@service.CHECK_PORT '8585' />
+  </@swarm.SERVICE>
+</#list>
 
 <#if PARAMS.DELETE_DATA == 'true'>
-  <@docker.CONTAINER 'stolon-sentinel-${namespace}' 'imagenarium/stolon:pg11'>
+  <@docker.CONTAINER 'stolon-init-${namespace}' 'imagenarium/stolon:pg11'>
     <@container.NETWORK 'net-${namespace}' />
     <@container.ENV 'ROLE' 'INIT' />
     <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
@@ -28,11 +27,11 @@
 </#if>
 
 <#list 1..2 as index>
-  <@swarm.SERVICE 'stolon-keeper-${namespace}' 'imagenarium/stolon:pg11'>
+  <@swarm.SERVICE 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.VOLUME '/var/lib/postgresql/data' />
     <@service.CONSTRAINT 'keeper' 'true' />
-    <@service.SINGLE_INSTANCE_PER_NODE />
+    <@service.SINGLE_INSTANCE_PER_NODE 'keeper' />
     <@service.ENV 'ROLE' 'KEEPER' />
     <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
     <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
