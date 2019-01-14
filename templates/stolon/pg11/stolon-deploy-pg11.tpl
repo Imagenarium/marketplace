@@ -37,8 +37,11 @@
     <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
     <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
     <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
-    <@service.CHECK_PORT '5432' />
   </@swarm.SERVICE>
+</#list>
+
+<#list 1..2 as index>
+  <@docker.TCP_CHECKER 'cluster-checker-${namespace}' 'stolon-keeper-${index}-${namespace}:5432' 'net-${namespace}' />
 </#list>
 
 <@swarm.SERVICE 'stolon-proxy-${namespace}' 'imagenarium/stolon:pg11'>

@@ -1,3 +1,5 @@
+<@img.REMOVE 'cluster-checker-${namespace}' />
+
 <@img.REMOVE 'stolon-proxy-${namespace}' />
 
 <#list 1..3 as index>
