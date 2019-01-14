@@ -23,7 +23,8 @@
     <@container.NETWORK 'net-${namespace}' />
     <@container.ENV 'ROLE' 'INIT' />
     <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
-  </@swarm.SERVICE>
+    <@container.EPHEMERAL />
+  </@docker.container>
 </#if>
 
 <#list 1..2 as index>
