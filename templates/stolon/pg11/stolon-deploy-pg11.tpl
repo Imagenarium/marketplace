@@ -7,6 +7,15 @@
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\"' />
 
+<#if PARAMS.DELETE_DATA == 'true'>
+  <@docker.CONTAINER 'stolon-init-${namespace}' 'imagenarium/stolon:pg11'>
+    <@container.NETWORK 'net-${namespace}' />
+    <@container.ENV 'ROLE' 'INIT' />
+    <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
+    <@container.EPHEMERAL />
+  </@docker.CONTAINER>
+</#if>
+
 <#list 1..3 as index>
   <@swarm.SERVICE 'stolon-sentinel-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@service.NETWORK 'net-${namespace}' />
@@ -31,15 +40,6 @@
     <@service.CHECK_PORT '5432' />
   </@swarm.SERVICE>
 </#list>
-
-<#if PARAMS.DELETE_DATA == 'true'>
-  <@docker.CONTAINER 'stolon-init-${namespace}' 'imagenarium/stolon:pg11'>
-    <@container.NETWORK 'net-${namespace}' />
-    <@container.ENV 'ROLE' 'INIT' />
-    <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
-    <@container.EPHEMERAL />
-  </@docker.CONTAINER>
-</#if>
 
 <@swarm.SERVICE 'stolon-proxy-${namespace}' 'imagenarium/stolon:pg11'>
   <@service.NETWORK 'net-${namespace}' />
