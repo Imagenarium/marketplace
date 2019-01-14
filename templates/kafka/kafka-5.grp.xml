@@ -8,12 +8,10 @@
     <stack>
       <id>zookeeper</id>
       <version>5</version>
-      <order>1</order>
     </stack>
     <stack>
       <id>kafka</id>
       <version>5</version>
-      <order>2</order>
     </stack>
   </stacks>
 </group>
