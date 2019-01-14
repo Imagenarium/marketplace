@@ -24,7 +24,7 @@
     <@container.ENV 'ROLE' 'INIT' />
     <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
     <@container.EPHEMERAL />
-  </@docker.container>
+  </@docker.CONTAINER>
 </#if>
 
 <#list 1..2 as index>
