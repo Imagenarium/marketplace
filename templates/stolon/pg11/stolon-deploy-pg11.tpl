@@ -17,15 +17,6 @@
   </@swarm.SERVICE>
 </#list>
 
-<#if PARAMS.DELETE_DATA == 'true'>
-  <@docker.CONTAINER 'stolon-init-${namespace}' 'imagenarium/stolon:pg11'>
-    <@container.NETWORK 'net-${namespace}' />
-    <@container.ENV 'ROLE' 'INIT' />
-    <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
-    <@container.EPHEMERAL />
-  </@docker.CONTAINER>
-</#if>
-
 <#list 1..2 as index>
   <@swarm.SERVICE 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@service.NETWORK 'net-${namespace}' />
@@ -34,11 +25,21 @@
     <@service.SINGLE_INSTANCE_PER_NODE 'keeper' />
     <@service.ENV 'ROLE' 'KEEPER' />
     <@service.ENV 'KEEPER_ID' '${index}' />
+    <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
     <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
     <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
     <@service.CHECK_PORT '5432' />
   </@swarm.SERVICE>
 </#list>
+
+<#if PARAMS.DELETE_DATA == 'true'>
+  <@docker.CONTAINER 'stolon-init-${namespace}' 'imagenarium/stolon:pg11'>
+    <@container.NETWORK 'net-${namespace}' />
+    <@container.ENV 'ROLE' 'INIT' />
+    <@container.ENV 'POSTGRES_PARAMS' PARAMS.POSTGRES_PARAMS />
+    <@container.EPHEMERAL />
+  </@docker.CONTAINER>
+</#if>
 
 <@swarm.SERVICE 'stolon-proxy-${namespace}' 'imagenarium/stolon:pg11'>
   <@service.NETWORK 'net-${namespace}' />
