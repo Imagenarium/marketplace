@@ -5,7 +5,7 @@
 <@requirement.PARAM name='ZOOKEEPER_HEAP_OPTS' value='-Xmx512M -Xms512M' />
 <@requirement.PARAM name='ZOOKEEPER_PORT' type='port' required='false' />
 
-<#assign ZOOKEEPER_VERSION='5' />
+<#assign ZOOKEEPER_VERSION='5.1' />
 
 <#assign zoo_servers = [] />
 <#assign zoo_connect = [] />
