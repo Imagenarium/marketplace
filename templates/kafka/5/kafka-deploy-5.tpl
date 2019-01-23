@@ -34,12 +34,12 @@
     <@service.ENV 'KAFKA_MESSAGE_MAX_BYTES' '10485760' />
     <@service.ENV 'KAFKA_REPLICA_FETCH_MAX_BYTES' '10485760' />
     <@service.ENV 'KAFKA_AUTO_CREATE_TOPICS_ENABLE' 'false' />
-    <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
+    <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=7799 -Dcom.sun.management.jmxremote.port=7799 -Djava.net.preferIPv4Stack=true' />
     <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.KAFKA_HEAP_OPTS />
     <@service.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
     <@service.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
     <@service.ENV 'KAFKA_NUM_PARTITIONS' '128' />
-    <@service.ENV 'KAFKA_LOG4J_LOGGERS' 'kafka.controller=WARN,kafka.foo.bar=DEBUG' />
+    <@service.ENV 'KAFKA_LOG4J_LOGGERS' 'kafka.controller=WARN,state.change.logger=WARN' />
     <@service.ENV 'KAFKA_LOG4J_ROOT_LOGLEVEL' 'WARN' />
     <@service.ENV 'KAFKA_TOOLS_LOG4J_LOGLEVEL' 'ERROR' />
   </@swarm.SERVICE>
