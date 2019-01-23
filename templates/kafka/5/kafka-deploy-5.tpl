@@ -39,6 +39,7 @@
     <@service.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
     <@service.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
     <@service.ENV 'KAFKA_NUM_PARTITIONS' '128' />
+    <@service.ENV 'KAFKA_LOG4J_LOGGERS' 'kafka.controller=WARN,kafka.foo.bar=DEBUG' />
     <@service.ENV 'KAFKA_LOG4J_ROOT_LOGLEVEL' 'INFO' />
     <@service.ENV 'KAFKA_TOOLS_LOG4J_LOGLEVEL' 'INFO' />
   </@swarm.SERVICE>
