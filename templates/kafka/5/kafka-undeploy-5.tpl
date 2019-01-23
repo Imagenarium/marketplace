@@ -6,4 +6,7 @@
 
 <@swarm.SERVICE_RM 'kafka-manager-${namespace}' />
 
+<@swarm.SERVICE_RM 'kafka-exporter-${namespace}' />
+
 <@swarm.NETWORK_RM 'net-${namespace}' />
+
