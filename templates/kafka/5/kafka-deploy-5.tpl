@@ -7,7 +7,7 @@
 <@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' value='9308' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
-<#assign KAFKA_VERSION='5' />
+<#assign KAFKA_VERSION='5.1' />
   
 <#assign zoo_connect = [] />
 <#assign kafka_servers = [] />
@@ -34,7 +34,7 @@
     <@service.ENV 'KAFKA_MESSAGE_MAX_BYTES' '10485760' />
     <@service.ENV 'KAFKA_REPLICA_FETCH_MAX_BYTES' '10485760' />
     <@service.ENV 'KAFKA_AUTO_CREATE_TOPICS_ENABLE' 'false' />
-    <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=7799 -Dcom.sun.management.jmxremote.port=7799 -Djava.net.preferIPv4Stack=true' />
+    <@service.ENV 'KAFKA_JMX_OPTS' '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=kafka-${index}-${namespace} -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=9999 -Dcom.sun.management.jmxremote.port=9999 -Djava.net.preferIPv4Stack=true' />
     <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.KAFKA_HEAP_OPTS />
     <@service.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
     <@service.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
