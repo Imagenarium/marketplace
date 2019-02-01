@@ -8,5 +8,7 @@
 
 <@swarm.SERVICE_RM 'kafka-exporter-${namespace}' />
 
+<@swarm.SERVICE_RM 'prometheus-${namespace}' />
+
 <@swarm.NETWORK_RM 'net-${namespace}' />
 
