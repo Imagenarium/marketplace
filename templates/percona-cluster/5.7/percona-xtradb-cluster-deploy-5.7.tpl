@@ -72,7 +72,6 @@
     <@service.ENV 'GCACHE_SIZE' PARAMS.GCACHE_SIZE />
     <@service.ENV 'PMM_USER' PARAMS.PMM_USER />
     <@service.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
-    <@service.CHECK_PORT '3306' />
   </@swarm.SERVICE>
 </#list>
 
