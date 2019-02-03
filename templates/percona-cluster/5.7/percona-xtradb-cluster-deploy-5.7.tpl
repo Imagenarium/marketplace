@@ -75,7 +75,9 @@
   <@checkNode 'percona-${index}-${namespace}' />  
 </#list>
 
-<@docker.CONTAINER_RM 'percona-init-${namespace}' />
+<#if PARAMS.DELETE_DATA == 'true'>
+  <@docker.CONTAINER_RM 'percona-init-${namespace}' />
+</#if>
 
 <@swarm.SERVICE 'proxysql-${namespace}' 'imagenarium/proxysql'>
   <@service.NETWORK 'percona-net-${namespace}' />
