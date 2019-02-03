@@ -7,12 +7,11 @@
 <@requirement.PARAM name='PMM_USER' value='admin' />
 <@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
-<@requirement.PARAM name='RUN_ORDER' value='1,2,3' />
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
 <@requirement.PARAM name='GCACHE_SIZE' value='128M' />
 <@requirement.PARAM name='WSREP_SLAVE_THREADS' value='2' type='number' description='Defines the number of threads to use in applying slave write-sets' />
 
-<#assign PERCONA_VERSION='5.7.23' />
+<#assign PERCONA_VERSION='5.7.23_1' />
   
 <#macro checkNode nodeName>
   <@docker.CONTAINER 'percona-node-checker-${namespace}' 'imagenarium/percona-xtradb-cluster:${PERCONA_VERSION}'>
@@ -49,10 +48,10 @@
   <@checkNode 'percona-init-${namespace}' />
 </#if>
 
-<#list PARAMS.RUN_ORDER?split(",") as index>
+<#list 1..3 as index>
   <#assign nodes = ["percona-init-${namespace}"] />
 
-  <#list PARAMS.RUN_ORDER?split(",") as _index>
+  <#list 1..3 as _index>
     <#if index != _index>
       <#assign nodes += ["percona-${_index}-${namespace}"] />
     </#if>
@@ -70,7 +69,9 @@
     <@service.ENV 'PMM_USER' PARAMS.PMM_USER />
     <@service.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
   </@swarm.SERVICE>
-    
+</#list>
+
+<#list 1..3 as index>
   <@checkNode 'percona-${index}-${namespace}' />  
 </#list>
 
