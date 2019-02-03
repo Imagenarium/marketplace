@@ -17,5 +17,9 @@
       <id>hbase</id>
       <version>2.0.0</version>
     </stack>
+    <stack>
+      <id>phoenix</id>
+      <version>5</version>
+    </stack>
   </stacks>
 </group>
