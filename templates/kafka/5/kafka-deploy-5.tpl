@@ -4,6 +4,7 @@
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' value='9308' required='false' />
+<@requirement.PARAM name='JMX_EXPORTER_PUBLISHED_PORT' type='port' value='7071' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
 <#assign KAFKA_VERSION='5.1' />
@@ -22,6 +23,7 @@
   <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/cp-kafka:${KAFKA_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '9092' 'host' />
+    <@service.PORT PARAMS.JMX_EXPORTER_PUBLISHED_PORT '7071' 'host' />
     <@service.DNSRR />
     <@service.CONSTRAINT 'kafka' '${index}' />
     <@service.VOLUME '/var/lib/kafka/data' />
@@ -58,5 +60,3 @@
   <@service.CONSTRAINT 'kafka' '1' />
   <@service.CHECK_PORT '9308' />
 </@swarm.SERVICE>
-
-
