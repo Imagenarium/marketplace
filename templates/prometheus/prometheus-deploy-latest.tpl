@@ -27,5 +27,5 @@
   <@service.PORT PARAMS.ALERTDASHBOARD_PUBLISHED_PORT '9094' />
   <@service.ENV 'ADMIN_USER' PARAMS.ADMIN_USER />
   <@service.ENV 'ADMIN_PASSWORD' PARAMS.ADMIN_PASSWORD />
-  <@service.CHECK_PATH ':3000/login' />
+  <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
