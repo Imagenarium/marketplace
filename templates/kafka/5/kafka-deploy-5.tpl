@@ -5,9 +5,10 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='MANAGER_PUBLISHED_PORT' type='port' value='9000' required='false' />
 <@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' value='9308' required='false' />
+<@requirement.PARAM name='PROMETHEUS_PUBLISHED_PORT' type='port' value='9090' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
-<#assign KAFKA_VERSION='5.1' />
+<#assign KAFKA_VERSION='5.2' />
   
 <#assign zoo_connect = [] />
 <#assign kafka_servers = [] />
@@ -20,7 +21,7 @@
 </#list>
       
 <#list 1..3 as index>
-  <@swarm.SERVICE 'kafka-${index}-${namespace}' 'imagenarium/cp-kafka:${KAFKA_VERSION}'>
+  <@swarm.SERVICE 'kafka-${index}-${namespace}' 'ovarb6/cp-kafka:${KAFKA_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '9092' 'host' />
     <@service.DNSRR />
@@ -38,14 +39,12 @@
     <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.KAFKA_HEAP_OPTS />
     <@service.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
     <@service.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
-    <@service.ENV 'KAFKA_NUM_PARTITIONS' '128' />
-    <@service.ENV 'KAFKA_LOG4J_LOGGERS' 'kafka.controller=WARN,state.change.logger=WARN' />
-    <@service.ENV 'KAFKA_LOG4J_ROOT_LOGLEVEL' 'WARN' />
-    <@service.ENV 'KAFKA_TOOLS_LOG4J_LOGLEVEL' 'ERROR' />
+    <@service.ENV 'KAFKA_NUM_PARTITIONS' '128' /> 
+    <@service.CHECK_PORT '7071' />
   </@swarm.SERVICE>
 </#list>
 
-<@docker.CONTAINER 'kafka-checker-${namespace}' 'imagenarium/cp-kafka:${KAFKA_VERSION}'>
+<@docker.CONTAINER 'kafka-checker-${namespace}' 'ovarb6/cp-kafka:${KAFKA_VERSION}'>
   <@container.ENTRY '/checker.sh' />
   <@container.NETWORK 'net-${namespace}' />
   <@container.EPHEMERAL />
@@ -66,6 +65,13 @@
   <@service.PORT PARAMS.EXPORTER_PUBLISHED_PORT '9308' />
   <@service.CONSTRAINT 'kafka' '1' />
   <@service.CHECK_PORT '9308' />
+</@swarm.SERVICE>
+
+<@swarm.SERVICE 'prometheus-${namespace}' 'ovarb6/prometheus-kafka:v2.5.0'>
+  <@service.NETWORK 'net-${namespace}' />
+  <@service.PORT PARAMS.PROMETHEUS_PUBLISHED_PORT '9090' />
+  <@service.CONSTRAINT 'kafka' '3' />
+  <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
 
 
