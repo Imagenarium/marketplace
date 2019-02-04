@@ -3,7 +3,6 @@
 <@requirement.CONSTRAINT 'kafka' '3' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
-<@requirement.PARAM name='MANAGER_PUBLISHED_PORT' type='port' value='9000' required='false' />
 <@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' value='9308' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
@@ -52,14 +51,6 @@
   <@container.ENV 'ZOOKEEPER_CONNECT' zoo_connect?join(",") />
   <@container.ENV 'EXPECTED_BROKERS' '${kafka_servers?size}' />
 </@docker.CONTAINER>
-
-<@swarm.SERVICE 'kafka-manager-${namespace}' 'hlebalbau/kafka-manager:latest' '-Dpidfile.path=/dev/null -Dapplication.home=/kafka-manager'>
-  <@service.NETWORK 'net-${namespace}' />
-  <@service.PORT PARAMS.MANAGER_PUBLISHED_PORT '9000' />
-  <@service.CONSTRAINT 'kafka' '1' />
-  <@service.ENV 'ZK_HOSTS' zoo_connect?join(",") />
-  <@service.CHECK_PORT '9000' />
-</@swarm.SERVICE>
 
 <@swarm.SERVICE 'kafka-exporter-${namespace}' 'danielqsj/kafka-exporter:latest' kafka_exporter_servers?join(" ")>
   <@service.NETWORK 'net-${namespace}' />
