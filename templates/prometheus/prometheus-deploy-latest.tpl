@@ -16,7 +16,7 @@
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'prometheus' 'true' />
   <@node.MANAGER />
-  <@service.checkPort '9090' />
+  <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
 
 <@swarm.SERVICE 'caddy-${namespace}' 'imagenarium/caddy'>
@@ -27,5 +27,5 @@
   <@service.PORT PARAMS.ALERTDASHBOARD_PUBLISHED_PORT '9094' />
   <@service.ENV 'ADMIN_USER' PARAMS.ADMIN_USER />
   <@service.ENV 'ADMIN_PASSWORD' PARAMS.ADMIN_PASSWORD />
-  <@service.checkPath ':3000/login' />
+  <@service.CHECK_PATH ':3000/login' />
 </@swarm.SERVICE>
