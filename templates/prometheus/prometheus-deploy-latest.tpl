@@ -12,7 +12,7 @@
   <@service.CONSTRAINT 'prometheus' 'true' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/swarmprom-prometheus:v2.5.0' '--storage.tsdb.retention=24h'>
+<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus-kafka:v2.5.0' '--storage.tsdb.retention=24h'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'prometheus' 'true' />
   <@node.MANAGER />
