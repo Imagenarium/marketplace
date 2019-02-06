@@ -14,7 +14,7 @@
 <@requirement.PARAM name='HDFS_NAME_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='HDFS_DATA_WEB_PORT' type='port' required='false' />
 
-<#assign HDFS_VERSION='2.8.5_1' />
+<#assign HDFS_VERSION='3.2.0' />
 
 <#list 1..3 as index>
   <@img.TASK 'hdfs-journal-${index}-${namespace}' 'imagenarium/hdfs:${HDFS_VERSION}'>
