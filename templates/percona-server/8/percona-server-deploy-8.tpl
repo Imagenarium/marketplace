@@ -8,7 +8,7 @@
 <@requirement.PARAM name='ROOT_PASSWORD' value='root' type='password' />
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 
-<#assign PERCONA_VERSION='8' />
+<#assign PERCONA_VERSION='8.0' />
     
 <@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
   <@service.NETWORK 'net-${namespace}' />
