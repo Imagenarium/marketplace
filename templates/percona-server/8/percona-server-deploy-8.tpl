@@ -6,8 +6,8 @@
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 
 <@requirement.PARAM name='PMM_ENABLE' value='false' type='boolean' />
-<@requirement.PARAM name='PMM_USER' value='admin' global='true' />
-<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' global='true' />
+<@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
+<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
 
 <#assign PERCONA_VERSION='8.0' />
 

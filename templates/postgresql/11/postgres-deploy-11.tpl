@@ -7,8 +7,8 @@
 <@requirement.PARAM name='POSTGRES_DB' value='postgres' />
 
 <@requirement.PARAM name='PMM_ENABLE' value='false' type='boolean' />
-<@requirement.PARAM name='PMM_USER' value='admin' global='true' />
-<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' global='true' />
+<@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
+<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
 
 <@swarm.SERVICE 'postgres-${namespace}' 'imagenarium/postgresql:11.1'>
   <@service.NETWORK 'net-${namespace}' />

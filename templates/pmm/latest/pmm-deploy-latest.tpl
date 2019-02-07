@@ -1,8 +1,8 @@
 <@requirement.CONSTRAINT 'pmm' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
-<@requirement.PARAM name='PMM_USER' value='admin' global='true' />
-<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' global='true' />
+<@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
+<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
 
 <@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
   <@service.NETWORK 'net-${namespace}' />
