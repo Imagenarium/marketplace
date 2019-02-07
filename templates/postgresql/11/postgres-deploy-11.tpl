@@ -18,7 +18,7 @@
   <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
   <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
   <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
-  <@service.ENV 'NETWORK_NAME' 'postgres-net-${namespace}' />
+  <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
   <@service.ENV 'PMM' PARAMS.PMM_ENABLE />
   <@service.ENV 'PMM_USER' PARAMS.PMM_USER />
   <@service.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
