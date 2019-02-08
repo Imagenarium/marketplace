@@ -7,7 +7,7 @@
 <@requirement.PARAM name='JMX_EXPORTER_PUBLISHED_PORT' type='port' value='7071' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
-<#assign KAFKA_VERSION='5.1' />
+<#assign KAFKA_VERSION='5.1_1' />
   
 <#assign zoo_connect = [] />
 <#assign kafka_servers = [] />

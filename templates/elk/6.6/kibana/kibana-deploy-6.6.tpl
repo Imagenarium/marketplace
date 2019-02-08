@@ -22,5 +22,6 @@
   <@service.ENV 'XPACK_MONITORING_ENABLED' 'false' />
   <@service.ENV 'XPACK_REPORTING_ENABLED' 'false' />
   <@service.ENV 'XPACK_SECURITY_ENABLED' 'false' />
+  <@service.ENV 'XPACK_ML_ENABLED' 'false' />
   <@service.CHECK_PORT '5601' />
 </@swarm.SERVICE>
