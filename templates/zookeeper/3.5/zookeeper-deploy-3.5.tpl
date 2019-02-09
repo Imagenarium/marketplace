@@ -20,7 +20,7 @@
     <@service.PORT PARAMS.PUBLISHED_PORT '2181' 'host' />
     <@service.DNSRR />
     <@service.CONSTRAINT 'zookeeper' '${index}' />
-    <@service.VOLUME '/data' />
+    <@service.VOLUME '/var/lib/zookeeper/data' />
     <@service.ENV 'ZOO_MY_ID' '${index}' />
     <@service.ENV 'ZOO_SERVERS' zoo_servers?join(";") />
   </@swarm.SERVICE>
