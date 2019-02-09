@@ -3,6 +3,7 @@
 <@requirement.CONSTRAINT 'zookeeper' '3' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
+<@requirement.PARAM name='ADMIN_PORT' type='port' required='false' />
 
 <#assign ZOOKEEPER_VERSION='3.5' />
 
@@ -18,6 +19,7 @@
   <@swarm.SERVICE 'zookeeper-${index}-${namespace}' 'imagenarium/zookeeper:${ZOOKEEPER_VERSION}'>
     <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '2181' 'host' />
+    <@service.PORT PARAMS.ADMIN_PORT '8080' 'host' />
     <@service.DNSRR />
     <@service.CONSTRAINT 'zookeeper' '${index}' />
     <@service.VOLUME '/data' />
