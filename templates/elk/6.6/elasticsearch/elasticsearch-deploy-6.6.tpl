@@ -21,6 +21,7 @@
   <@img.ENV 'node.name' 'es-router-${namespace}' />
   <@img.ENV 'node.master' 'false' />
   <@img.ENV 'node.data' 'false' />
+  <@img.ENV 'node.ingest' 'false' />
   <@img.ENV 'search.remote.connect' 'false' />
   <@img.ENV 'discovery.zen.minimum_master_nodes' '2' />
   <@img.CHECK_PORT '9200' />
