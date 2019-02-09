@@ -10,7 +10,7 @@
 <#assign zoo_connect = [] />
   
 <#list 1..3 as index>
-  <#assign zoo_servers += ['zookeeper-${index}-${namespace}:2888:3888'] />
+  <#assign zoo_servers += ['server.${index}=zookeeper-${index}-${namespace}:2888:3888;2181'] />
   <#assign zoo_connect += ['zookeeper-${index}-${namespace}:2181'] />
 </#list>
   
@@ -20,7 +20,7 @@
     <@service.PORT PARAMS.PUBLISHED_PORT '2181' 'host' />
     <@service.DNSRR />
     <@service.CONSTRAINT 'zookeeper' '${index}' />
-    <@service.VOLUME '/var/lib/zookeeper/data' />
+    <@service.VOLUME '/data' />
     <@service.ENV 'ZOO_MY_ID' '${index}' />
     <@service.ENV 'ZOO_SERVERS' zoo_servers?join(";") />
   </@swarm.SERVICE>
