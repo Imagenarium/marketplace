@@ -10,7 +10,7 @@
 <#assign zoo_connect = [] />
   
 <#list 1..3 as index>
-  <#assign zoo_servers += ['server.${index}=zookeeper-${index}-${namespace}:2888:3888;2181'] />
+  <#assign zoo_servers += ['server.${index}=zookeeper-${index}-${namespace}:2888:3888;0.0.0.0:2181'] />
   <#assign zoo_connect += ['zookeeper-${index}-${namespace}:2181'] />
 </#list>
   
