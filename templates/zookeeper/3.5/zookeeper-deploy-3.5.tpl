@@ -22,7 +22,7 @@
     <@service.CONSTRAINT 'zookeeper' '${index}' />
     <@service.VOLUME '/data' />
     <@service.ENV 'ZOO_MY_ID' '${index}' />
-    <@service.ENV 'ZOO_SERVERS' zoo_servers?join(";") />
+    <@service.ENV 'ZOO_SERVERS' zoo_servers?join(" ") />
   </@swarm.SERVICE>
 </#list>
 
