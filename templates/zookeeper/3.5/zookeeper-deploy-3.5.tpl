@@ -21,6 +21,7 @@
     <@service.DNSRR />
     <@service.CONSTRAINT 'zookeeper' '${index}' />
     <@service.VOLUME '/data' />
+    <@service.VOLUME '/datalog' />
     <@service.ENV 'ZOO_MY_ID' '${index}' />
     <@service.ENV 'ZOO_SERVERS' zoo_servers?join(" ") />
   </@swarm.SERVICE>
