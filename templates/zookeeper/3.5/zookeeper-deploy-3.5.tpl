@@ -4,6 +4,7 @@
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='ADMIN_PORT' type='port' required='false' />
+<@requirement.PARAM name='ZOO_JAVA_OPTS' value='-Xmx512M -Xms512M' />
 
 <#assign ZOOKEEPER_VERSION='3.5' />
 
@@ -26,6 +27,7 @@
     <@service.VOLUME '/datalog' />
     <@service.ENV 'ZOO_MY_ID' '${index}' />
     <@service.ENV 'ZOO_SERVERS' zoo_servers?join(" ") />
+    <@service.ENV 'ZOO_JAVA_OPTS' PARAMS.ZOO_JAVA_OPTS />
   </@swarm.SERVICE>
 </#list>
 
