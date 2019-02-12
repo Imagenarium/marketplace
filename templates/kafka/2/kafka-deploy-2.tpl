@@ -7,7 +7,7 @@
 <@requirement.PARAM name='JMX_EXPORTER_PUBLISHED_PORT' type='port' value='7071' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
-<#assign KAFKA_VERSION='2.12' />
+<#assign KAFKA_VERSION='2.1.0' />
   
 <#assign zoo_connect = [] />
 <#assign kafka_servers = [] />
@@ -39,6 +39,10 @@
     <@service.ENV 'KAFKA_HEAP_OPTS' PARAMS.KAFKA_HEAP_OPTS />
     <@service.ENV 'KAFKA_MIN_INSYNC_REPLICAS' '2' />
     <@service.ENV 'KAFKA_DEFAULT_REPLICATION_FACTOR' '3' />
+    <@service.ENV 'KAFKA_TRANSACTION_STATE_LOG_MIN_ISR' '2' />
+    <@service.ENV 'KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR' '3' />
+    <@service.ENV 'KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR' '3' />
+    <@service.ENV 'KAFKA_CONFIG_STORAGE_REPLICATION_FACTOR' '3' />
   </@swarm.SERVICE>
 </#list>
 
