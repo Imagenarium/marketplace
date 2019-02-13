@@ -9,6 +9,7 @@
   <@img.NETWORK 'net-${namespace}' />
   <@img.PORT PARAMS.PUBLISHED_PORT '6379' />
   <@img.VOLUME '/data' />
+  <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
   <@img.CONSTRAINT 'redis' 'true' />
   <@img.CHECK_PORT '6379' />
   <@img.ULIMIT 'nofile=65536:65536' />
