@@ -14,7 +14,7 @@
 <@requirement.PARAM name='REGIONSERVER_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='USE_EXTERNAL_ADDR' value='false' type='boolean' />
 
-<#assign HBASE_VERSION='2.0.0_1' />
+<#assign HBASE_VERSION='2.0.4' />
 
 <#list 1..3 as index>
   <@img.TASK 'hbase-master-${index}-${namespace}' 'imagenarium/hbase:${HBASE_VERSION}'>
