@@ -12,7 +12,6 @@
 <@requirement.PARAM name='REGIONSERVER_EXTERNAL_PORT' type='port' required='false' />
 <@requirement.PARAM name='MASTER_WEB_PORT' type='port' required='false' />
 <@requirement.PARAM name='REGIONSERVER_WEB_PORT' type='port' required='false' />
-<@requirement.PARAM name='USE_EXTERNAL_ADDR' value='false' type='boolean' />
 
 <#assign HBASE_VERSION='2.0.4' />
 
@@ -25,7 +24,6 @@
     <@img.ENV 'MASTER_NODE' 'true' />
     <@img.ENV 'MASTER_EXTERNAL_PORT' PARAMS.MASTER_EXTERNAL_PORT />
     <@img.ENV 'HBASE_MASTER_OPTS' PARAMS.HBASE_MASTER_OPTS />
-    <@img.ENV 'USE_EXTERNAL_ADDR' PARAMS.USE_EXTERNAL_ADDR />
     <@img.DNSRR />
     <@img.NETWORK 'net-${namespace}' />
     <@img.CONSTRAINT 'hbase-master' '${index}' />
@@ -46,7 +44,6 @@
     <@img.ENV 'REGION_NODE' 'true' />
     <@img.ENV 'REGIONSERVER_EXTERNAL_PORT' PARAMS.REGIONSERVER_EXTERNAL_PORT />
     <@img.ENV 'HBASE_REGIONSERVER_OPTS' PARAMS.HBASE_REGIONSERVER_OPTS />
-    <@img.ENV 'USE_EXTERNAL_ADDR' PARAMS.USE_EXTERNAL_ADDR />
     <@img.DNSRR />
     <@img.NETWORK 'net-${namespace}' />
     <@img.CONSTRAINT 'hdfs-data' '${index}' />
