@@ -7,7 +7,7 @@
   <stacks>
     <stack>
       <id>zookeeper</id>
-      <version>5</version>
+      <version>3.5</version>
     </stack>
     <stack>
       <id>hdfs</id>
