@@ -7,16 +7,15 @@
 
 <@requirement.CONSTRAINT 'prometheus' 'true' />
 
-<@swarm.SERVICE 'alertmanager-${namespace}' 'prom/alertmanager:v0.16.1'>
+<@swarm.SERVICE 'alertmanager-${namespace}' 'prom/alertmanager:v0.15.3'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.VOLUME '/alertmanager' />
   <@service.CONSTRAINT 'prometheus' 'true' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus:v2.7.1' '--storage.tsdb.retention=24h'>
+<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus-kafka:v2.5.0' '--storage.tsdb.retention=24h'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'prometheus' 'true' />
-  <@service.VOLUME '/prometheus' />
+  <@node.MANAGER />
   <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
 
