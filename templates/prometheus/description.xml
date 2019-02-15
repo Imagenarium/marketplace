@@ -1,5 +1,5 @@
 ﻿<description>
-  <id>prometheus-kafka</id>
+  <id>prometheus</id>
   <name>Prometheus</name>
   <version>latest</version>
   <summary>Prometheus is a free software ecosystem for monitoring and alerting, with focus on reliability and simplicity</summary>
