@@ -7,11 +7,12 @@
 
 <@requirement.CONSTRAINT 'monitoring' 'true' />
 
-<@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana-es:5.4.0'>
+<@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana-es:5.4.3'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.PORT PARAMS.GRAFANA_PUBLISHED_PORT '3000' />
-  <@service.ANONYMOUS_VOLUME '/var/lib/grafana' />
+  <@service.VOLUME '/var/lib/grafana' />
+  <@service.VOLUME '/var/log/grafana' />
   <@service.CONSTRAINT 'monitoring' 'true' />
   <@service.ENV 'GF_SECURITY_ADMIN_USER' PARAMS.ADMIN_USER />
   <@service.ENV 'GF_SECURITY_ADMIN_PASSWORD' PARAMS.ADMIN_PASSWORD />
