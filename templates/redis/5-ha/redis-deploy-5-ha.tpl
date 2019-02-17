@@ -5,7 +5,7 @@
 <@requirement.CONSTRAINT 'redis' '3' />
 
 <@requirement.PARAM name='REDIS_PUBLISHED_PORT' type='port' required='false' description='Specify redis external port (for example 6379)' />
-<@requirement.PARAM name='SENTINEL_PUBLISHED_PORT' type='port' required='false' description='Specify sentinel external port (for example 26379)' />
+<@requirement.PARAM name='SENTINEL_PUBLISHED_PORT' type='port' value='26379' description='Specify sentinel external port (for example 26379)' />
 <@requirement.PARAM name='CMD' value='' required='false' />
 
 <#assign REDIS_VERSION='5-ha' />
@@ -20,7 +20,7 @@
     <@img.ULIMIT 'nofile=65536:65536' />
     <@img.ULIMIT 'nproc=4096:4096' />
     <@img.ULIMIT 'memlock=-1:-1' />
-    <@img.ENV 'REDIS_PUBLISHED_PORT' PARAMS.REDIS_PUBLISHED_PORT />
+    <@img.ENV 'REDIS_PUBLISHED_PORT' PARAMS.REDIS_PUBLISHED_PORT 'host' />
     <@img.CHECK_PORT '6379' />
   </@img.TASK>
 </#list>
@@ -35,7 +35,7 @@
     <@img.ULIMIT 'nofile=65536:65536' />
     <@img.ULIMIT 'nproc=4096:4096' />
     <@img.ULIMIT 'memlock=-1:-1' />
-    <@img.ENV 'SENTINEL_PUBLISHED_PORT' PARAMS.SENTINEL_PUBLISHED_PORT />
+    <@img.ENV 'SENTINEL_PUBLISHED_PORT' PARAMS.SENTINEL_PUBLISHED_PORT 'host' />
     <@img.ENV 'SENTINEL' 'true' />
     <@img.CHECK_PORT '26379' />
   </@img.TASK>
