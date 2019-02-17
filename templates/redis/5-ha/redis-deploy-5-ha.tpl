@@ -4,8 +4,8 @@
 <@requirement.CONSTRAINT 'redis' '2' />
 <@requirement.CONSTRAINT 'redis' '3' />
 
-<@requirement.PARAM name='REDIS_PUBLISHED_PORT' type='port' value='6379' description='Specify redis external port (for example 6379)' />
-<@requirement.PARAM name='SENTINEL_PUBLISHED_PORT' type='port' value='26379' description='Specify sentinel external port (for example 26379)' />
+<@requirement.PARAM name='REDIS_PUBLISHED_PORT' type='port' required='false' description='Specify redis external port (for example 6379)' />
+<@requirement.PARAM name='SENTINEL_PUBLISHED_PORT' type='port' required='false' description='Specify sentinel external port (for example 26379)' />
 <@requirement.PARAM name='CMD' value='' required='false' />
 
 <#assign REDIS_VERSION='5-ha' />
@@ -13,6 +13,7 @@
 <#list 1..3 as index>
   <@img.TASK 'redis-${index}-${namespace}' 'imagenarium/redis:${REDIS_VERSION}' PARAMS.CMD>
     <@img.NETWORK 'net-${namespace}' />
+    <@img.DNSRR />
     <@img.PORT PARAMS.REDIS_PUBLISHED_PORT '6379' 'host' />
     <@img.VOLUME '/data' />
     <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
@@ -28,6 +29,7 @@
 <#list 1..3 as index>
   <@img.TASK 'redis-sentinel-${index}-${namespace}' 'imagenarium/redis:${REDIS_VERSION}' PARAMS.CMD>
     <@img.NETWORK 'net-${namespace}' />
+    <@img.DNSRR />
     <@img.PORT PARAMS.SENTINEL_PUBLISHED_PORT '26379' 'host' />
     <@img.VOLUME '/data' />
     <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
