@@ -4,8 +4,8 @@
 <@requirement.CONSTRAINT 'redis' '2' />
 <@requirement.CONSTRAINT 'redis' '3' />
 
-<@requirement.PARAM name='REDIS_PUBLISHED_PORT' type='port' required='false' description='Specify redis external port (for example 6379)' />
-<@requirement.PARAM name='SENTINEL_PUBLISHED_PORT' type='port' required='false' description='Specify sentinel external port (for example 26379)' />
+<@requirement.PARAM name='REDIS_PUBLISHED_PORT' type='port' value='6379' description='Specify redis external port (for example 6379)' />
+<@requirement.PARAM name='SENTINEL_PUBLISHED_PORT' type='port' value='26379' description='Specify sentinel external port (for example 26379)' />
 <@requirement.PARAM name='CMD' value='' required='false' />
 
 <#assign REDIS_VERSION='5-ha' />
