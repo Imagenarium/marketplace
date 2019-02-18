@@ -43,3 +43,12 @@
     <@img.CHECK_PORT '26379' />
   </@img.TASK>
 </#list>
+
+<@docker.CONTAINER 'redis-checker-${namespace}' 'imagenarium/redis:${REDIS_VERSION}'>
+  <@container.ENTRY '/check_cluster.sh' />
+  <@container.NETWORK 'net-${namespace}' />
+  <@container.EPHEMERAL />
+  <@container.ENV 'SENTINEL_HOST' 'redis-sentinel-1-${namespace}' />
+  <@container.ENV 'EXPECTED_SLAVES' '2' />
+  <@container.ENV 'EXPECTED_SENTINELS' '2' />
+</@docker.CONTAINER>

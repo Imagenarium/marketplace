@@ -1,3 +1,5 @@
+<@img.REMOVE 'redis-checker-${namespace}' />
+
 <#list 1..3 as index>
   <@img.REMOVE 'redis-sentinel-${index}-${namespace}' />
 </#list>
