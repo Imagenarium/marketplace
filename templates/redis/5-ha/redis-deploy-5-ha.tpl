@@ -38,6 +38,7 @@
     <@img.ULIMIT 'nproc=4096:4096' />
     <@img.ULIMIT 'memlock=-1:-1' />
     <@img.ENV 'SENTINEL_PUBLISHED_PORT' PARAMS.SENTINEL_PUBLISHED_PORT />
+    <@img.ENV 'REDIS_PUBLISHED_PORT' PARAMS.REDIS_PUBLISHED_PORT />
     <@img.ENV 'SENTINEL' 'true' />
     <@img.CHECK_PORT '26379' />
   </@img.TASK>
