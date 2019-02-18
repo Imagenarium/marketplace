@@ -50,5 +50,5 @@
   <@container.EPHEMERAL />
   <@container.ENV 'SENTINEL_HOST' 'redis-sentinel-1-${namespace}' />
   <@container.ENV 'EXPECTED_SLAVES' '2' />
-  <@container.ENV 'EXPECTED_SENTINELS' '2' />
+  <@container.ENV 'EXPECTED_SENTINELS' '3' />
 </@docker.CONTAINER>
