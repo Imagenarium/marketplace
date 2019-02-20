@@ -7,13 +7,13 @@
 
 <@requirement.CONSTRAINT 'prometheus' 'true' />
 
-<@swarm.SERVICE 'alertmanager-${namespace}' 'prom/alertmanager:v0.16.1'>
+<@swarm.SERVICE 'alertmanager-${namespace}' 'imagenarium/alertmanager:0.16.1-debian'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.VOLUME '/alertmanager' />
   <@service.CONSTRAINT 'prometheus' 'true' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus:v2.7.1' '--storage.tsdb.retention=24h'>
+<@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus:2.7.1-debian' '--storage.tsdb.retention=24h'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'prometheus' 'true' />
   <@service.VOLUME '/prometheus' />
