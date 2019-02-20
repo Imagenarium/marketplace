@@ -57,6 +57,7 @@
 <@swarm.SERVICE 'kafka-exporter-${namespace}' 'danielqsj/kafka-exporter:latest' kafka_exporter_servers?join(" ")>
   <@service.NETWORK 'net-${namespace}' />
   <@service.PORT PARAMS.EXPORTER_PUBLISHED_PORT '9308' />
+  <@service.ENV 'METRICS_ENDPOINT' '/metrics' />
   <@service.CONSTRAINT 'kafka' '1' />
   <@service.CHECK_PORT '9308' />
 </@swarm.SERVICE>
