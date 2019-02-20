@@ -6,6 +6,6 @@
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'prometheus' 'true' />
   <@service.VOLUME '/prometheus' />
-  <@service.PORT PARAMS.PROMETHEUS_PUBLISHED_PORT '9090' />
-  <@service.CHECK_PORT '9090' />
+  <@service.PORT PARAMS.PROMETHEUS_PUBLISHED_PORT '9115' />
+  <@service.CHECK_PORT '9115' />
 </@swarm.SERVICE>
