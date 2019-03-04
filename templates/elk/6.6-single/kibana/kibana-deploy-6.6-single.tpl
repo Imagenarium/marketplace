@@ -12,7 +12,7 @@
   <@service.ENV 'APP_URL' 'http://kibana-${namespace}:5601' />
 </@swarm.SERVICE>
 
-<@swarm.SERVICE 'kibana-${namespace}' 'imagenarium/kibana:6.6.0'>
+<@swarm.SERVICE 'kibana-${namespace}' 'docker.elastic.co/kibana/kibana:6.6.0'>
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.CONSTRAINT 'es-single' 'true' />
   <@service.ENV 'SERVER_NAME' 'kibana' />
