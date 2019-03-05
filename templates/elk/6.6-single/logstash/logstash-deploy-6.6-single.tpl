@@ -6,7 +6,7 @@
 <@swarm.SERVICE 'logstash-${namespace}' 'imagenarium/logstash:6.6.0'>
   <@service.NETWORK 'es-net-${namespace}' />
   <@service.CONSTRAINT 'es-single' 'true' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '9600' />
+  <@service.PORT PARAMS.PUBLISHED_PORT '4560' />
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}:9200' />
   <@service.ENV 'NUMBER_OF_REPLICAS' '0' />
   <@service.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
