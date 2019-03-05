@@ -19,7 +19,6 @@
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}:9200' />
   <@service.ENV 'LOGGING_QUIET' 'true' />
   <@service.ENV 'XPACK_GRAPH_ENABLED' 'false' />
-  <@service.ENV 'XPACK_MONITORING_ENABLED' 'false' />
   <@service.ENV 'XPACK_REPORTING_ENABLED' 'false' />
   <@service.ENV 'XPACK_SECURITY_ENABLED' 'false' />
   <@service.ENV 'XPACK_ML_ENABLED' 'false' />
