@@ -26,4 +26,4 @@
   <@img.ENV 'PMM_USER' PARAMS.PMM_USER />
   <@img.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
   <@img.CHECK_PORT '5432' />
-</@swarm.SERVICE>
+</@img.TASK>
