@@ -10,7 +10,7 @@
 <@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
 <@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
 
-<@requirement.PARAM name='CMD' value='-c max_connections=1000' />
+<@requirement.PARAM name='CMD' value='-c max_connections=1000 -c shared_buffers=1GB' />
 
 <@img.TASK 'postgres-${namespace}' 'imagenarium/postgresql:11.2' PARAMS.CMD>
   <@img.NETWORK 'net-${namespace}' />
