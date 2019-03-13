@@ -1,0 +1,1 @@
+﻿<@img.REMOVE 'logstash-${namespace}' />
