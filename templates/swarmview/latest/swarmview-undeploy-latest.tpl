@@ -1,1 +1,1 @@
-<@swarm.SERVICE_RM 'swarmview-${namespace}' />
+<@img.REMOVE 'swarmview-${namespace}' />

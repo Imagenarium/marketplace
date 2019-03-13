@@ -7,13 +7,13 @@
   
 <@img.TASK 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
   <@img.VOLUME '/usr/share/elasticsearch/data' />
-  <@img.NETWORK 'es-net-${namespace}' />
+  <@img.NETWORK 'net-${namespace}' />
   <@img.PORT PARAMS.PUBLISHED_PORT '9200' />
   <@img.CONSTRAINT 'es-single' 'true' />
   <@img.ULIMIT 'nofile=65536:65536' />
   <@img.ULIMIT 'nproc=4096:4096' />
   <@img.ULIMIT 'memlock=-1:-1' />
-  <@img.ENV 'NETWORK_NAME' 'es-net-${namespace}' />
+  <@img.ENV 'NETWORK_NAME' 'net-${namespace}' />
   <@img.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
   <@img.ENV 'bootstrap.memory_lock' 'true' />
   <@img.ENV 'network.bind_host' '0.0.0.0' />

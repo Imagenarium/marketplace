@@ -4,7 +4,7 @@
 <@requirement.PARAM name='PUBLISHED_PORT' value='' type='port' />
 
 <@swarm.SERVICE 'logstash-${namespace}' 'imagenarium/logstash:6.6.0'>
-  <@service.NETWORK 'es-net-${namespace}' />
+  <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'es-single' 'true' />
   <@service.PORT PARAMS.PUBLISHED_PORT '4560' />
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}:9200' />

@@ -1,1 +1,1 @@
-﻿<@swarm.SERVICE_RM 'logstash-${namespace}' />
+﻿<@img.REMOVE 'logstash-${namespace}' />

@@ -1,2 +1,2 @@
 <@img.REMOVE 'es-${namespace}' />
-<@img.REMOVE 'es-net-${namespace}' />
+<@img.REMOVE 'net-${namespace}' />
