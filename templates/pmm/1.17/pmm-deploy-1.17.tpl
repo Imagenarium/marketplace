@@ -4,7 +4,7 @@
 <@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
 <@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
 
-<@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:latest'>
+<@swarm.SERVICE 'pmm-${namespace}' 'imagenarium/pmm:1.17'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.PORT PARAMS.PUBLISHED_PORT '80' />
   <@service.CONSTRAINT 'pmm' 'true' />
