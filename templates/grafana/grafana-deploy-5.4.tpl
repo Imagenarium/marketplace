@@ -1,5 +1,3 @@
-<@requirement.NAMESPACE 'monitoring' />
-
 <@requirement.PARAM name='ADMIN_USER' value='admin' />
 <@requirement.PARAM name='ADMIN_PASSWORD' value='admin' />
 
@@ -9,7 +7,6 @@
 
 <@swarm.SERVICE 'grafana-${namespace}' 'imagenarium/grafana-es:5.4.3'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.NETWORK 'es-net-${namespace}' />
   <@service.PORT PARAMS.GRAFANA_PUBLISHED_PORT '3000' />
   <@service.VOLUME '/var/lib/grafana' />
   <@service.VOLUME '/var/log/grafana' />
