@@ -1,7 +1,7 @@
 <@requirement.CONSTRAINT 'es-single' 'true' />
 
 <@requirement.PARAM name='LS_JAVA_OPTS' value='-Xms512m -Xmx512m -Dnetworkaddress.cache.ttl=10' />
-<@requirement.PARAM name='PUBLISHED_PORT' value='' type='port' />
+<@requirement.PARAM name='PUBLISHED_PORT' value='' required='false' type='port' />
 
 <@swarm.SERVICE 'logstash-${namespace}' 'imagenarium/logstash:6.6.0'>
   <@service.NETWORK 'net-${namespace}' />
