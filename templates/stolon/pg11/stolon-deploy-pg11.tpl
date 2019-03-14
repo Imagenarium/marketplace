@@ -8,7 +8,11 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
 <@requirement.PARAM name='POSTGRES_USER' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
-<@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\"' />
+<@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\",\"shared_buffers\":\"1GB\"' type="textarea" />
+
+<@requirement.PARAM name='PMM_ENABLE' value='false' type='boolean' />
+<@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
+<@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
 
 <#if PARAMS.DELETE_DATA == 'true'>
   <@docker.CONTAINER 'stolon-init-${namespace}' 'imagenarium/stolon:pg11'>
@@ -29,16 +33,20 @@
 </#list>
 
 <#list 1..2 as index>
-  <@swarm.SERVICE 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
-    <@service.NETWORK 'net-${namespace}' />
-    <@service.VOLUME '/var/lib/postgresql/data' />
-    <@service.CONSTRAINT 'keeper' '${index}' />
-    <@service.ENV 'ROLE' 'KEEPER' />
-    <@service.ENV 'KEEPER_ID' '${index}' />
-    <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
-    <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
-    <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
-  </@swarm.SERVICE>
+  <@img.SERVICE 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
+    <@img.NETWORK 'net-${namespace}' />
+    <@img.VOLUME '/var/lib/postgresql/data' />
+    <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
+    <@img.CONSTRAINT 'keeper' '${index}' />
+    <@img.ENV 'ROLE' 'KEEPER' />
+    <@img.ENV 'KEEPER_ID' '${index}' />
+    <@img.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
+    <@img.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
+
+    <@img.ENV 'PMM' PARAMS.PMM_ENABLE />
+    <@img.ENV 'PMM_USER' PARAMS.PMM_USER />
+    <@img.ENV 'PMM_PASSWORD' PARAMS.PMM_PASSWORD />
+  </@img.TASK>
 </#list>
 
 <#list 1..2 as index>
