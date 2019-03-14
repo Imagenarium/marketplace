@@ -8,7 +8,7 @@
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
 <@requirement.PARAM name='POSTGRES_USER' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
-<@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\",\"shared_buffers\":\"1GB\"' type="textarea" />
+<@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\",\"shared_buffers\":\"1GB\"' type='textarea' />
 
 <@requirement.PARAM name='PMM_ENABLE' value='false' type='boolean' />
 <@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
