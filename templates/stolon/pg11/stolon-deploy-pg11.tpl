@@ -33,7 +33,7 @@
 </#list>
 
 <#list 1..2 as index>
-  <@img.SERVICE 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
+  <@img.TASK 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@img.NETWORK 'net-${namespace}' />
     <@img.VOLUME '/var/lib/postgresql/data' />
     <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
