@@ -42,6 +42,7 @@
     <@img.ENV 'KEEPER_ID' '${index}' />
     <@img.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
     <@img.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
+    <@img.ENV 'NETWORK_NAME' 'net-${namespace}' />
 
     <@img.ENV 'PMM' PARAMS.PMM_ENABLE />
     <@img.ENV 'PMM_USER' PARAMS.PMM_USER />
