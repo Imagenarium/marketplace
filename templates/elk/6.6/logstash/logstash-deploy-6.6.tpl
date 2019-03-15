@@ -9,5 +9,5 @@
   <@service.PORT PARAMS.PUBLISHED_PORT '9600' />
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}:9200' />
   <@service.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
-  <@service.CHECK_PATH ':4560' />
+  <@service.CHECK_PORT '4560' />
 </@swarm.SERVICE>
