@@ -6,4 +6,4 @@
 
 <@img.REMOVE 'es-router-${namespace}' />
   
-<@img.REMOVE 'es-net-${namespace}' />
+<@img.REMOVE 'net-${namespace}' />

@@ -4,7 +4,7 @@
 <@requirement.PARAM name='KIBANA_PASSWORD' value='$apr1$WqbmakdQ$xqF8YxFcUHtO.X20fjgiJ1' />
 
 <@swarm.SERVICE 'nginx-kibana-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
-  <@service.NETWORK 'es-net-${namespace}' />
+  <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'kibana' 'true' />
   <@service.PORT PARAMS.PUBLISHED_PORT '8080' />
   <@service.ENV 'WEB_USER' 'admin' />
@@ -13,7 +13,7 @@
 </@swarm.SERVICE>
 
 <@swarm.SERVICE 'kibana-${namespace}' 'docker.elastic.co/kibana/kibana:6.6.0'>
-  <@service.NETWORK 'es-net-${namespace}' />
+  <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'kibana' 'true' />
   <@service.ENV 'SERVER_NAME' 'kibana' />
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-router-${namespace}:9200' />
