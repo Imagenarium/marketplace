@@ -11,6 +11,7 @@
   <@service.VOLUME '/var/lib/grafana' />
   <@service.VOLUME '/var/log/grafana' />
   <@service.CONSTRAINT 'monitoring' 'true' />
+  <@service.ENV 'ES_URL' 'http://es-${namespace}:9200' />
   <@service.ENV 'GF_SECURITY_ADMIN_USER' PARAMS.ADMIN_USER />
   <@service.ENV 'GF_SECURITY_ADMIN_PASSWORD' PARAMS.ADMIN_PASSWORD />
   <@service.ENV 'GF_USERS_ALLOW_SIGN_UP' 'false' />
