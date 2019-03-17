@@ -3,8 +3,8 @@
 <@requirement.CONSTRAINT 'kafka' '3' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
-<@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' value='9308' required='false' />
-<@requirement.PARAM name='JMX_EXPORTER_PUBLISHED_PORT' type='port' value='7071' required='false' />
+<@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' required='false' />
+<@requirement.PARAM name='JMX_EXPORTER_PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='KAFKA_HEAP_OPTS' value='-Xmx1G -Xms1G' />
 
 <#assign KAFKA_VERSION='2.1.0' />
