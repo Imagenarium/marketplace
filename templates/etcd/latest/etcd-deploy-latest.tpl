@@ -18,6 +18,7 @@
     <@service.CONSTRAINT 'etcd' '${index}' />
     <@service.VOLUME '/data' />
     <@service.ENV 'ETCD_INITIAL_CLUSTER' etcd_servers?join(",") />
+    <@service.ENV 'METRICS_ENDPOINT' ':2379/metrics' />
   </@swarm.SERVICE>
 </#list>
 
