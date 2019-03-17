@@ -4,4 +4,6 @@
   <@swarm.SERVICE_RM 'zookeeper-${index}-${namespace}' />
 </#list>
 
+<@swarm.SERVICE_RM 'zookeeper-exporter-${namespace}' />
+
 <@swarm.NETWORK_RM 'net-${namespace}' />

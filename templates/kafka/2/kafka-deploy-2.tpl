@@ -1,6 +1,7 @@
 <@requirement.CONSTRAINT 'kafka' '1' />
 <@requirement.CONSTRAINT 'kafka' '2' />
 <@requirement.CONSTRAINT 'kafka' '3' />
+<@requirement.CONSTRAINT 'exporter' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' required='false' />
@@ -58,6 +59,6 @@
   <@service.NETWORK 'net-${namespace}' />
   <@service.PORT PARAMS.EXPORTER_PUBLISHED_PORT '9308' />
   <@service.ENV 'METRICS_ENDPOINT' ':9308/metrics' />
-  <@service.CONSTRAINT 'kafka' '1' />
+  <@service.CONSTRAINT 'exporter' 'true' />
   <@service.CHECK_PORT '9308' />
 </@swarm.SERVICE>

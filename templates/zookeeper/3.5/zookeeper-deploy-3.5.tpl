@@ -1,8 +1,10 @@
 <@requirement.CONSTRAINT 'zookeeper' '1' />
 <@requirement.CONSTRAINT 'zookeeper' '2' />
 <@requirement.CONSTRAINT 'zookeeper' '3' />
+<@requirement.CONSTRAINT 'exporter' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' />
+<@requirement.PARAM name='EXPORTER_PUBLISHED_PORT' type='port' required='false' />
 <@requirement.PARAM name='ADMIN_PORT' type='port' required='false' />
 <@requirement.PARAM name='ZOO_JAVA_OPTS' value='-Xmx512M -Xms512M' />
 
@@ -38,3 +40,11 @@
   <@container.ENV 'ZOOKEEPER_CONNECT' zoo_connect?join(",") />
   <@container.ENV 'EXPECTED_FOLLOWERS' '${zoo_connect?size - 1}' />
 </@docker.CONTAINER>
+
+<@swarm.SERVICE 'zookeeper-exporter-${namespace}' 'dabealu/zookeeper-exporter:latest' '--timeout=5 --zk-list=${zoo_connect?join(",")}'>
+  <@service.NETWORK 'net-${namespace}' />
+  <@service.PORT PARAMS.EXPORTER_PUBLISHED_PORT '8080' />
+  <@service.ENV 'METRICS_ENDPOINT' ':8080/metrics' />
+  <@service.CONSTRAINT 'exporter' 'true' />
+  <@service.CHECK_PORT '8080' />
+</@swarm.SERVICE>
