@@ -13,5 +13,13 @@
       <id>kafka</id>
       <version>2</version>
     </stack>
+    <stack>
+      <id>prometheus</id>
+      <version>latest</version>
+    </stack>
+    <stack>
+      <id>grafana</id>
+      <version>6</version>
+    </stack>
   </stacks>
 </group>
