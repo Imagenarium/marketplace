@@ -1,7 +1,7 @@
 <@requirement.PARAM name='PUBLISHED_PROXY_PORT' type='port' required='false' />
 <@requirement.PARAM name='PUBLISHED_ADMIN_PORT' type='port' required='false' />
 
-<@swarm.SERVICE 'traefik-${namespace}' 'traefik:alpine' "--logLevel=INFO --docker --docker.swarmMode --docker.watch --api --constraints='tag==${namespace}'">
+<@swarm.SERVICE 'traefik-${namespace}' 'traefik:alpine' "--logLevel=INFO --metrics.prometheus --docker --docker.swarmMode --docker.watch --api --constraints='tag==${namespace}'">
   <@node.MANAGER />
   <@service.SCALABLE />
   <@service.SINGLE_INSTANCE_PER_NODE />
