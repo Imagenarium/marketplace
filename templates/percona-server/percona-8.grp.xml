@@ -7,10 +7,10 @@
   <stacks>
     <stack>
       <id>pmm</id>
-      <version>latest</version>
+      <version>1.17</version>
     </stack>
     <stack>
-      <id>percona</id>
+      <id>percona-server</id>
       <version>8</version>
     </stack>
   </stacks>
