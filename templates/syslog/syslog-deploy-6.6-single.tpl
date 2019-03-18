@@ -5,7 +5,7 @@
 
 <@swarm.SERVICE 'logstash-${namespace}' 'imagenarium/logstash-syslog:6.6.0'>
   <@service.CONSTRAINT 'es-single' 'true' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '514' />
+  --publish mode=ingress,published=${PARAMS.PUBLISHED_PORT},target=514,protocol=udp \
   <@service.ENV 'LS_JAVA_OPTS' PARAMS.LS_JAVA_OPTS />
   <@service.CHECK_PATH ':9600' />
 </@swarm.SERVICE>
