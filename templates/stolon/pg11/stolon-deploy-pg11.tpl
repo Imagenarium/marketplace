@@ -7,6 +7,7 @@
 <@requirement.CONSTRAINT 'proxy' 'true' />
 
 <@requirement.PARAM name='PUBLISHED_PORT' type='port' required='false' description='Specify postgres external port (for example 5432)' />
+<@requirement.PARAM name='POSTGRES_DB' value='postgres' />
 <@requirement.PARAM name='POSTGRES_USER' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
 <@requirement.PARAM name='POSTGRES_PARAMS' value='\"max_connections\":\"1000\",\"shared_buffers\":\"1GB\"' type='textarea' />
@@ -63,6 +64,7 @@
   <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
   <@service.VOLUME '/tmp' />
   <@service.CONSTRAINT 'proxy' 'true' />
+  <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />
   <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
   <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
   <@service.ENV 'APP_USER' PARAMS.APP_USER />
