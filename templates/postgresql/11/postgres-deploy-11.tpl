@@ -6,6 +6,9 @@
 <@requirement.PARAM name='POSTGRES_PASSWORD' value='postgres' />
 <@requirement.PARAM name='POSTGRES_DB' value='postgres' />
 
+<@requirement.PARAM name='APP_USER' value='app' />
+<@requirement.PARAM name='APP_PASSWORD' value='app' />
+
 <@requirement.PARAM name='PMM_ENABLE' value='false' type='boolean' />
 <@requirement.PARAM name='PMM_USER' value='admin' scope='global' />
 <@requirement.PARAM name='PMM_PASSWORD' value='admin' type='password' scope='global' />
