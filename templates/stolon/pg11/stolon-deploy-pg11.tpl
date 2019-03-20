@@ -63,6 +63,8 @@
   <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
   <@service.VOLUME '/tmp' />
   <@service.CONSTRAINT 'proxy' 'true' />
+  <@service.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />
+  <@service.ENV 'POSTGRES_PASSWORD' PARAMS.POSTGRES_PASSWORD />
   <@service.ENV 'APP_USER' PARAMS.APP_USER />
   <@service.ENV 'APP_PASSWORD' PARAMS.APP_PASSWORD />
   <@service.ENV 'ROLE' 'PROXY' />
