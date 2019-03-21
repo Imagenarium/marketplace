@@ -4,6 +4,6 @@
   <@img.REMOVE 'es-master-${index}-${namespace}' />
 </#list>
 
-<@img.REMOVE 'es-router-${namespace}' />
+<@img.REMOVE 'es-${namespace}' />
   
 <@img.REMOVE 'net-${namespace}' />

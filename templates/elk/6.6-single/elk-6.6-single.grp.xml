@@ -12,11 +12,11 @@
     </stack>
     <stack>
       <id>logstash</id>
-      <version>6.6-single</version>
+      <version>6.6</version>
     </stack>
     <stack>
       <id>kibana</id>
-      <version>6.6-single</version>
+      <version>6.6</version>
     </stack>
   </stacks>
 </group>
