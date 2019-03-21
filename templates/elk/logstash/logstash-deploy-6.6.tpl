@@ -9,11 +9,7 @@
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'logstash' 'true' />
   <@service.PORT PARAMS.LS_PUBLISHED_PORT '4560' />
-
-  <#if PARAMS.SYSLOG_PUBLISHED_PORT?has_content>
-  --publish mode=ingress,published=${PARAMS.SYSLOG_PUBLISHED_PORT},target=514,protocol=udp \
-  </#if>
-
+  <@service.PORT PARAMS.SYSLOG_PUBLISHED_PORT '514' 'ingress' 'udp' />
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}:9200' />
 
   <#if PARAMS.ES_HA == "false">  
