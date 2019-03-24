@@ -26,7 +26,7 @@
     <@service.VOLUME '/cockroach/cockroach-data' />
     <@service.STOP_GRACE_PERIOD '60s' />
     <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
-    <@service.ENV 'METRICS_ENDPOINT' ':26257/_status/vars' />
+    <@service.ENV 'METRICS_ENDPOINT' ':8080/_status/vars' />
     <@service.CHECK_PATH ':8080/health' />
   </@swarm.SERVICE>
 
