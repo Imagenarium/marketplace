@@ -5,4 +5,4 @@
   <@swarm.SERVICE_RM 'nginx-cockroachdb-${index}-${namespace}' />
 </#list>
 
-<@swarm.NETWORK_RM 'cockroach-net-${namespace}' />
+<@swarm.NETWORK_RM 'net-${namespace}' />

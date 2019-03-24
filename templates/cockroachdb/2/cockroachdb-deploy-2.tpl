@@ -8,7 +8,7 @@
 <@requirement.PARAM name='DEFAULT_DB_NAME' value='testdb' />
 <@requirement.PARAM name='DB_PARAMS' value='--cache=1GiB --max-sql-memory=1GiB' description='example: --max-sql-memory=25% --cache=25%' type='textarea' />
 
-<#assign COCKROACHDB_VERSION='2.1.1' />
+<#assign COCKROACHDB_VERSION='2.1.6' />
   
 <#list 1..3 as index>  
   <#assign nodes = [] />
@@ -20,17 +20,18 @@
   </#list>
 
   <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
-    <@service.NETWORK 'cockroach-net-${namespace}' />
+    <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
     <@service.CONSTRAINT 'cockroachdb' '${index}' />
     <@service.VOLUME '/cockroach/cockroach-data' />
     <@service.STOP_GRACE_PERIOD '60s' />
-    <@service.ENV 'NETWORK_NAME' 'cockroach-net-${namespace}' />
+    <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
+    <@service.ENV 'METRICS_ENDPOINT' ':26257/_status/vars' />
     <@service.CHECK_PATH ':8080/health' />
   </@swarm.SERVICE>
 
   <@swarm.SERVICE 'nginx-cockroachdb-${index}-${namespace}' 'imagenarium/nginx-basic-auth:latest'>
-    <@service.NETWORK 'cockroach-net-${namespace}' />
+    <@service.NETWORK 'net-${namespace}' />
     <@service.PORT PARAMS.PUBLISHED_MANAGER_PORT '8080' 'host' />
     <@service.CONSTRAINT 'cockroachdb' '${index}' />
     <@service.ENV 'WEB_USER' 'admin' />
@@ -41,18 +42,18 @@
 
 <#if PARAMS.DELETE_DATA == 'true'>
   <@docker.CONTAINER 'cockroachdb-cluster-initializer-${namespace}' 'cockroachdb/cockroach:v${COCKROACHDB_VERSION}' 'init --host=cockroachdb-1-${namespace} --insecure'>
-    <@container.NETWORK 'cockroach-net-${namespace}' />
+    <@container.NETWORK 'net-${namespace}' />
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
 </#if>
 
 <#list 1..3 as index>
-  <@docker.HTTP_CHECKER 'cluster-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health?ready=1' 'cockroach-net-${namespace}' />
+  <@docker.HTTP_CHECKER 'cluster-checker-${namespace}' 'http://cockroachdb-${index}-${namespace}:8080/health?ready=1' 'net-${namespace}' />
 </#list>
 
 <#if PARAMS.DELETE_DATA == 'true'>
   <@docker.CONTAINER 'cockroachdb-createdb-${namespace}' 'cockroachdb/cockroach:v${COCKROACHDB_VERSION}' 'sql -e="CREATE DATABASE ${PARAMS.DEFAULT_DB_NAME};" --host=cockroachdb-1-${namespace} --insecure'>
-    <@container.NETWORK 'cockroach-net-${namespace}' />
+    <@container.NETWORK 'net-${namespace}' />
     <@container.EPHEMERAL />
   </@docker.CONTAINER>
 </#if>
