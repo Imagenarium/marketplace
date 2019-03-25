@@ -1,0 +1,1 @@
+<@img.REMOVE 'coredns-${namespace}' />
