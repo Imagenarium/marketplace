@@ -8,6 +8,7 @@
 <@img.TASK 'es-${namespace}' 'imagenarium/elasticsearch:${ES_VERSION}'>
   <@img.VOLUME '/usr/share/elasticsearch/data' />
   <@img.NETWORK 'net-${namespace}' />
+  <@img.DNSRR />
   <@img.PORT PARAMS.ES_PUBLISHED_PORT '9200' />
   <@img.CONSTRAINT 'es-single' 'true' />
   <@img.ULIMIT 'nofile=65536:65536' />
