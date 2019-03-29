@@ -24,6 +24,7 @@
     <@img.ULIMIT 'memlock=-1:-1' />
     <@img.ENV 'JOURNAL_NODE' 'true' />
     <@img.NETWORK 'net-${namespace}' />
+    <@img.DNSRR />
     <@img.CONSTRAINT 'hdfs-journal' '${index}' />
     <@img.CHECK_PORT '8485' />
   </@img.TASK>

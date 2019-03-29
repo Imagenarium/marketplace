@@ -12,7 +12,8 @@
 
 <@swarm.SERVICE 'phoenix-${namespace}' 'imagenarium/phoenix:${PHOENIX_VERSION}'>
   <@service.NETWORK 'net-${namespace}' />  
-  <@service.PORT PARAMS.PUBLISHED_PORT '8765' />
+  <@service.DNSRR />
+  <@service.PORT PARAMS.PUBLISHED_PORT '8765' 'host' />
   <@service.CONSTRAINT 'phoenix' 'true' />
   <@service.ENV 'HBASE_CONF_hbase_zookeeper_quorum' zoo_hosts?join(",") />
   <@service.CHECK_PORT '8765' />

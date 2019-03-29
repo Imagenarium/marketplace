@@ -6,6 +6,7 @@
   <@img.VOLUME '/data' />
   <@img.NETWORK 'nfs-net-${namespace}' />
   <@img.CONSTRAINT 'nfs' 'true' />
-  <@img.PORT PARAMS.NFS_PORT '2049' />
+  <@img.DNSRR />
+  <@img.PORT PARAMS.NFS_PORT '2049' 'host' />
   <@img.CHECK_PORT '2049' />
 </@img.TASK>

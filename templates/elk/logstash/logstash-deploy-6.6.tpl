@@ -9,8 +9,8 @@
   <@service.NETWORK 'net-${namespace}' />
   <@service.DNSRR />
   <@service.CONSTRAINT 'logstash' 'true' />
-  <@service.PORT PARAMS.LS_PUBLISHED_PORT '4560' />
-  <@service.PORT PARAMS.SYSLOG_PUBLISHED_PORT '514' 'ingress' 'udp' />
+  <@service.PORT PARAMS.LS_PUBLISHED_PORT '4560' 'host' />
+  <@service.PORT PARAMS.SYSLOG_PUBLISHED_PORT '514' 'host' 'udp' />
   <@service.ENV 'ELASTICSEARCH_URL' 'http://es-${namespace}:9200' />
 
   <#if PARAMS.ES_HA == "false">  

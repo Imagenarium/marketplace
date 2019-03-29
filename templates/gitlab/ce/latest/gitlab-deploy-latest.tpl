@@ -9,6 +9,7 @@
 <@swarm.SERVICE 'gitlab-${namespace}' 'imagenarium/gitlab-ce'>
   <@service.CONSTRAINT 'gitlab' 'true' />
   <@service.NETWORK 'gitlab-net-${namespace}' />
+  <@service.DNSRR />
   <@service.PORT PARAMS.PUBLISHED_PORT PARAMS.PUBLISHED_PORT 'host' />
   <@service.PORT PARAMS.REGISTRY_PUBLISHED_PORT PARAMS.REGISTRY_PUBLISHED_PORT 'host' />
   <@service.VOLUME '/var/opt/gitlab' />

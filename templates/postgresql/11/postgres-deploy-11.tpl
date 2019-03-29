@@ -17,8 +17,9 @@
 
 <@img.TASK 'postgres-${namespace}' 'imagenarium/postgresql:11.2' PARAMS.CMD>
   <@img.NETWORK 'net-${namespace}' />
-  <@img.PORT PARAMS.PUBLISHED_PORT '5432' />
+  <@img.PORT PARAMS.PUBLISHED_PORT '5432' 'host' />
   <@img.VOLUME '/var/lib/postgresql/data' />
+  <@img.DNSRR />
   <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
   <@img.CONSTRAINT 'postgres' 'true' />
   <@img.ENV 'POSTGRES_USER' PARAMS.POSTGRES_USER />

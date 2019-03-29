@@ -13,7 +13,8 @@
 
 <@swarm.SERVICE 'percona-${namespace}' 'imagenarium/percona-server:${PERCONA_VERSION}' PARAMS.DB_PARAMS>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '3306' />
+  <@service.PORT PARAMS.PUBLISHED_PORT '3306' 'host' />
+  <@service.DNSRR />
   <@service.CONSTRAINT 'percona' 'true' />
   <@service.VOLUME '/var/lib/mysql' />
   <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />

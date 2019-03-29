@@ -15,7 +15,7 @@
   <@img.NETWORK 'net-${namespace}' />
   <@img.DNSRR />
   <@img.CONSTRAINT 'es-router' 'true' />
-  <@img.PORT PARAMS.ES_PUBLISHED_PORT '9200' />
+  <@img.PORT PARAMS.ES_PUBLISHED_PORT '9200' 'host' />
   <@img.ENV 'ES_JAVA_OPTS' PARAMS.ES_JAVA_OPTS />
   <@img.ENV 'bootstrap.memory_lock' 'true' />
   <@img.ENV 'network.bind_host' '0.0.0.0' />
