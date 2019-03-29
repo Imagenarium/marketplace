@@ -31,6 +31,7 @@
 <#list 1..3 as index>
   <@swarm.SERVICE 'stolon-sentinel-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@service.NETWORK 'net-${namespace}' />
+    <@service.DNSRR />
     <@service.CONSTRAINT 'sentinel' '${index}' />
     <@service.ENV 'ROLE' 'SENTINEL' />
     <@service.CHECK_PORT '8585' />
@@ -40,6 +41,7 @@
 <#list 1..3 as index>
   <@img.TASK 'stolon-keeper-${index}-${namespace}' 'imagenarium/stolon:pg11'>
     <@img.NETWORK 'net-${namespace}' />
+    <@img.DNSRR />
     <@img.VOLUME '/var/lib/postgresql/data' />
     <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
     <@img.CONSTRAINT 'keeper' '${index}' />
@@ -61,7 +63,8 @@
 
 <@swarm.SERVICE 'stolon-proxy-${namespace}' 'imagenarium/stolon:pg11'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '5432' />
+  <@service.DNSRR />
+  <@service.PORT PARAMS.PUBLISHED_PORT '5432' 'host' />
   <@service.VOLUME '/tmp' />
   <@service.CONSTRAINT 'proxy' 'true' />
   <@service.ENV 'POSTGRES_DB' PARAMS.POSTGRES_DB />

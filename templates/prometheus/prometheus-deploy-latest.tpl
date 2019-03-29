@@ -9,6 +9,7 @@
 
 <@swarm.SERVICE 'alertmanager-${namespace}' 'imagenarium/alertmanager:0.16.1-debian'>
   <@service.NETWORK 'net-${namespace}' />
+  <@service.DNSRR />
   <@service.VOLUME '/alertmanager' />
   <@service.CONSTRAINT 'prometheus' 'true' />
   <@service.CHECK_PORT '9093' />
@@ -17,6 +18,7 @@
 <@swarm.SERVICE 'prometheus-${namespace}' 'imagenarium/prometheus:2.7.1-debian' '--storage.tsdb.retention.time=24h'>
   <@service.NETWORK 'net-${namespace}' />
   <@service.CONSTRAINT 'prometheus' 'true' />
+  <@service.DNSRR />
   <@service.VOLUME '/prometheus' />
   <@service.CHECK_PORT '9090' />
 </@swarm.SERVICE>
@@ -24,6 +26,7 @@
 <@swarm.SERVICE 'promconnect-${namespace}' 'fn61/promswarmconnect:20190126_1620_7b450c47'>
   <@node.MANAGER />
   <@service.NETWORK 'net-${namespace}' />
+  <@service.DNSRR />
   <@service.ENV 'DOCKER_URL' 'unix:///var/run/docker.sock' />
   <@service.ENV 'NETWORK_NAME' 'net-${namespace}' />
   <@service.CHECK_PORT '443' />
