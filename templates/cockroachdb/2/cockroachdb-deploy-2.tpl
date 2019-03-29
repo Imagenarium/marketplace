@@ -21,6 +21,7 @@
 
   <@swarm.SERVICE 'cockroachdb-${index}-${namespace}' 'imagenarium/cockroachdb:${COCKROACHDB_VERSION}' 'start --join=${nodes?join(",")} --host 0.0.0.0 ${PARAMS.DB_PARAMS} --logtostderr --insecure'>
     <@service.NETWORK 'net-${namespace}' />
+    <@service.DNSRR />
     <@service.PORT PARAMS.PUBLISHED_PORT '26257' 'host' />
     <@service.CONSTRAINT 'cockroachdb' '${index}' />
     <@service.VOLUME '/cockroach/cockroach-data' />

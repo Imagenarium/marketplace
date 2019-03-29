@@ -4,7 +4,8 @@
 
 <@swarm.SERVICE 'couchdb-${namespace}' 'imagenarium/couchdb:2.3'>
   <@service.NETWORK 'net-${namespace}' />
-  <@service.PORT PARAMS.PUBLISHED_PORT '5984' />
+  <@service.DNSRR />
+  <@service.PORT PARAMS.PUBLISHED_PORT '5984' 'host' />
   <@service.VOLUME '/opt/couchdb/data' />
   <@service.CONSTRAINT 'couchdb' 'true' />
   <@service.CHECK_PORT '5984' />
