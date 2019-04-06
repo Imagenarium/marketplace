@@ -1,2 +1,2 @@
 <@img.REMOVE 'nfs-${namespace}' />
-<@img.REMOVE 'nfs-net-${namespace}' />
+<@img.REMOVE 'net-${namespace}' />

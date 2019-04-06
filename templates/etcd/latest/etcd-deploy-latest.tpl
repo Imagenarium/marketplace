@@ -2,7 +2,7 @@
 <@requirement.CONSTRAINT 'etcd' '2' />
 <@requirement.CONSTRAINT 'etcd' '3' />
 
-<@requirement.PARAM name='ETCD_PORT' type='port' required='false' />
+<@requirement.PARAM name='ETCD_PUBLISHED_PORT' type='port' required='false' />
 
 <#assign etcd_servers = [] />
   
@@ -13,7 +13,7 @@
 <#list 1..3 as index>
   <@swarm.SERVICE 'etcd-${index}-${namespace}' 'imagenarium/etcd:latest'>
     <@service.NETWORK 'net-${namespace}' />
-    <@service.PORT PARAMS.ETCD_PORT '2379' 'host' />
+    <@service.PORT PARAMS.ETCD_PUBLISHED_PORT '2379' 'host' />
     <@service.DNSRR />
     <@service.CONSTRAINT 'etcd' '${index}' />
     <@service.VOLUME '/data' />

@@ -1,3 +1,3 @@
 <@img.REMOVE 'memcached-${namespace}' />
-<@img.REMOVE 'memcached-net-${namespace}' />
+<@img.REMOVE 'net-${namespace}' />
 
