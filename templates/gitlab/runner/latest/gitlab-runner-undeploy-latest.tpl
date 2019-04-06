@@ -1,1 +1,1 @@
-<@swarm.SERVICE_RM 'gitlab-runner-${namespace}' />
+<@img.REMOVE 'gitlab-runner-${namespace}' />

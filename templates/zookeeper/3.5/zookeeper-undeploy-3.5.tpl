@@ -1,9 +1,9 @@
-<@docker.CONTAINER_RM 'zookeeper-checker-${namespace}' />
+<@img.REMOVE 'zookeeper-checker-${namespace}' />
 
 <#list 1..3 as index>
-  <@swarm.SERVICE_RM 'zookeeper-${index}-${namespace}' />
+  <@img.REMOVE 'zookeeper-${index}-${namespace}' />
 </#list>
 
-<@swarm.SERVICE_RM 'zookeeper-exporter-${namespace}' />
+<@img.REMOVE 'zookeeper-exporter-${namespace}' />
 
-<@swarm.NETWORK_RM 'net-${namespace}' />
+<@img.REMOVE 'net-${namespace}' />

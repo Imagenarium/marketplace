@@ -1,2 +1,2 @@
-<@swarm.SERVICE_RM 'percona-${namespace}' />
-<@swarm.NETWORK_RM 'net-${namespace}' />
+<@img.REMOVE 'percona-${namespace}' />
+<@img.REMOVE 'net-${namespace}' />

@@ -1,2 +1,2 @@
-<@swarm.SERVICE_RM 'gitlab-${namespace}' />
-<@swarm.NETWORK_RM 'gitlab-net-${namespace}' />
+<@img.REMOVE 'gitlab-${namespace}' />
+<@img.REMOVE 'gitlab-net-${namespace}' />

@@ -1,3 +1,3 @@
-<@swarm.SERVICE_RM 'memcached-${namespace}' />
-<@swarm.NETWORK_RM 'memcached-net-${namespace}' />
+<@img.REMOVE 'memcached-${namespace}' />
+<@img.REMOVE 'memcached-net-${namespace}' />
 
