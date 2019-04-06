@@ -1,1 +1,0 @@
-<@img.REMOVE 'phoenix-${namespace}' />
