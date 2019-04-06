@@ -7,7 +7,8 @@
 
 <@img.TASK 'redis-${namespace}' 'imagenarium/redis:5.0.3' PARAMS.CMD>
   <@img.NETWORK 'net-${namespace}' />
-  <@img.PORT PARAMS.PUBLISHED_PORT '6379' />
+  <@img.DNSRR />
+  <@img.PORT PARAMS.PUBLISHED_PORT '6379' 'host' />
   <@img.VOLUME '/data' />
   <@img.BIND '/sys/kernel/mm/transparent_hugepage' '/tph' />
   <@img.CONSTRAINT 'redis' 'true' />
